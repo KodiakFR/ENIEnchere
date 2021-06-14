@@ -21,7 +21,6 @@
 
 # reglage ENI #
 */.settings
-*/build
 *.classpath
 *.project
 
