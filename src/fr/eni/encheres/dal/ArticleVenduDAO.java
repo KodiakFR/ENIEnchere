@@ -1,6 +1,6 @@
 package fr.eni.encheres.dal;
 
-import java.sql.SQLException;
+import fr.eni.encheres.bll.BusinessException;
 
 public interface ArticleVenduDAO {
 
@@ -9,8 +9,8 @@ public interface ArticleVenduDAO {
 	
 	//Permet de supprimer l'article de la plateforme
 	//vendu ou supprimer par le vendeur ou l'admin
-	public void removeArticleVendu(int idArticle) throws SQLException;
+	public void removeArticleVendu(int idArticle) throws BusinessException;
 	
-	
+	public int getProprietaireArticleVendu(int idArticleVendu) throws BusinessException;
 	
 }
