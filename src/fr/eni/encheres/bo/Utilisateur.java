@@ -24,7 +24,7 @@ public class Utilisateur {
 	public Utilisateur() {
 	}
 	
-	
+		
 	public Utilisateur(Integer noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostale, String ville, String motDePasse, int credit, boolean administrateur) {
 		this.noUtilisateur = noUtilisateur;
@@ -62,8 +62,8 @@ public class Utilisateur {
 	}
 
 	
-	
-	
+
+
 	//getters setters 
 	
 	public Integer getNoUtilisateur() {
