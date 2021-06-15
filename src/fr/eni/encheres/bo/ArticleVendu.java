@@ -1,13 +1,13 @@
 package fr.eni.encheres.bo;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ArticleVendu {
-	private int noArticle;
+	private Integer noArticle;
 	private String nomArticle;
 	private String description;
-	private Date dateDebutEncheres;
-	private Date dateFinEncheres;
+	private LocalDate dateDebutEncheres;
+	private LocalDate dateFinEncheres;
 	private int miseAPrix;
 	private int prixVente;
 	private int etatVente;
@@ -18,7 +18,7 @@ public class ArticleVendu {
 	}
 
 
-	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres, Date dateFinEncheres,
+	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
 			int miseAPrix, int prixVente, int etatVente) {
 		super();
 		this.nomArticle = nomArticle;
@@ -31,8 +31,8 @@ public class ArticleVendu {
 	}
 
 
-	public ArticleVendu(int noArticle, String nomArticle, String description, Date dateDebutEncheres,
-			Date dateFinEncheres, int miseAPrix, int prixVente, int etatVente) {
+	public ArticleVendu(int noArticle, String nomArticle, String description, LocalDate dateDebutEncheres,
+			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int etatVente) {
 		super();
 		this.noArticle = noArticle;
 		this.nomArticle = nomArticle;
@@ -75,22 +75,22 @@ public class ArticleVendu {
 	}
 
 
-	public Date getDateDebutEncheres() {
+	public LocalDate getDateDebutEncheres() {
 		return dateDebutEncheres;
 	}
 
 
-	public void setDateDebutEncheres(Date dateDebutEncheres) {
+	public void setDateDebutEncheres(LocalDate dateDebutEncheres) {
 		this.dateDebutEncheres = dateDebutEncheres;
 	}
 
 
-	public Date getDateFinEncheres() {
+	public LocalDate getDateFinEncheres() {
 		return dateFinEncheres;
 	}
 
 
-	public void setDateFinEncheres(Date dateFinEncheres) {
+	public void setDateFinEncheres(LocalDate dateFinEncheres) {
 		this.dateFinEncheres = dateFinEncheres;
 	}
 
