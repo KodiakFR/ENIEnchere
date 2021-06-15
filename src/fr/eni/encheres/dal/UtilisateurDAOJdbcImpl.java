@@ -14,7 +14,7 @@ import fr.eni.encheres.bo.Utilisateur;
 public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	// Requete SQL insertion lors inscription utilisateur
 	private static final String INSERT_INSCRIP = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email"
-			+ "telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+			+ "telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur VALUES(?,?,?,?,?,?,?,?,?,0,?)";
 	// Requete recuperation de toute la liste des pseudos
 	private static final String SELECT_PSEUDO = "SELECT pseudo FROM UTILISATEURS";
 	
@@ -130,8 +130,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 		stmt.setString(7, utilisateur.getCodePostale());
 		stmt.setString(8, utilisateur.getVille());
 		stmt.setString(9, utilisateur.getMotDePasse());
-		stmt.setInt(10, utilisateur.getCredit());
-		stmt.setBoolean(11, utilisateur.getAdministrateur());
+		stmt.setBoolean(10, utilisateur.getAdministrateur());
 		
 	}
 	
