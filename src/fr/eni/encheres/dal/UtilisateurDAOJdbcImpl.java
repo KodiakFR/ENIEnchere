@@ -68,14 +68,32 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
-			// businessException.ajouterErreur(CodesResultatDAL.LECTURE_LISTE_ECHEC);
-			//throw businessException
+			businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_PSEUDO_ECHEC);
+			throw businessException;
 		}
 		return pseudoUtil;	
 	}
 	
 	// Méthode de récupération d'information d'unicité mail 
-	
+	public List<String> validationEmail() throws BusinessException {
+		List<String> emailUtil = new ArrayList<String>();
+		String util = null;
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(SELECT_EMAIL);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				util = rs.getString("pseudo");
+				emailUtil.add(util);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_EMAIL_ECHEC);
+			throw businessException;
+		}
+		return emailUtil;	
+	}
 	
 	
 	// Mapping pour récupérer la liste des informations utilisateurs
