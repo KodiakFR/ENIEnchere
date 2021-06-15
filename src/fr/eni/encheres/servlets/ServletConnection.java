@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.Utilisateur;
@@ -34,6 +35,8 @@ public class ServletConnection extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
+		HttpSession session = request.getSession();
+		
 		try {
 			UtilisateurManager Utilisateur = new UtilisateurManager();
 			
@@ -50,6 +53,10 @@ public class ServletConnection extends HttpServlet {
 			//Appel de la méthode de connection
 			
 			Utilisateur.connection(utilisateur);
+			
+			//création session
+			
+			request.getSession().setAttribute(name, value);
 			
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
