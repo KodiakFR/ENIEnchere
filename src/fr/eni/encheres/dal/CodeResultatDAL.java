@@ -20,5 +20,7 @@ public abstract class CodeResultatDAL {
 	
 	
 	
+	// il faut mettre pour toutes les methodes de la dall
+	
 	
 }

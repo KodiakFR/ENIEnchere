@@ -6,7 +6,8 @@ public class DAOFactory {
 		return new ArticleVenduDAOImpl();
 	}
 	
-	public static UtilisateurDAOImpl getUtilisateurDAO() {
-		return new UtilisateurDAOImpl();
+	public static UtilisateurDAOJdbcImpl getUtilisateurDAO() {
+		return new UtilisateurDAOJdbcImpl();
 	}
+	
 }

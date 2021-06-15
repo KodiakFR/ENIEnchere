@@ -9,7 +9,7 @@ import java.sql.Statement;
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.Utilisateur;
 
-public class UtilisateurDAOJdbcImpl {
+public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	// Requete SQL insertion lors inscription utilisateur
 	private static final String INSERT_INSCRIP = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email"
 			+ "telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur VALUES(?,?,?,?,?,?,?,?,?,?,?)  ";
