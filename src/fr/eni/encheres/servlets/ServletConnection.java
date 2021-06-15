@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.Utilisateur;
 
 /**
@@ -34,6 +35,8 @@ public class ServletConnection extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		try {
+			UtilisateurManager Utilisateur = new UtilisateurManager();
+			
 			//récupération des données
 			
 			String identifiant = request.getParameter("Identifiant");

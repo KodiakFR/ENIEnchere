@@ -6,5 +6,11 @@ public class UtilisateurManager {
 	
 	private UtilisateurDAO daoUtilisateur;
 	private static UtilisateurManager instance = null;
+	
+	// Constructors
+	
+	public UtilisateurManager() {
+		daoUtilisateur = DAOFactory.getUtilisateurDAO();
+	}
 
 }
