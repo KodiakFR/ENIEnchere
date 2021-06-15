@@ -17,7 +17,7 @@
 		<a href="Accueil" class = "fs-2  text-reset text-decoration-none">ENI - ENCHERES</a>
 		<div class = "inscrireConnect">
 			<a href="#">S'inscrire - </a>
-			<a href="#">Se connecter</a>
+			<a href="Connection">Se connecter</a>
 		</div>
 	</div>
 	
