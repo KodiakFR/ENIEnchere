@@ -55,6 +55,11 @@ public class Utilisateur {
 		this.credit = credit;
 		this.administrateur = administrateur;
 	}
+	
+	public Utilisateur (String pseudo,String motDePasse) {
+		this.pseudo = pseudo;
+		this.motDePasse = motDePasse;
+	}
 
 	
 	
