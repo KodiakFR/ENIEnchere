@@ -14,3 +14,18 @@ header
 {
 	align-self:flex-end;
 }
+
+.Connection_goup_submit_souvenirMoi_mdpOublié
+{
+	display: flex;
+}
+
+.Connection_group_souvenirMOi_mdpOublié
+{
+	margin-left: 20px;
+}
+
+.Connection_boutonInscription
+{
+	margin-top: 20px;
+}
