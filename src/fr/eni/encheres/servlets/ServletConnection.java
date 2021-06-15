@@ -49,7 +49,7 @@ public class ServletConnection extends HttpServlet {
 			
 			//Appel de la méthode de connection
 			
-			utilisateur.connection();
+			Utilisateur.connection(utilisateur);
 			
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
