@@ -44,6 +44,12 @@ public abstract class CodeResultatDAL {
 	
 	public static final int CHECK_PROPRIO_ARTICLEVENDU_ECHEC=15001;
 	
+	/**
+	 * Echec ajout de l'article 
+	 */
+	
+	public static final int AJOUT_ARTICLE_ECHEC=15002;
+	
 	// il faut mettre pour toutes les methodes de la dall
 	
 	

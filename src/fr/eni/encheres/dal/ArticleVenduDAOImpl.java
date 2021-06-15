@@ -1,17 +1,20 @@
 package fr.eni.encheres.dal;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import fr.eni.encheres.bll.BusinessException;
+import fr.eni.encheres.bo.ArticleVendu;
 
 public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
 	private final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS where no_article=?;";
 	private final String FIND_USER_PROPRIO = "SELECT no_utilisateur FROM ARTICLES_VENDUS WHERE no_article=?;";
-	
+	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?);";
 	@Override
 	public void removeArticleVendu(int idArticle) {
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(DELETE_ARTICLE))
@@ -52,5 +55,48 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		
 		return idProprietaireArticleVendu;
 	}
+
+	@Override
+	public ArticleVendu addArticleVendu(ArticleVendu article, int idVendeur, int IdCategorie) throws BusinessException {
+		
+		
+		String nomArticle = article.getNomArticle();
+		String description = article.getDescription();
+		Date dateDebutEncheres = Date.valueOf(article.getDateDebutEncheres());
+		Date dateFinEncheres = Date.valueOf(article.getDateFinEncheres());
+		int miseAPrix = article.getMiseAPrix();
+		
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(INSERT_ARTICLE, PreparedStatement.NO_GENERATED_KEYS))
+		{
+			stmt.setString(1, nomArticle);
+			stmt.setString(2, description);
+			stmt.setDate(3, dateDebutEncheres);
+			stmt.setDate(4, dateFinEncheres);
+			stmt.setInt(5, miseAPrix);
+			stmt.setInt(6, miseAPrix);
+			stmt.setInt(7, idVendeur);
+			stmt.setInt(8, IdCategorie);
+			int nbRows = stmt.executeUpdate();
+			if(nbRows == 1)
+			{
+				ResultSet rs = stmt.getGeneratedKeys();
+				if(rs.next())
+				{
+					int key = rs.getInt(1);
+					article.setNoArticle(key);
+					ArticleVendu articleComplet = new ArticleVendu(key, nomArticle, description, dateDebutEncheres,
+							dateFinEncheres, miseAPrix);
+				}
+			}
+			
+		} 
+		catch (SQLException e) 
+		{
+			BusinessException be = new BusinessException();
+			be.ajouterErreur(15002);
+			e.printStackTrace();
+		}
+		
+	} return article;
 
 }

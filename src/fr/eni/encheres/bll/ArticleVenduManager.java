@@ -31,12 +31,5 @@ public class ArticleVenduManager {
 		}
 	}
 	
-	public void sellArticleVendu(ArticleVendu article, String pseudoAcheteur) throws BusinessException{
-		int idArticleVendu = article.getNoArticle();
-		int prixFinalArticle = article.getPrixVente();
-		
-		
-		
-	}
 	
 }
