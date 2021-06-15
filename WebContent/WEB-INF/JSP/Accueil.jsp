@@ -10,25 +10,25 @@
 </head>
 
 <header>
-<div class = "container">	
-
-	<div class = "header">
-
-		<a href="Accueil" class = "fs-2  text-reset text-decoration-none">ENI - ENCHERES</a>
-		<div class = "inscrireConnect">
-			<a href="#">S'inscrire - </a>
-			<a href="Connection">Se connecter</a>
-		</div>
-	</div>
+	<div class = "container">	
 	
-</div>
+		<div class = "header">
+	
+			<a href="Accueil" class = "fs-2  text-reset text-decoration-none">ENI - ENCHERES</a>
+			<div class = "inscrireConnect">
+				<a href="#">S'inscrire - </a>
+				<a href="Connection">Se connecter</a>
+			</div>
+		</div>
+		
+	</div>
 </header>
 
 <body>
-<div class = "container">	
-
-	<h1 class = "text-center">Liste des enchères</h1>
-
-</div>
+	<div class = "container">	
+	
+		<h1 class = "text-center">Liste des enchères</h1>
+	
+	</div>
 </body>
 </html>
