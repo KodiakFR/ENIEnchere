@@ -1,5 +1,7 @@
 package fr.eni.encheres.bll;
 
+import java.util.List;
+
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.UtilisateurDAO;
 
@@ -19,25 +21,44 @@ public class UtilisateurManager {
 		return instance;
 	}
 	
-	// Méthode de BLL pour inserer une nouvelle inscription
-	
-	public void AjouterInscription(Utilisateur utilisateur) throws BusinessException {
+	// Méthode de BLL pour inserer une nouvelle inscription	
+	public void AjouterInscription(String nomP, String email) throws BusinessException {
+		BusinessException businessException = new BusinessException();
+		
+		this.validerMail(email, businessException);
+		this.validerPseudo(nomP, businessException);
+		
+		if(!businessException.hasErreurs()) {
+			Utilisateur utilisateur = new Utilisateur();
+			this.utilisateurDAO.insertInscription(utilisateur);
+		}
+		else {
+			throw businessException;
+		}
 		
 	}
 	
 	
 	// Méthode qui vérifie que le pseudo n'est pas vide ou trop long
-	private void validerPseudo(String nomPseudo, BusinessException businessException, Utilisateur utili) {
+	private void validerPseudo(String nomPseudo, BusinessException businessException) {
 		if(nomPseudo == null | nomPseudo.trim().length() > 30) {
 			businessException.ajouterErreur(CodeResultatBLL.REGLE_PSEUDO_ERREUR);
 		}
-		// méthode de vérif si déjà créé à faire
-		if()
 		
-		// méthode de vérif si déjà créé à faire
-		//if()		
-		
-	}
+			List<String> listepseudo;
+			try {
+				listepseudo = this.utilisateurDAO.validationPseudo();
+				if(listepseudo.contains(nomPseudo)) {
+					businessException.ajouterErreur(CodeResultatBLL.REGLE_PSEUDO_DEJA_UTIL_ERREUR);
+				}
+			} catch (BusinessException e) {
+				e.printStackTrace();
+			}
+				
+		}
+	
+	
+	
 	
 	
 	// Méthode qui vérifie si le mail n'est pas vide ou trop long
@@ -45,7 +66,22 @@ public class UtilisateurManager {
 		if(nomMail == null | nomMail.trim().length() > 30) {
 			businessException.ajouterErreur(CodeResultatBLL.REGLE_MAIL_NOM_ERREUR);
 		}
+		List<String> listeEmail;
+		try {
+			listeEmail = this.utilisateurDAO.validationEmail();
+			if(listeEmail.contains(nomMail)) {
+				businessException.ajouterErreur(CodeResultatBLL.REGLE_MAIL_DEJA_UTIL_ERREUR);
+			}
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+				
 	}
+	
+	
+	
+	
+	
 	
 	//Méthode de connection
 	public void connection(Utilisateur utilisateur) {
