@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.Utilisateur;
 
 public class UtilisateurDAOJdbcImpl {
@@ -16,12 +17,12 @@ public class UtilisateurDAOJdbcImpl {
 	
 	
 	// Méthode insertion des utilisateurs lors de l'inscription
-	
-	public void insertInscription(Utilisateur utili) throws SQLException {
+	public void insertInscription(Utilisateur utili) throws BusinessException {
 		
 		if(utili == null) {
-			//En anticipation : if permettant dans le cas où utilisateur null de renvoyer dans une exception personnalisée
-			// a completer
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodeResultatDAL.INSERT_OBJET_NULL);
+			throw businessException;
 		}
 		try (Connection cnx = ConnectionProvider.getConnection(); PreparedStatement rqt = cnx.prepareStatement(INSERT_INSCRIP, Statement.RETURN_GENERATED_KEYS); ){
 			setParameter(rqt, utili);
@@ -33,9 +34,11 @@ public class UtilisateurDAOJdbcImpl {
 					}
 				}
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			// Si erreur renvoyer dans la page exception personnalisée. A completer
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodeResultatDAL.INSERT_OBJET_ECHEC);
+			throw businessException;
 		}
 		
 		
