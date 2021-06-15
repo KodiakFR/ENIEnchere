@@ -3,7 +3,7 @@ import fr.eni.encheres.dal.UtilisateurDAO;
 
 public class UtilisateurManager {
 	private UtilisateurDAO utilisateurDAO;
-	
+	}
 	
 	// Méthode de BLL pour inserer une nouvelle inscription
 	public void AjouterInscription(Utilisateur utilisateur) throws BusinessException {
@@ -29,5 +29,5 @@ public class UtilisateurManager {
 			businessException.ajouterErreur(CodeResultatBLL.REGLE_MAIL_NOM_ERREUR);
 		}
 	}
-}
+
 	
