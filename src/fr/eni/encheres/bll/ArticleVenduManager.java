@@ -1,6 +1,5 @@
 package fr.eni.encheres.bll;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 
 import fr.eni.encheres.bo.ArticleVendu;
@@ -24,12 +23,20 @@ public class ArticleVenduManager {
 		return instance;
 	}
 	
-	public void sellArticle(ArticleVendu article) throws SQLException {
+	public  void deleteArticleVendu(ArticleVendu article) throws BusinessException {
+		int idArticleVendu = article.getNoArticle();
 		
-		
-		if(article.getDateDebutEncheres().compareTo(LocalDate.now())<=0 && article.getDateFinEncheres().compareTo(LocalDate.now())>=0) {
-			articleVenduDAO.removeArticleVendu(article.getNoArticle());
+		if(article.getDateDebutEncheres().compareTo(LocalDate.now())<=0 ) {
+			articleVenduDAO.removeArticleVendu(idArticleVendu);
 		}
+	}
+	
+	public void sellArticleVendu(ArticleVendu article, String pseudoAcheteur) throws BusinessException{
+		int idArticleVendu = article.getNoArticle();
+		int prixFinalArticle = article.getPrixVente();
+		
+		
+		
 	}
 	
 }
