@@ -5,7 +5,14 @@ import fr.eni.encheres.dal.UtilisateurDAO;
 
 public class UtilisateurManager {
 	private UtilisateurDAO utilisateurDAO;
+	private static UtilisateurManager instance = null;
 	
+	public static synchronized UtilisateurManager getInstance() {
+		if(instance == null) {
+			instance = new UtilisateurManager();
+		}
+		return instance;
+	}
 	
 	// Méthode de BLL pour inserer une nouvelle inscription
 	public void AjouterInscription(Utilisateur utilisateur) throws BusinessException {
@@ -19,8 +26,7 @@ public class UtilisateurManager {
 			businessException.ajouterErreur(CodeResultatBLL.REGLE_PSEUDO_ERREUR);
 		}
 		// méthode de vérif si déjà créé à faire
-		if()
-		
+		//if()		
 		
 	}
 	
