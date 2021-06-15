@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.bll.UtilisateurManager;
+import fr.eni.encheres.bo.Utilisateur;
+
 /**
  * Servlet implementation class ServletConnection
  */
@@ -29,7 +32,33 @@ public class ServletConnection extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		request.setCharacterEncoding("UTF-8");
+		
+		try {
+			UtilisateurManager Utilisateur = new UtilisateurManager();
+			
+			//récupération des données
+			
+			String identifiant = request.getParameter("Identifiant");
+			String password	= request.getParameter("Password");
+			System.out.println("j'ai récupérer l'identifiant et le mpd");
+			
+			//construction de l'objet Utilisateur
+			
+			Utilisateur utilisateur = new Utilisateur(identifiant, password);
+			
+			//Appel de la méthode de connection
+			
+			Utilisateur.connection(utilisateur);
+			
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			}
+		
+		
+		// Affichage de la page 
+		RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+		rd.forward(request, response);
 	}
 
 	
