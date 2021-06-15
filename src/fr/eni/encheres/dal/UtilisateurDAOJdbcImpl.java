@@ -5,14 +5,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.Utilisateur;
 
 public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	// Requete SQL insertion lors inscription utilisateur
-	private static final String INSERT_INSCRIP = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email"
-			+ "telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur VALUES(?,?,?,?,?,?,?,?,?,?,?)  ";
+	private static final String INSERT_INSCRIP = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email"
+			+ "telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+	// Requete recuperation de toute la liste des pseudos
+	private static final String SELECT_PSEUDO = "SELECT pseudo FROM UTILISATEURS";
+	
+	// Requete recuperation de toute la liste des emails
+	private static final String SELECT_EMAIL = "SELECT email FROM UTILISATEURS";
+	
 	
 	
 	
@@ -45,6 +53,28 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	}
 	
 	
+	// Méthode de récupération d'information d'unicité mail 
+	public List<String> validationPseudo() throws BusinessException {
+		List<String> pseudoUtil = new ArrayList<String>();
+		String util = null;
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement stmt = cnx.prepareStatement(SELECT_PSEUDO);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				util = rs.getString("pseudo");
+				pseudoUtil.add(util);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			// businessException.ajouterErreur(CodesResultatDAL.LECTURE_LISTE_ECHEC);
+			//throw businessException
+		}
+		return pseudoUtil;	
+	}
+	
+	// Méthode de récupération d'information d'unicité mail 
 	
 	
 	
