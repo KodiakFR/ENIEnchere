@@ -24,12 +24,21 @@
 				<label for ="Password">Mot de passe: </label>
 				<input type="password" name="Password" id="Password" required="required">
 			</p>
-			<div>
+			<div class="Connection_goup_submit_souvenirMoi_mdpOublié">
 				<input type="submit" value="Connexion">
-				
+				<div class = "Connection_group_souvenirMOi_mdpOublié">
+					<div class="Connection_SouvenirMoi">
+						<input type="checkbox" name="souvenirMoi" id="souvenirMoi">
+						<label for = "souvenirMoi">Se souvenir de moi</label>
+					</div>
+					<a href="#">Mot de passe oublié</a>
+				</div>
 			</div>
-			
 		</form>
+		<div class = "Connection_boutonInscription">
+			<a href="#" ><button>Créer un compte</button></a>
+		</div>
+	
 		
 	</div>
 </body>
