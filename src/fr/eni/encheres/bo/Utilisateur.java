@@ -1,5 +1,7 @@
 package fr.eni.encheres.bo;
 
+import java.util.List;
+
 public class Utilisateur {
 	
 	//Attributes 
@@ -16,6 +18,7 @@ public class Utilisateur {
 	private String motDePasse;
 	private int credit;
 	private Boolean administrateur;
+	private List<ArticleVendu> articleV;
 	
 	//constructors
 	public Utilisateur() {
@@ -53,6 +56,7 @@ public class Utilisateur {
 		this.administrateur = administrateur;
 	}
 
+	
 	
 	
 	//getters setters 
@@ -166,8 +170,8 @@ public class Utilisateur {
 		this.credit = credit;
 	}
 
-
-	public boolean isAdministrateur() {
+	
+	public boolean getAdministrateur() {
 		return administrateur;
 	}
 
@@ -176,8 +180,20 @@ public class Utilisateur {
 		this.administrateur = administrateur;
 	}
 
+	public List<ArticleVendu> getArticleV() {
+		return articleV;
+	}
+
+
+	public void setArticleV(List<ArticleVendu> articleV) {
+		this.articleV = articleV;
+		// A voir, s'il faudrait mettre un if(this.articleV == null) { this.articleV = new ArrayList<ArticleVendu>(); this.articleV = ArticleV }
+	}
+
 	
 	// toString
+
+
 
 	@Override
 	public String toString() {
