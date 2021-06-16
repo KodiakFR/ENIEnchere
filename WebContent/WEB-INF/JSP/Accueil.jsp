@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,10 +16,21 @@
 		<div class = "header">
 	
 			<a href="Accueil" class = "fs-2  text-reset text-decoration-none">ENI - ENCHERES</a>
-			<div class = "inscrireConnect">
-				<a href="Inscription">S'inscrire - </a>
-				<a href="Connection">Se connecter</a>
-			</div>
+			<c:if test="${empty Utilisateur}">
+				<div class = "inscrireConnect">
+					<a href="Inscription">S'inscrire - </a>
+					<a href="Connection">Se connecter</a>
+				</div>
+			</c:if>
+			<c:if test="${!empty Utilisateur}">
+				<div class = "inscrireConnect">
+					<a href="#">Enchère</a>
+					<a href="#"> Vendre un article</a>
+					<a href="#"> Mon profil</a>
+					<a href="deconnexion"> Déconnexion</a> <br>
+					Bonjour ${Utilisateur.getPrenom()}
+				</div>
+			</c:if>
 		</div>
 		
 	</div>

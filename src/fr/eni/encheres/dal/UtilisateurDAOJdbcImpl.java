@@ -22,8 +22,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	private static final String SELECT_EMAIL = "SELECT email FROM UTILISATEURS";
 	
 	// Requete recuperation d'un utilisateur
-	private static final String SELECT_USER = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur" 
-			+"FROM UTILISATEURS WHERE pseudo = ?";
+	private static final String SELECT_USER = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur"+
+	" FROM UTILISATEURS WHERE pseudo=?";
 	
 	
 	
@@ -61,9 +61,9 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	public List<String> selectPseudo() throws BusinessException {
 		List<String> pseudoUtil = new ArrayList<String>();
 		String util = null;
-		try (Connection cnx = ConnectionProvider.getConnection()) {
-			PreparedStatement stmt = cnx.prepareStatement(SELECT_PSEUDO);
-			ResultSet rs = stmt.executeQuery();
+		try (Connection cnx = ConnectionProvider.getConnection();
+			Statement stmt = cnx.createStatement();) {
+			ResultSet rs = stmt.executeQuery(SELECT_PSEUDO);
 			while(rs.next()) {
 				util = rs.getString("pseudo");
 				pseudoUtil.add(util);
@@ -82,9 +82,10 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	public List<String> selectEmail() throws BusinessException {
 		List<String> emailUtil = new ArrayList<String>();
 		String util = null;
-		try (Connection cnx = ConnectionProvider.getConnection()) {
-			PreparedStatement stmt = cnx.prepareStatement(SELECT_EMAIL);
-			ResultSet rs = stmt.executeQuery();
+		try (Connection cnx = ConnectionProvider.getConnection();
+			Statement stmt = cnx.createStatement();) {
+			
+			ResultSet rs = stmt.executeQuery(SELECT_EMAIL);
 			while(rs.next()) {
 				util = rs.getString("pseudo");
 				emailUtil.add(util);
@@ -141,16 +142,17 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	//Méthode recuperation d'un utilisateur
 	public Utilisateur SelectUser(Utilisateur utilisateur) throws BusinessException {
 		System.out.println("je suis dans ma DAL");
+		String pseudo = utilisateur.getPseudo();
 		Utilisateur U = null;
-		System.out.println(utilisateur.toString());
+		System.out.println(pseudo);
 		try (Connection cnx = ConnectionProvider.getConnection();
 			PreparedStatement stmt= cnx.prepareStatement(SELECT_USER);){
-			stmt.setString(1, utilisateur.getPseudo());
-			try (ResultSet rs = stmt.executeQuery();){
-				while(rs.next()) {
-					U = mappingUtilisateur(rs);
-				}
-			}
+			stmt.setString(1, pseudo);
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			U = mappingUtilisateur(rs);
+			System.out.println(U);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();

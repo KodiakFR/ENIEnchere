@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.Session;
+
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bll.MaximeUtilisateurManager;
 import fr.eni.encheres.bll.UtilisateurManager;
@@ -18,7 +20,9 @@ import fr.eni.encheres.bo.Utilisateur;
 /**
  * Servlet implementation class ServletConnection
  */
-@WebServlet("/Connection")
+@WebServlet(
+		urlPatterns = {"/Connection", "/deconnexion"}
+				)
 public class ServletConnection extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -27,8 +31,26 @@ public class ServletConnection extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Connection.jsp");
-		rd.forward(request, response);
+		
+		if (request.getServletPath().equals("/deconnexion"))
+		{
+			
+			if (request.getSession() != null)
+			{
+				request.getSession().invalidate();
+				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+				rd.forward(request, response);
+			}
+			
+		}
+		
+		if (request.getServletPath().equals("/Connection"))
+		{
+			RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Connection.jsp");
+			rd.forward(request, response);
+		}
+		
+		
 	}
 
 	/**
@@ -37,47 +59,54 @@ public class ServletConnection extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		Boolean testConnection = false;
-		
-		HttpSession session = request.getSession();
-		
-		try {
-			UtilisateurManager Utilisateur = new UtilisateurManager();
-			//test avec le fichier de Maxime
-			MaximeUtilisateurManager MaximeUtilisateur = new MaximeUtilisateurManager();
-			
-			//récupération des données
-			
-			String identifiant = request.getParameter("Identifiant");
-			String password	= request.getParameter("Password");
-			System.out.println("j'ai récupérer l'identifiant et le mpd");
-			
-			//construction de l'objet Utilisateur
-			
-			Utilisateur utilisateur = new Utilisateur(identifiant, password);
-			System.out.println("création de l'objet utilisateur avec un id et mdp");
-			System.out.println(utilisateur.toString());
-			
-			//Appel de la méthode de connection
-			
-			testConnection = Utilisateur.connection(utilisateur);
-			System.out.println("utilisation de la methode connection dans la BLL");
-			
-			if (testConnection == false)
-			{
-				request.setAttribute("testConnection", testConnection);
-				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Connection.jsp");
-				rd.forward(request, response);
 
-			}
+			try {
+				UtilisateurManager Utilisateur = new UtilisateurManager();
+				//test avec le fichier de Maxime
+				MaximeUtilisateurManager MaximeUtilisateur = new MaximeUtilisateurManager();
+				
+				//récupération des données
+				
+				String identifiant = request.getParameter("Identifiant");
+				String password	= request.getParameter("Password");
+				System.out.println("j'ai récupérer l'identifiant et le mpd");
+				
+				//construction de l'objet Utilisateur
+				
+				Utilisateur utilisateur = new Utilisateur(identifiant, password);
+				System.out.println("création de l'objet utilisateur avec un id et mdp");
+				System.out.println(utilisateur.toString());
+				
+				//Appel de la méthode de connection
+				
+				System.out.println(utilisateur.toString());
+				testConnection = Utilisateur.connection(utilisateur);
+				System.out.println(testConnection);
+				
+				if (testConnection == false)
+				{
+					request.setAttribute("testConnection", testConnection);
+					RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Connection.jsp");
+					rd.forward(request, response);
 
-			
-		} catch (NumberFormatException | BusinessException e) {
-			e.printStackTrace();
-			}
+				}
+				
+				if (testConnection == true)
+				{
+					utilisateur = MaximeUtilisateur.recuperationUtilisateur(utilisateur);
+					
+					HttpSession session = request.getSession(true);
+					session.setAttribute("Utilisateur", utilisateur);
+					RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+					rd.forward(request, response);
+				}
+
+				
+			} catch (NumberFormatException | BusinessException e) {
+				e.printStackTrace();
+				} 
 		
-		
-		
+
 	}
 
-	
 }
