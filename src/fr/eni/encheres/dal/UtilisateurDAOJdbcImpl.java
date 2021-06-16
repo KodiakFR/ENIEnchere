@@ -57,8 +57,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	}
 	
 	
-	// M�thode de r�cup�ration d'information d'unicit� mail 
-	public List<String> validationPseudo() throws BusinessException {
+	// M�thode de r�cup�ration d'information d'unicit� pseudo 
+	public List<String> selectPseudo() throws BusinessException {
 		List<String> pseudoUtil = new ArrayList<String>();
 		String util = null;
 		try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -79,7 +79,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	}
 	
 	// M�thode de r�cup�ration d'information d'unicit� mail 
-	public List<String> validationEmail() throws BusinessException {
+	public List<String> selectEmail() throws BusinessException {
 		List<String> emailUtil = new ArrayList<String>();
 		String util = null;
 		try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -140,7 +140,9 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	
 	//Méthode recuperation d'un utilisateur
 	public Utilisateur SelectUser(Utilisateur utilisateur) throws BusinessException {
+		System.out.println("je suis dans ma DAL");
 		Utilisateur U = null;
+		System.out.println(utilisateur.toString());
 		try (Connection cnx = ConnectionProvider.getConnection();
 			PreparedStatement stmt= cnx.prepareStatement(SELECT_USER);){
 			stmt.setString(1, utilisateur.getPseudo());
@@ -156,7 +158,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			throw businessException;
 		}
 		
-		
+		System.out.println(U.toString());
 		return U;
 	}
 	

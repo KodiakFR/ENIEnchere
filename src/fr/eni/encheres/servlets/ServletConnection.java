@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bll.MaximeUtilisateurManager;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.Utilisateur;
@@ -53,32 +54,30 @@ public class ServletConnection extends HttpServlet {
 			//construction de l'objet Utilisateur
 			
 			Utilisateur utilisateur = new Utilisateur(identifiant, password);
+			System.out.println("création de l'objet utilisateur avec un id et mdp");
+			System.out.println(utilisateur.toString());
 			
 			//Appel de la méthode de connection
 			
-			testConnection = MaximeUtilisateur.connection(utilisateur);
+			testConnection = Utilisateur.connection(utilisateur);
+			System.out.println("utilisation de la methode connection dans la BLL");
 			
 			if (testConnection == false)
 			{
+				request.setAttribute("testConnection", testConnection);
 				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Connection.jsp");
 				rd.forward(request, response);
+
 			}
+
 			
-			//création session
-			
-			//request.getSession().setAttribute(name, value);
-			
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException | BusinessException e) {
 			e.printStackTrace();
 			}
 		
 		
-		// Affichage de la page 
-		RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
-		rd.forward(request, response);
+		
 	}
 
-	
-	
 	
 }
