@@ -35,7 +35,17 @@ public abstract class CodeResultatDAL {
 	 */
 	public static final int SELECT_USER_ECHEC = 10102;
 	
+	
+	
+	
+	
 	//Erreurs ArticleVendu
+	
+	/**
+	 * Echec récupération de l'article 
+	 */
+	
+	public static final int RECUPERATION_ARTICLE_ECHEC=15003;
 	
 	/**
 	 * Echec suppression article

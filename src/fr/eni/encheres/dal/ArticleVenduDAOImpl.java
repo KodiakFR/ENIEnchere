@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
@@ -13,7 +15,12 @@ import fr.eni.encheres.bo.ArticleVendu;
 public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
 	private final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS where no_article=?;";
-	private final String FIND_USER_PROPRIO = "SELECT no_utilisateur FROM ARTICLES_VENDUS WHERE no_article=?;";
+	
+	private final String FIND_ID_USER_PROPRIO = "SELECT no_utilisateur FROM ARTICLES_VENDUS WHERE no_article=?;";
+	private final String CREATE_ARTICLE_FROM_USER = "SELECT nom_article, description, date_debut_encheres, date_fin_encheres, "
+													+ "prix_initial, prix_vente, no_utilisateur,no_categorie FROM ARTICLES_VENDUS "
+													+ "WHERE no_utilisateur=?;";
+	
 	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?);";
 	@Override
 	public void removeArticleVendu(int idArticle) {
@@ -34,7 +41,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	@Override
 	public int getProprietaireArticleVendu(int idArticleVendu) throws BusinessException {
 		int idProprietaireArticleVendu = 0;
-		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_USER_PROPRIO))
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ID_USER_PROPRIO))
 		{
 			stmt.setInt(1, idArticleVendu);
 			ResultSet rs = stmt.executeQuery();
@@ -106,5 +113,29 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		}
 		return articleComplet;
 	}
+	
+	@Override
+	public List<String> recupListArticleUtilisateur(int idUtilisateur){
+		List<String> listeArticle = new ArrayList<String>();
+		
+		
+		return listeArticle;
+	}
 
+	@Override
+	public ArticleVendu recupArticle(String nomArticle, int idVendeur) throws BusinessException {
+		ArticleVendu articleComplet = new ArticleVendu();
+			try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(CREATE_ARTICLE_FROM_USER))
+			{
+				stmt.setInt(1, idVendeur);
+				
+			} catch (SQLException e) {
+				BusinessException be = new BusinessException();
+				be.ajouterErreur(15003);
+				e.printStackTrace();
+			}
+		
+		return articleComplet;
+	}
+	
 }

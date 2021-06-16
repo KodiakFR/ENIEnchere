@@ -1,6 +1,8 @@
 package fr.eni.encheres.bll;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.dal.ArticleVenduDAO;
@@ -23,10 +25,18 @@ public class ArticleVenduManager {
 		return instance;
 	}
 	
+	//Ajout d'un article en vente par l'utilisateur
+	public void ajoutArticle(ArticleVendu article, int idvendeur, String categorie) {
+		Boolean catExist = articleVenduDAO.checkCategorie(caterogie);
+		
+		
+	}
+	
+	//Suppression de l'article avant la date du début de l'enchère et si pas d'enchères
 	public  void deleteArticleVendu(ArticleVendu article) throws BusinessException {
 		int idArticleVendu = article.getNoArticle();
 		
-		if(article.getDateDebutEncheres().compareTo(LocalDate.now())<=0 ) {
+		if(article.getDateDebutEncheres().compareTo(LocalDate.now())<=0 && article.getMiseAPrix()==article.getPrixVente()) {
 			articleVenduDAO.removeArticleVendu(idArticleVendu);
 		}
 	}
