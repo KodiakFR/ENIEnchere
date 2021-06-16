@@ -22,7 +22,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 													+ "prix_initial, prix_vente,no_categorie,etat_vente FROM ARTICLES_VENDUS "
 													+ "WHERE nom_article=? AND no_utilisateur=?;";
 	
-	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?);";
+	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?);";
 	@Override
 	public void removeArticleVendu(int idArticle) {
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(DELETE_ARTICLE))
@@ -65,23 +65,15 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	}
 
 	@Override
-	public ArticleVendu addArticleVendu(ArticleVendu article, int idVendeur, int IdCategorie) throws BusinessException {
-		ArticleVendu articleComplet = new ArticleVendu();
+	public void addArticleVendu(ArticleVendu article, int idVendeur, int IdCategorie) throws BusinessException {
+		
 		
 		String nomArticle = article.getNomArticle();
 		String description = article.getDescription();
 		Date dateDebutEncheresSql = Date.valueOf(article.getDateDebutEncheres());
-		LocalDate dateDebutEncheres = article.getDateDebutEncheres();
-		LocalDate dateFinEncheres = article.getDateFinEncheres();
 		Date dateFinEncheresSql = Date.valueOf(article.getDateFinEncheres());
 		int miseAPrix = article.getMiseAPrix();
-		
-		articleComplet.setNomArticle(nomArticle);
-		articleComplet.setDescription(description);
-		articleComplet.setDateDebutEncheres(dateDebutEncheres);
-		articleComplet.setDateFinEncheres(dateFinEncheres);
-		articleComplet.setMiseAPrix(miseAPrix);
-		articleComplet.setPrixVente(miseAPrix);
+		int etatVente = article.getEtatVente();
 		
 		
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(INSERT_ARTICLE, PreparedStatement.NO_GENERATED_KEYS))
@@ -94,15 +86,11 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			stmt.setInt(6, miseAPrix);
 			stmt.setInt(7, idVendeur);
 			stmt.setInt(8, IdCategorie);
+			stmt.setInt(9, etatVente);
 			int nbRows = stmt.executeUpdate();
-			if(nbRows == 1)
+			if(nbRows != 1)
 			{
-				ResultSet rs = stmt.getGeneratedKeys();
-				if(rs.next())
-				{
-					int key = rs.getInt(1);
-					articleComplet.setNoArticle(key);
-				}
+				throw new BusinessException();
 			}
 			
 		} 
@@ -112,7 +100,6 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			be.ajouterErreur(15002);
 			e.printStackTrace();
 		}
-		return articleComplet;
 	}
 	
 	@Override
