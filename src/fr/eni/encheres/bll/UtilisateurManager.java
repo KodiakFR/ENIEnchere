@@ -46,7 +46,7 @@ public class UtilisateurManager {
 		
 			List<String> listepseudo;
 			try {
-				listepseudo = this.utilisateurDAO.validationPseudo();
+				listepseudo = this.utilisateurDAO.selectPseudo();
 				if(listepseudo.contains(nomPseudo)) {
 					businessException.ajouterErreur(CodeResultatBLL.REGLE_PSEUDO_DEJA_UTIL_ERREUR);
 				}
@@ -56,6 +56,24 @@ public class UtilisateurManager {
 				
 		}
 	
+	// Méthode qui vérifie que le pseudo n'est pas vide ou trop long
+			private Boolean validerPseudo(String nomPseudo) {
+				Boolean StatusValidation = false;
+				if(nomPseudo == null | nomPseudo.trim().length() > 30) {
+					StatusValidation = false;
+				}
+				
+					List<String> listepseudo;
+					try {
+						listepseudo = this.utilisateurDAO.selectPseudo();
+						if(listepseudo.contains(nomPseudo)) {
+							StatusValidation = true;
+						}
+					} catch (BusinessException e) {
+						e.printStackTrace();
+					}
+					return StatusValidation;
+			}
 	
 	
 	
@@ -67,7 +85,7 @@ public class UtilisateurManager {
 		}
 		List<String> listeEmail;
 		try {
-			listeEmail = this.utilisateurDAO.validationEmail();
+			listeEmail = this.utilisateurDAO.selectEmail();
 			if(listeEmail.contains(nomMail)) {
 				businessException.ajouterErreur(CodeResultatBLL.REGLE_MAIL_DEJA_UTIL_ERREUR);
 			}
@@ -76,6 +94,27 @@ public class UtilisateurManager {
 		}
 				
 	}
+	
+	//Méthode de connection
+			public Boolean connection(Utilisateur utilisateur) throws BusinessException{
+				Utilisateur U;
+				Boolean testConnection = false;
+				System.out.println("je suis dans ma bll avant d'aller dans la DAL");
+				testConnection = validerPseudo(utilisateur.getPseudo());
+				System.out.println(testConnection);
+				if (testConnection == true)
+				{
+					U = this.utilisateurDAO.SelectUser(utilisateur);
+					if(utilisateur.getMotDePasse().equals(U.getMotDePasse())) {
+						testConnection = true;
+					}
+					else {
+						testConnection = false;
+					}
+				}
+				return testConnection;
+				
+			}
 	
 
 	
