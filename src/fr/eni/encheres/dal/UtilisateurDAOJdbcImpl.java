@@ -21,10 +21,14 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	// Requete recuperation de toute la liste des emails
 	private static final String SELECT_EMAIL = "SELECT email FROM UTILISATEURS";
 	
+	// Requete recuperation d'un utilisateur
+	private static final String SELECT_USER = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur" 
+			+"FROM UTILISATEURS WHERE pseudo = ?";
 	
 	
 	
-	// Méthode insertion des utilisateurs lors de l'inscription
+	
+	// Mï¿½thode insertion des utilisateurs lors de l'inscription
 	public void insertInscription(Utilisateur utili) throws BusinessException {
 		
 		if(utili == null) {
@@ -53,7 +57,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	}
 	
 	
-	// Méthode de récupération d'information d'unicité mail 
+	// Mï¿½thode de rï¿½cupï¿½ration d'information d'unicitï¿½ mail 
 	public List<String> validationPseudo() throws BusinessException {
 		List<String> pseudoUtil = new ArrayList<String>();
 		String util = null;
@@ -74,7 +78,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 		return pseudoUtil;	
 	}
 	
-	// Méthode de récupération d'information d'unicité mail 
+	// Mï¿½thode de rï¿½cupï¿½ration d'information d'unicitï¿½ mail 
 	public List<String> validationEmail() throws BusinessException {
 		List<String> emailUtil = new ArrayList<String>();
 		String util = null;
@@ -96,7 +100,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	}
 	
 	
-	// Mapping pour récupérer la liste des informations utilisateurs
+	// Mapping pour rï¿½cupï¿½rer la liste des informations utilisateurs
 	private Utilisateur mappingUtilisateur(ResultSet rs) throws SQLException {
 		Utilisateur utilisateur = null;
 		
@@ -119,7 +123,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	}
 	
 	
-	// SETPARAMETER utilisateur pour la méthode insertion inscription
+	// SETPARAMETER utilisateur pour la mï¿½thode insertion inscription
 	private void setParameter(PreparedStatement stmt, Utilisateur utilisateur) throws SQLException {
 		stmt.setString(1, utilisateur.getPseudo());
 		stmt.setString(2, utilisateur.getNom());
@@ -132,6 +136,28 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 		stmt.setString(9, utilisateur.getMotDePasse());
 		stmt.setBoolean(10, utilisateur.getAdministrateur());
 		
+	}
+	
+	//MÃ©thode recuperation d'un utilisateur
+	public Utilisateur SelectUser(Utilisateur utilisateur) throws BusinessException {
+		Utilisateur U = null;
+		try (Connection cnx = ConnectionProvider.getConnection();
+			PreparedStatement stmt= cnx.prepareStatement(SELECT_USER);){
+			stmt.setString(1, utilisateur.getPseudo());
+			try (ResultSet rs = stmt.executeQuery();){
+				while(rs.next()) {
+					U = mappingUtilisateur(rs);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodeResultatDAL.SELECT_USER_ECHEC);
+			throw businessException;
+		}
+		
+		
+		return U;
 	}
 	
 }

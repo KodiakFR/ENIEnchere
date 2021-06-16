@@ -35,12 +35,12 @@ public class ServletConnection extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		Boolean testConnection = false;
 		
 		HttpSession session = request.getSession();
 		
 		try {
 			UtilisateurManager Utilisateur = new UtilisateurManager();
-			
 			//test avec le fichier de Maxime
 			MaximeUtilisateurManager MaximeUtilisateur = new MaximeUtilisateurManager();
 			
@@ -56,11 +56,17 @@ public class ServletConnection extends HttpServlet {
 			
 			//Appel de la méthode de connection
 			
-			MaximeUtilisateur.connection(utilisateur);
+			testConnection = MaximeUtilisateur.connection(utilisateur);
+			
+			if (testConnection == false)
+			{
+				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Connection.jsp");
+				rd.forward(request, response);
+			}
 			
 			//création session
 			
-			request.getSession().setAttribute(name, value);
+			//request.getSession().setAttribute(name, value);
 			
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

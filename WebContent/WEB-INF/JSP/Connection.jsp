@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +17,13 @@
 </header>
 <body>
 	<div class = "container">
+	
+		<c:if test="${testConnection == false}">
+			<div 	class="alert alert-danger" role="alert">
+				Votre identifiant ou mot de passe est erroné, veuillez réssayer
+			</div>
+		</c:if>
+	
 		<form action="Connection" method="post">
 			<p>
 				<label for ="Identifiant">Indentifiant: </label>
