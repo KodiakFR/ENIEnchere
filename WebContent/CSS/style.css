@@ -33,3 +33,27 @@ header
 .InscriptionTitre {
 	margin-top : 30px;
 }
+.InscriptionContenu {
+	margin-top : 45px;
+}
+.InscritpionDivGauche {
+	margin-right : 25px;
+}
+.InscriptionBouttonCreer {
+	border : solid black 1px;
+	border-radius: 10px;
+	padding : 7px 15px;
+	margin-right : 25px;
+	
+}
+.InscriptionBouttonAnnuler {
+	border :  solid black 1px;
+	border-radius: 10px;
+	padding : 7px 9px;
+}
+.InscriptionBouttons {
+	margin-top : 30px;
+	display : flex;
+	justify-content : center;
+	
+}

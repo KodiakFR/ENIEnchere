@@ -23,26 +23,56 @@
 
 	<form name="FormInscription" action="/Inscritpion" method="POST">
 		<fieldset>
-			<div class="InscritpionDivGauche">
-			<p> <label for="pseudo">Pseudo : </label>
-			<input type="text" name="pseudo" id="pseudo" autofocus required></p>
-			<p> <label for="prenom">Prénom : </label> 
-			<input type="text" name="prenom" id="prenom" autofocus required> </p>
-			<p> <label for="tel">Téléphone : </label> 
-			<input type="text" name="tel" id="tel" autofocus required> </p>
-			<p> <label for="cp">Code Postal : </label> 
-			<input type="text" name="cp" id="cp" autofocus required> </p>
-			<p> <label for="mdp">Mot de passe : </label> 
-			<input type="text" name="mdp" id="mdp" autofocus required> </p>
+		
+			<div class="InscriptionContenu justify-content-center d-flex flex-row">
+				<div class="InscritpionDivGauche d-flex flex-column">
+					<p> <label for="pseudo">Pseudo : </label>
+					<input type="text" name="pseudo" id="pseudo" autofocus required="required"></p>
+					
+					<p> <label for="prenom">Prénom : </label> 
+					<input type="text" name="prenom" id="prenom" required required="required"> </p>
+					
+					<p> <label for="tel">Téléphone : </label> 
+					<input type="text" name="tel" id="tel" required="required"> </p>
+					
+					<p> <label for="cp">Code Postal : </label> 
+					<input type="text" name="cp" id="cp" required="required"> </p>
+					
+					<p> <label for="mdp">Mot de passe : </label> 
+					<input type="password" name="mdp" id="mdp" required="required"> </p>
+					
+				</div>
+				<div class="InscritpionDivDroite d-flex flex-column">
+					<p> <label for="nom">Nom : </label>
+					<input type="text" name="nom" id="nom" autofocus required="required"></p>
+					
+					<p> <label for="email">Email : </label> 
+					<input type="email" name="email" id="email" required required="required"> </p>
+					
+					<p> <label for="rue">Rue : </label> 
+					<input type="text" name="rue" id="rue" required="required"> </p>
+					
+					<p> <label for="ville">Ville : </label> 
+					<input type="text" name="ville" id="ville" required="required"> </p>
+					
+					<p> <label for="confirm">Confirmation : </label> 
+					<input type="password" name="confirm" id="confirm" required="required"> </p>
+				</div>
 			</div>
 			
-			
-			
-		
-		
+			<div class= "InscriptionBouttons">
+				<div class="Inscriptiondivbtna">
+					<a class="InscriptionBouttonCreer" href="#">Créer</a>
+				</div>
+				
+				<div class="Inscriptiondivbtnb">
+					<a class="InscriptionBouttonAnnuler" href="Accueil">Annuler</a>
+				</div>
+			</div>		
 		</fieldset>
 	</form>
-
+			
+			
 
 <body>
 
