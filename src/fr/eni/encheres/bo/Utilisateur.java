@@ -58,7 +58,7 @@ public class Utilisateur {
 	
 	
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String codePostale, String ville, String motDePasse) {
+			String rue, String codePostale, String ville, String motDePasse ) {
 		this.pseudo = pseudo;
 		this.nom = nom;
 		this.prenom = prenom;

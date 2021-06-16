@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,9 +24,15 @@
 	<h1 class=" InscriptionTitre text-center">Mon profil</h1>
 
 
-	<form name="FormInscription" action="/Inscritpion" method="POST">
+	<form name="FormInscription" action="Inscription" method="POST">
 		<fieldset>
-		
+			
+			<c:if test="${validationMandP == false}">
+					<div 	class="alert alert-danger" role="alert">
+						Mail ou pseudo déjà existant, veuillez réssayer
+					</div>
+			</c:if>
+			
 			<div class="InscriptionContenu justify-content-center d-flex flex-row">
 				<div class="InscritpionDivGauche d-flex flex-column">
 					<p> <label for="pseudo">Pseudo : </label>
@@ -45,7 +54,6 @@
 				<div class="InscritpionDivDroite d-flex flex-column">
 					<p> <label for="nom">Nom : </label>
 					<input type="text" name="nom" id="nom" autofocus required="required"></p>
-					
 					<p> <label for="email">Email : </label> 
 					<input type="email" name="email" id="email" required required="required"> </p>
 					
@@ -62,7 +70,8 @@
 			
 			<div class= "InscriptionBouttons">
 				<div class="Inscriptiondivbtna">
-					<a class="InscriptionBouttonCreer" href="#">Créer</a>
+					<a class="InscriptionBouttonCreer" href="Inscription"><button type="submit" name="btnvalider value="valider" >Creer 2</button></a>
+					
 				</div>
 				
 				<div class="Inscriptiondivbtnb">
