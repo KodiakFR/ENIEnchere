@@ -2,7 +2,7 @@
 <Context>
 
 	<Resource
-		name="jdbc/pool_cnx"
+		name="jdbc/cnx"
 		driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
 		type="javax.sql.DataSource"
 		

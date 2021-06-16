@@ -58,20 +58,30 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
 	@Override
 	public ArticleVendu addArticleVendu(ArticleVendu article, int idVendeur, int IdCategorie) throws BusinessException {
-		
+		ArticleVendu articleComplet = new ArticleVendu();
 		
 		String nomArticle = article.getNomArticle();
 		String description = article.getDescription();
-		Date dateDebutEncheres = Date.valueOf(article.getDateDebutEncheres());
-		Date dateFinEncheres = Date.valueOf(article.getDateFinEncheres());
+		Date dateDebutEncheresSql = Date.valueOf(article.getDateDebutEncheres());
+		LocalDate dateDebutEncheres = article.getDateDebutEncheres();
+		LocalDate dateFinEncheres = article.getDateFinEncheres();
+		Date dateFinEncheresSql = Date.valueOf(article.getDateFinEncheres());
 		int miseAPrix = article.getMiseAPrix();
+		
+		articleComplet.setNomArticle(nomArticle);
+		articleComplet.setDescription(description);
+		articleComplet.setDateDebutEncheres(dateDebutEncheres);
+		articleComplet.setDateFinEncheres(dateFinEncheres);
+		articleComplet.setMiseAPrix(miseAPrix);
+		articleComplet.setPrixVente(miseAPrix);
+		
 		
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(INSERT_ARTICLE, PreparedStatement.NO_GENERATED_KEYS))
 		{
 			stmt.setString(1, nomArticle);
 			stmt.setString(2, description);
-			stmt.setDate(3, dateDebutEncheres);
-			stmt.setDate(4, dateFinEncheres);
+			stmt.setDate(3, dateDebutEncheresSql);
+			stmt.setDate(4, dateFinEncheresSql);
 			stmt.setInt(5, miseAPrix);
 			stmt.setInt(6, miseAPrix);
 			stmt.setInt(7, idVendeur);
@@ -83,9 +93,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 				if(rs.next())
 				{
 					int key = rs.getInt(1);
-					article.setNoArticle(key);
-					ArticleVendu articleComplet = new ArticleVendu(key, nomArticle, description, dateDebutEncheres,
-							dateFinEncheres, miseAPrix);
+					articleComplet.setNoArticle(key);
 				}
 			}
 			
@@ -96,7 +104,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			be.ajouterErreur(15002);
 			e.printStackTrace();
 		}
-		
-	} return article;
+		return articleComplet;
+	}
 
 }
