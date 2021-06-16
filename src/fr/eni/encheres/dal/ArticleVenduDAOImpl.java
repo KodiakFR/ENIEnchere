@@ -18,7 +18,6 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	
 	private final String FIND_ID_CATEGORIE= "SELECT no_categorie FROM CATEGORIES WHERE libelle=?;";
 	private final String FIND_ARTICLE_FROM_USER = "SELECT nom_article WHERE no_utilisateur=?;";
-	private final String FIND_ID_USER_PROPRIO = "SELECT no_utilisateur FROM ARTICLES_VENDUS WHERE no_article=?;";
 	private final String CREATE_ARTICLE_FROM_USER = "SELECT no_article, description, date_debut_encheres, date_fin_encheres, "
 													+ "prix_initial, prix_vente,no_categorie,etat_vente FROM ARTICLES_VENDUS "
 													+ "WHERE nom_article=? AND no_utilisateur=?;";
@@ -38,31 +37,6 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 				e.printStackTrace();
 			}
 		
-	}
-
-	@Override
-	public int getProprietaireArticleVendu(int idArticleVendu) throws BusinessException {
-		int idProprietaireArticleVendu = 0;
-		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ID_USER_PROPRIO))
-		{
-			stmt.setInt(1, idArticleVendu);
-			ResultSet rs = stmt.executeQuery();
-			if(rs.next())
-			{
-				idProprietaireArticleVendu = rs.getInt(1);
-			}else
-			{
-				idProprietaireArticleVendu = 0;
-			}
-		}
-		catch (SQLException e) 
-		{
-			BusinessException be = new BusinessException();
-			be.ajouterErreur(15001);
-			e.printStackTrace();
-		}
-		
-		return idProprietaireArticleVendu;
 	}
 
 	@Override

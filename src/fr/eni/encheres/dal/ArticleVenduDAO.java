@@ -20,12 +20,6 @@ public interface ArticleVenduDAO {
 	
 	
 	
-	//R�cup�re l'id du propri�taire de l'article
-	
-	public int getProprietaireArticleVendu(int idArticleVendu) throws BusinessException;
-	
-	
-	
 	//Ajouter un article à la BDD lié à un utilisateur et une catégorie
 	
 	public void addArticleVendu(ArticleVendu article, int idVendeur, int idCategorie) throws BusinessException;
