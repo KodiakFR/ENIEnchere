@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.encheres.bll.MaximeUtilisateurManager;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.Utilisateur;
 
@@ -40,6 +41,9 @@ public class ServletConnection extends HttpServlet {
 		try {
 			UtilisateurManager Utilisateur = new UtilisateurManager();
 			
+			//test avec le fichier de Maxime
+			MaximeUtilisateurManager MaximeUtilisateur = new MaximeUtilisateurManager();
+			
 			//récupération des données
 			
 			String identifiant = request.getParameter("Identifiant");
@@ -52,7 +56,7 @@ public class ServletConnection extends HttpServlet {
 			
 			//Appel de la méthode de connection
 			
-			Utilisateur.connection(utilisateur);
+			MaximeUtilisateur.connection(utilisateur);
 			
 			//création session
 			
