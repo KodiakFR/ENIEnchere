@@ -78,15 +78,7 @@ public class UtilisateurManager {
 				
 	}
 	
-	
-	
-	
-	
-	
-	//Méthode de connection
-	public void connection(Utilisateur utilisateur) {
-		
-	}
+
 	
 }
 
