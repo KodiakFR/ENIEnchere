@@ -37,7 +37,7 @@ public class UtilisateurManager {
 		inscriValideE = validerMail(utilisateur.getEmail());
 		
 		
-		if(inscriValideP == false && inscriValideE == false) {
+		if(inscriValideP == false & inscriValideE == false) {
 			this.utilisateurDAO.insertInscription(utilisateur);
 			return true;
 		}
@@ -52,7 +52,7 @@ public class UtilisateurManager {
 			private Boolean validerPseudo(String nomPseudo) {
 				Boolean StatusValidation = false;
 				if(nomPseudo == null | nomPseudo.trim().length() > 30) {
-					StatusValidation = false;
+					StatusValidation = true;
 				}
 				
 					List<String> listepseudo;
@@ -74,7 +74,7 @@ public class UtilisateurManager {
 	private Boolean validerMail(String nomMail) {
 		Boolean StatusValidation = false;
 		if(nomMail == null | nomMail.trim().length() > 30) {
-			StatusValidation = false;
+			StatusValidation = true;
 		}
 		List<String> listeEmail;
 		try {

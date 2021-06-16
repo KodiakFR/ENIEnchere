@@ -64,7 +64,8 @@ public class ServletInscription extends HttpServlet {
 			String rue = request.getParameter("rue");
 			String ville = request.getParameter("ville");
 			String mdpConfirm = request.getParameter("confirm");
-
+			
+			
 			// Construction utilisateur
 			Utilisateur utilisateurU = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, mdp);
 			System.out.println(utilisateurU.toString());

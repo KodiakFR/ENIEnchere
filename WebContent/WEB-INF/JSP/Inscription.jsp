@@ -32,7 +32,7 @@
 						Mail ou pseudo déjà existant, veuillez réssayer
 					</div>
 			</c:if>
-			
+				
 			<div class="InscriptionContenu justify-content-center d-flex flex-row">
 				<div class="InscritpionDivGauche d-flex flex-column">
 					<p> <label for="pseudo">Pseudo : </label>
@@ -64,7 +64,7 @@
 					<input type="text" name="ville" id="ville" required="required"> </p>
 					
 					<p> <label for="confirm">Confirmation : </label> 
-					<input type="password" name="confirm" id="confirm" required="required"> </p>
+					<input type="password" name="confirm" id="confirm" required="required"> </p>								
 				</div>
 			</div>
 			
