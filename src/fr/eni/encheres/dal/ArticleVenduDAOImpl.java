@@ -16,6 +16,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
 	private final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS where no_article=?;";
 	
+	private final String FIND_ID_CATEGORIE= "SELECT no_categorie FROM CATEGORIES WHERE libelle=?;";
 	private final String FIND_ARTICLE_FROM_USER = "SELECT nom_article WHERE no_utilisateur=?;";
 	private final String FIND_ID_USER_PROPRIO = "SELECT no_utilisateur FROM ARTICLES_VENDUS WHERE no_article=?;";
 	private final String CREATE_ARTICLE_FROM_USER = "SELECT no_article, description, date_debut_encheres, date_fin_encheres, "
@@ -112,8 +113,15 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 				while(rs.next())
 				{
 					String nomArticle = rs.getString("nom_article");
-					ArticleVendu art = recupArticle(nomArticle, idUtilisateur);
-					listeArticle.add(art);
+					ArticleVendu art;
+					try {
+						art = recupArticle(nomArticle, idUtilisateur);
+						listeArticle.add(art);
+					} catch (BusinessException e) {
+						e.ajouterErreur(15005);
+						e.printStackTrace();
+					}
+					
 				}
 			
 		} catch (SQLException e) {
@@ -145,6 +153,26 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			}
 		
 		return articleComplet;
+	}
+
+
+	@Override
+	public int checkCategorie(String nomCategorie) throws BusinessException {
+		int idCategorie=0;
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ID_CATEGORIE))
+		{
+			stmt.setString(1, nomCategorie);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next())
+			{
+			idCategorie = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			BusinessException be = new BusinessException();
+			be.ajouterErreur(15006);
+			e.printStackTrace();
+		}
+		return idCategorie;
 	}
 	
 	

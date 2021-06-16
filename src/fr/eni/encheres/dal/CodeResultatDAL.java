@@ -78,6 +78,13 @@ public abstract class CodeResultatDAL {
 	 */
 	
 	public static final int RECUP_ARTICLE_LISTE_ARTICLE_ECHEC=15005;
+
+	
+	/**
+	 * Echec RECUPERATION d'un article LISTE ARTICLES UTILISATEURS
+	 */
+	
+	public static final int RECUP_ID_CATEGORIE_ECHEC=15006;
 	
 	
 	

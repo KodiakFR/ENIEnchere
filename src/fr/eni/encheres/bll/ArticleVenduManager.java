@@ -26,14 +26,15 @@ public class ArticleVenduManager {
 	}
 	
 	//Ajout d'un article en vente par l'utilisateur
-	public void ajoutArticle(ArticleVendu article, int idvendeur, String categorie) {
-		Boolean catExist = articleVenduDAO.checkCategorie(caterogie);
+	public void ajoutArticle(ArticleVendu article, int idvendeur, String categorie) throws BusinessException {
+		int idCategorie =  articleVenduDAO.checkCategorie(categorie);
+		articleVenduDAO.addArticleVendu(article, idvendeur, idCategorie);
 		
 		
 	}
 	
 	//Suppression de l'article avant la date du début de l'enchère et si pas d'enchères
-	public  void deleteArticleVendu(ArticleVendu article) throws BusinessException {
+	public  void cancelArticleVendu(ArticleVendu article) throws BusinessException {
 		int idArticleVendu = article.getNoArticle();
 		
 		if(article.getDateDebutEncheres().compareTo(LocalDate.now())<=0 && article.getMiseAPrix()==article.getPrixVente()) {

@@ -8,7 +8,9 @@ import fr.eni.encheres.bo.ArticleVendu;
 public interface ArticleVenduDAO {
 
 	
-	//Permet de vérifier les c
+	//Permet la récupération de l'id de la catégorie
+	
+	public int checkCategorie(String nomCategorie) throws BusinessException;
 
 	
 	//Permet de supprimer l'article de la plateforme
