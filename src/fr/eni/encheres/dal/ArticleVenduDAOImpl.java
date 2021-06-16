@@ -16,10 +16,11 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
 	private final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS where no_article=?;";
 	
+	private final String FIND_ARTICLE_FROM_USER = "SELECT nom_article WHERE no_utilisateur=?;";
 	private final String FIND_ID_USER_PROPRIO = "SELECT no_utilisateur FROM ARTICLES_VENDUS WHERE no_article=?;";
-	private final String CREATE_ARTICLE_FROM_USER = "SELECT nom_article, description, date_debut_encheres, date_fin_encheres, "
-													+ "prix_initial, prix_vente, no_utilisateur,no_categorie FROM ARTICLES_VENDUS "
-													+ "WHERE no_utilisateur=?;";
+	private final String CREATE_ARTICLE_FROM_USER = "SELECT no_article, description, date_debut_encheres, date_fin_encheres, "
+													+ "prix_initial, prix_vente,no_categorie,etat_vente FROM ARTICLES_VENDUS "
+													+ "WHERE nom_article=? AND no_utilisateur=?;";
 	
 	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?);";
 	@Override
@@ -115,9 +116,24 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	}
 	
 	@Override
-	public List<String> recupListArticleUtilisateur(int idUtilisateur){
-		List<String> listeArticle = new ArrayList<String>();
-		
+	public List<ArticleVendu> recupListArticleUtilisateur(int idUtilisateur){
+		List<ArticleVendu> listeArticle = new ArrayList<ArticleVendu>();
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ARTICLE_FROM_USER))
+		{
+			stmt.setInt(1, idUtilisateur);
+			ResultSet rs = stmt.executeQuery();
+				while(rs.next())
+				{
+					String nomArticle = rs.getString("nom_article");
+					ArticleVendu art = recupArticle(nomArticle, idUtilisateur);
+					listeArticle.add(art);
+				}
+			
+		} catch (SQLException e) {
+			BusinessException be = new BusinessException();
+			be.ajouterErreur(code);
+			e.printStackTrace();
+		}
 		
 		return listeArticle;
 	}
@@ -127,7 +143,13 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		ArticleVendu articleComplet = new ArticleVendu();
 			try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(CREATE_ARTICLE_FROM_USER))
 			{
-				stmt.setInt(1, idVendeur);
+				stmt.setString(1, nomArticle);
+				stmt.setInt(2, idVendeur);
+				ResultSet rs = stmt.executeQuery();
+				
+				while(rs.next())
+				articleComplet = mappingArticleVendu(rs);
+				articleComplet.setNomArticle(nomArticle);
 				
 			} catch (SQLException e) {
 				BusinessException be = new BusinessException();
@@ -136,6 +158,27 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			}
 		
 		return articleComplet;
+	}
+	
+	
+	
+	private ArticleVendu mappingArticleVendu(ResultSet rs) throws SQLException{
+		ArticleVendu u = null;
+		
+		int noArticle = rs.getInt("no_article");
+		String description = rs.getString("description");
+		LocalDate dateDebutEncheres = rs.getDate("date_debut_encheres").toLocalDate();
+		LocalDate dateFinEncheres = rs.getDate("date_fin_encheres").toLocalDate();
+		int miseAPrix = rs.getInt("prix_initial");
+		int prixVente = rs.getInt("prix_vente");
+		int etatVente = rs.getInt("etat_vente");
+		int noCategorie = rs.getInt("no_categorie");
+		
+		u = new ArticleVendu(noArticle, description,dateDebutEncheres, dateFinEncheres,
+				miseAPrix, prixVente, etatVente,noCategorie);
+		
+		
+		return u;
 	}
 	
 }
