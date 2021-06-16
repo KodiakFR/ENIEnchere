@@ -22,14 +22,13 @@ public class UtilisateurManager {
 	}
 	
 	// Méthode de BLL pour inserer une nouvelle inscription	
-	public void AjouterInscription(String nomP, String email) throws BusinessException {
+	public void AjouterInscription(Utilisateur utilisateur) throws BusinessException {
 		BusinessException businessException = new BusinessException();
 		
-		this.validerMail(email, businessException);
-		this.validerPseudo(nomP, businessException);
+		this.validerMail(utilisateur.getEmail(), businessException);
+		this.validerPseudo(utilisateur.getPseudo(), businessException);
 		
 		if(!businessException.hasErreurs()) {
-			Utilisateur utilisateur = new Utilisateur();
 			this.utilisateurDAO.insertInscription(utilisateur);
 		}
 		else {
