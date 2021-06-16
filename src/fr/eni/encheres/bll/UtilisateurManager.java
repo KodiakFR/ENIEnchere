@@ -3,6 +3,7 @@ package fr.eni.encheres.bll;
 import java.util.List;
 
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.UtilisateurDAO;
 
 public class UtilisateurManager {
@@ -14,7 +15,12 @@ public class UtilisateurManager {
 
 	private static UtilisateurManager instance = null;
 	
-	public static synchronized UtilisateurManager getInstance() {
+	
+	public UtilisateurManager() throws BusinessException {
+		utilisateurDAO = DAOFactory.getUtilisateurDAO();
+	}
+	
+	public static synchronized UtilisateurManager getInstance() throws BusinessException {
 		if(instance == null) {
 			instance = new UtilisateurManager();
 		}
@@ -23,8 +29,7 @@ public class UtilisateurManager {
 	
 	// Méthode de BLL pour inserer une nouvelle inscription	
 	public Boolean AjouterInscription(Utilisateur utilisateur) throws BusinessException {
-		BusinessException businessException = new BusinessException();
-		Utilisateur u;
+		
 		Boolean inscriValideP = false;
 		Boolean inscriValideE = false;
 		
@@ -32,11 +37,13 @@ public class UtilisateurManager {
 		inscriValideE = validerMail(utilisateur.getEmail());
 		
 		
-		if(inscriValideP == false | inscriValideE == false) {
+		if(inscriValideP == false && inscriValideE == false) {
 			this.utilisateurDAO.insertInscription(utilisateur);
+			return true;
 		}
-		return 	inscriValideP;
-		return inscriValideE;
+		else {
+			return false;
+		}
 	}
 	
 	
