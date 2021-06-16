@@ -118,7 +118,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			
 		} catch (SQLException e) {
 			BusinessException be = new BusinessException();
-			be.ajouterErreur(code);
+			be.ajouterErreur(15004);
 			e.printStackTrace();
 		}
 		
@@ -158,8 +158,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		LocalDate dateFinEncheres = rs.getDate("date_fin_encheres").toLocalDate();
 		int miseAPrix = rs.getInt("prix_initial");
 		int prixVente = rs.getInt("prix_vente");
-		int etatVente = rs.getInt("etat_vente");
 		int noCategorie = rs.getInt("no_categorie");
+		int etatVente = rs.getInt("etat_vente");
 		
 		u = new ArticleVendu(noArticle, description,dateDebutEncheres, dateFinEncheres,
 				miseAPrix, prixVente, etatVente,noCategorie);

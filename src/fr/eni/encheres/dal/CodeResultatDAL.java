@@ -66,6 +66,20 @@ public abstract class CodeResultatDAL {
 	public static final int AJOUT_ARTICLE_ECHEC=15002;
 	
 	
+	/**
+	 * Echec RECUPERATION LISTE ARTICLES UTILISATEURS
+	 */
+	
+	public static final int RECUP_LISTE_ARTICLE_ECHEC=15004;
+
+	
+	/**
+	 * Echec RECUPERATION d'un article LISTE ARTICLES UTILISATEURS
+	 */
+	
+	public static final int RECUP_ARTICLE_LISTE_ARTICLE_ECHEC=15005;
+	
+	
 	
 	// il faut mettre pour toutes les methodes de la dall
 	
