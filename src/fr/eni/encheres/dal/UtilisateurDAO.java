@@ -8,14 +8,17 @@ import fr.eni.encheres.bo.Utilisateur;
 public interface UtilisateurDAO {
 
 	
-	// Insertion de la méthode insert inscription // Dimitri
+	// Insertion de la mï¿½thode insert inscription // Dimitri
 	public void insertInscription(Utilisateur utili) throws BusinessException;
 	
-	// Selection de la liste des pseudos pour vérifier // Dimitri
+	// Selection de la liste des pseudos pour vï¿½rifier // Dimitri
 	public List<String> validationPseudo() throws BusinessException;
 	
 	// Methode de verif unicite email
 	public List<String> validationEmail() throws BusinessException;
+	
+	//MÃ©thode recuperation d'un utilisateur
+	public Utilisateur SelectUser(Utilisateur utilisateur) throws BusinessException;
 	
 	
 }
