@@ -86,7 +86,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			
 			ResultSet rs = stmt.executeQuery(SELECT_EMAIL);
 			while(rs.next()) {
-				util = rs.getString("pseudo");
+				util = rs.getString("email");
 				emailUtil.add(util);
 				
 			}

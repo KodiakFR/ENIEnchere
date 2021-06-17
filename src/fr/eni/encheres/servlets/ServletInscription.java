@@ -48,7 +48,6 @@ public class ServletInscription extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		Boolean validationMandP = false;
 		
-		//HttpSession session = request.getSession();
 		
 		try {
 			UtilisateurManager utilisateur = new UtilisateurManager();
