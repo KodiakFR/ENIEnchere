@@ -60,7 +60,7 @@ public class ServletConnection extends HttpServlet {
 		Boolean testConnection = false;
 
 			try {
-				UtilisateurManager Utilisateur = new UtilisateurManager();
+				UtilisateurManager Utilisateur = UtilisateurManager.getInstance();;
 			
 				//récupération des données
 				

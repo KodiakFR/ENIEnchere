@@ -1,6 +1,16 @@
 package fr.eni.encheres.bll;
 
 import java.util.List;
+import java.util.Properties;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DAOFactory;
@@ -116,6 +126,55 @@ public class UtilisateurManager {
 			U = this.utilisateurDAO.SelectUser(utilisateur);
 			return U;
 		}
+		
+	//méthode vérification de mail
+		
+		public Boolean verifmail(String email) throws BusinessException 
+		{
+			return validerMail(email);
+		}
+		
+	//méthode pour envoyer un mail oublie mot de passe
+		
+		public void sentmail(String userEmail) throws Exception{
+			System.out.println("message en cours d'envoie");
+			Properties properties = new Properties();
+
+			properties.put("mail.smtp.host", "smtp.gmail.com");
+			properties.put("mail.smtp.port", "587");
+			properties.put("mail.smtp.auth", "true");
+			properties.put("mail.smtp.starttls.enable", "true");
+			properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+			
+			
+			final String monEmail = "enienchere@gmail.com";
+			final String password = "G&EtN5tT3KBNDjox";
+			
+			Session session = Session.getInstance(properties, new Authenticator() {
+				@Override
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(monEmail, password);
+				}
+			});
+			
+			//Message message = prepareMessage(session,monEmail, userEmail);
+			
+			try {
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress(monEmail));
+				message.setRecipient(Message.RecipientType.TO, new InternetAddress(userEmail));
+				message.setSubject("Réinitialisation de votre mot de passe");
+				message.setText("Bonjour, \n cliquez sur le lien ci-dessous pour changer votre mot de passe. \n LIEN" );
+				
+				Transport.send(message);
+				
+				System.out.println("message envoyé");
+				
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}			
+		}
+		
 	
 
 	
