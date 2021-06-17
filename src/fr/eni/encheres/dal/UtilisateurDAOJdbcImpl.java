@@ -24,6 +24,9 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	private static final String SELECT_USER = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur"+
 	" FROM UTILISATEURS WHERE pseudo=?";
 	
+	// Requete modification mot de passe
+	private static final String UPDATE_PASSWORD = "UPDATE UTILISATEURS SET mot_de_passe=? WHERE email=?";
+	
 	
 	
 	
@@ -140,10 +143,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	
 	//Méthode recuperation d'un utilisateur
 	public Utilisateur SelectUser(Utilisateur utilisateur) throws BusinessException {
-		System.out.println("je suis dans ma DAL");
 		String pseudo = utilisateur.getPseudo();
 		Utilisateur U = null;
-		System.out.println(pseudo);
 		try (Connection cnx = ConnectionProvider.getConnection();
 			PreparedStatement stmt= cnx.prepareStatement(SELECT_USER);){
 			stmt.setString(1, pseudo);
@@ -162,5 +163,24 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 		System.out.println(U.toString());
 		return U;
 	}
+
+
+	//méthode pour modifier le mot de passe
+	public void updatePassword(String password, String userEmail) throws BusinessException {
+		try (Connection cnx = ConnectionProvider.getConnection();
+				PreparedStatement stmt= cnx.prepareStatement(UPDATE_PASSWORD);){
+			stmt.setString(1, password);
+			stmt.setString(2, userEmail);
+			stmt.executeUpdate();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodeResultatDAL.UPDATE_PASSWORD_ECHEC);
+			throw businessException;
+		}
+		
+	}
+
 	
 }

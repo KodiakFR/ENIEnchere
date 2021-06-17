@@ -19,6 +19,9 @@ public interface UtilisateurDAO {
 	
 	
 	public Utilisateur SelectUser(Utilisateur utilisateur) throws BusinessException;
+
+	public void updatePassword(String password, String userEmail) throws BusinessException;
+	
 	
 	
 }

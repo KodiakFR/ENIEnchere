@@ -164,7 +164,7 @@ public class UtilisateurManager {
 				message.setFrom(new InternetAddress(monEmail));
 				message.setRecipient(Message.RecipientType.TO, new InternetAddress(userEmail));
 				message.setSubject("Réinitialisation de votre mot de passe");
-				message.setText("Bonjour, \n cliquez sur le lien ci-dessous pour changer votre mot de passe. \n LIEN" );
+				message.setText("Bonjour, \n cliquez sur le lien ci-dessous pour changer votre mot de passe. \n http://localhost:8080/ENIEncheres/Reinitialisation?userEmail="+userEmail);
 				
 				Transport.send(message);
 				

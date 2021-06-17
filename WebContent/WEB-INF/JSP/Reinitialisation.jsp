@@ -10,30 +10,40 @@
 <title>ENI - Encheres</title>
 </head>
 <body>
-	<div class = "container">	
+
+<div class = "container">	
 		<div class = "header">
 			<a href="Accueil" class = "fs-2  text-reset text-decoration-none">ENI - ENCHERES</a>
 		</div>
 		
-		<c:if test="${verifmail == false}">
+			<c:if test="${statusPassword == false}">
 			<div 	class="alert alert-danger" role="alert">
-				Votre e-mail n'est pas associé a un compte, veuillez saisir un autre e-mail ou inscrivez-vous
+				Vos mots de passe ne sont pas identique, veuillez réessayer.
 			</div>
 		</c:if>
-		<c:if test="${verifmail == true}">
+		<c:if test="${statusPassword == true}">
 			<div 	class="alert alert-success" role="alert">
-				Un e-mail vous a été envoyé pour réinitialiser votre mot de passe.
+				Votre mot de passe a bien été modifié, vous pouvez vous connecter
 			</div>
 		</c:if>
 		
-		<form action="MotDePasseOublie" method="post">
+		
+		<form action="Reinitialisation" method="post">
+			<p>	
+				<input type="email" name="userEmail" id="userEmail" value="${userEmail}" style="visibility: hidden" >
+			</p>
 			<p>
-				<label for="email">Votre Email</label>
-				<input type="email" name="email" id="email" required="required">
+				<label for="password">Nouveau mot de passe</label>
+				<input type="password" name="password" id="password" required="required">
+			</p>
+			<p>
+				<label for="verifPassword">Confirmation du nouveau mot de passe</label>
+				<input type="password" name="verifPassword" id="verifPassword" required="required">
 			</p>	
 			<input type="submit" value="Envoyer">	
 		</form>
-	</div>
-	
+		
+</div>
+
 </body>
 </html>
