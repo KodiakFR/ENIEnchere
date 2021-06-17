@@ -7,7 +7,9 @@ public class CodeResultatServlets {
 	/**
 	 * EX: Format id course incorrect
 	 */
-	public static final int FORMAT_ID_LISTE_ERREUR=40000;
+	public static final int RECUPERATION_LISTES_CATEGORIES_ECHEC=40000;
+	
+	
 	
 	
 }

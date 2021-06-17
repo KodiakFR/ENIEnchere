@@ -2,9 +2,12 @@ package fr.eni.encheres.bll;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.DAOFactory;
 
@@ -48,5 +51,11 @@ public class ArticleVenduManager {
 		}
 	}
 	
-	
+	//Récupération des catégories
+	public Set<Categorie> getListCategories() throws BusinessException{
+		Set<Categorie> lstCat = articleVenduDAO.getListCategorie();
+		
+		return lstCat;
+		
+	}
 }

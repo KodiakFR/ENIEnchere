@@ -9,6 +9,13 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 <title>Nouvelle Vente</title>
 </head>
+<script type="text/javascript">
+var alertList = document.querySelectorAll('.alert')
+alertList.forEach(function (alert) {
+  new bootstrap.Alert(alert)
+})
+
+</script>
 <body>
 <header>
 <div style="text-align: center;">
@@ -20,7 +27,9 @@
 	<div class="container">
 			<c:if test="${validateDateDebut == false}">
 					<div 	class="alert alert-danger" role="alert">
-						La date du début de l'enchère doit être supérieure à la date du jour
+						Les dates ne sont pas conformes :<br>
+						- La date de début de l'enchère doit être postérieure à la date du jour<br>
+						- La date de fin de l'enchère doit être postérieure à la date de début de l'enchère
 					</div>
 			</c:if>
 			
@@ -44,12 +53,12 @@
 		  			<div class="form-group row">
 		   				 <label for="categorie" class="col-sm-2 col-form-label">Categorie</label>
 			   				 <div class="col-sm-10">
-							<select class="custom-select" id="categorie" name="categorie">
-							    <option value="autre">Choisir...</option>
-							    <option value="Voiture">Voiture</option>
-							    <option value="Vélo">Vélo</option>
-							    <option value="Moto">Moto</option>
-							 </select>
+								<select class="custom-select" id="categorie" name="categorie">
+								    <c:forEach var="cat" items="${listeDeCategories}">
+								    	<option value="${cat.libelle}">${cat.libelle}</option>
+								    </c:forEach>
+								      
+								 </select>
 			    			</div>
 		  			</div>
 		  			
@@ -115,11 +124,12 @@
 	
 	<div class="container">
 	
-		// Affichage bandeau vert ajout ok
+<!-- 		Affichage bandeau vert ajout ok -->
 <%-- 			<c:if test="${validerAjout == true}"> --%>
-<!-- 					<div 	class="alert alert-success" role="alert"> -->
-<!-- 						Article ajouté avec succés -->
-<!-- 					</div> -->
+				<div class="alert alert-success alert-dismissible fade show" role="alert">
+				  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
 <%-- 			</c:if>		 --%>
 					<c:if test="${!empty listArticles}">
 						<c:forEach var="a" items="${listArticles}">

@@ -1,28 +1,35 @@
 package fr.eni.encheres.dal;
 
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Categorie;
 
 public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
-	private final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS where no_article=?;";
+	private final String DELETE_ARTICLE =				"DELETE FROM ARTICLES_VENDUS where no_article=?;";
 	
-	private final String FIND_ID_CATEGORIE= "SELECT no_categorie FROM CATEGORIES WHERE libelle=?;";
-	private final String FIND_ARTICLE_FROM_USER = "SELECT nom_article FROM ARTICLES_VENDUS WHERE no_utilisateur=?;";
-	private final String CREATE_ARTICLE_FROM_USER = "SELECT no_article, description, date_debut_encheres, date_fin_encheres, "
-													+ "prix_initial, prix_vente,no_categorie,etat_vente FROM ARTICLES_VENDUS "
-													+ "WHERE nom_article=? AND no_utilisateur=?;";
+	private final String FIND_ID_CATEGORIE=				"SELECT no_categorie FROM CATEGORIES WHERE libelle=?;";
+	private final String FIND_ARTICLE_FROM_USER =		"SELECT nom_article FROM ARTICLES_VENDUS WHERE no_utilisateur=?;";
+	private final String CREATE_ARTICLE_FROM_USER = 	"SELECT no_article, description, date_debut_encheres, date_fin_encheres, "
+														+ "prix_initial, prix_vente,no_categorie,etat_vente FROM ARTICLES_VENDUS "
+														+ "WHERE nom_article=? AND no_utilisateur=?;";
+	private final String FIND_ALL_CATEGORIES=			"SELECT no_categorie,libelle FROM CATEGORIES;";
+
 	
-	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?);";
+	private final String INSERT_ARTICLE = 				"INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?);";
 	
 	
 	@Override
@@ -131,6 +138,30 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		return articleComplet;
 	}
 
+	@Override
+	public Set<Categorie> getListCategorie() throws BusinessException {
+		Set<Categorie> listCategorie = new HashSet<Categorie>();
+			try(Connection con = ConnectionProvider.getConnection();Statement stmt = con.createStatement())
+				{
+					ResultSet rs = stmt.executeQuery(FIND_ALL_CATEGORIES);
+					while(rs.next())
+						{
+							Integer noCategorie = rs.getInt("no_categorie");
+							String nomCategorie = rs.getString("libelle");
+							
+							Categorie cat = new Categorie(noCategorie, nomCategorie);
+							listCategorie.add(cat);
+						}
+				} 
+			catch (SQLException e) 
+				{
+					BusinessException be = new BusinessException();
+					be.ajouterErreur(15007);
+					e.printStackTrace();
+				}
+		
+		return listCategorie;
+	}
 
 	@Override
 	public Integer checkCategorie(String nomCategorie) throws BusinessException {
@@ -171,5 +202,6 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		
 		return u;
 	}
+
 	
 }

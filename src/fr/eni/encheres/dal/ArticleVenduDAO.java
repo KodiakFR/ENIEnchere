@@ -1,9 +1,11 @@
 package fr.eni.encheres.dal;
 
 import java.util.List;
+import java.util.Set;
 
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Categorie;
 
 public interface ArticleVenduDAO {
 
@@ -34,4 +36,10 @@ public interface ArticleVenduDAO {
 	//Récupère un article complet d'un utilisateur
 	
 	public ArticleVendu recupArticle(String nomArticle, Integer idVendeur) throws BusinessException;
+	
+	
+	//Récupère les catégories existantes
+	
+	public Set<Categorie> getListCategorie() throws BusinessException;
+	
 }

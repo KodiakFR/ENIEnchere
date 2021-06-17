@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Categorie;
 
 /**
  * Servlet implementation class ServletNouvelleVente
@@ -28,6 +30,17 @@ public class ServletNouvelleVente extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+			ArticleVenduManager manager = ArticleVenduManager.getInstance();
+			try {
+				Set<Categorie> listeDeCategories = manager.getListCategories();
+				System.out.println(listeDeCategories);
+				request.setAttribute("listeDeCategories", listeDeCategories);
+			} catch (BusinessException e) {
+				e.ajouterErreur(40000);
+				e.printStackTrace();
+			}
+			
+		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/NouvelleVente.jsp");
 		rd.forward(request, response);
 	}
@@ -36,7 +49,7 @@ public class ServletNouvelleVente extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		Boolean validerAjout = false;
 		request.setCharacterEncoding("UTF-8");
 //		Utilisateur user = (Utilisateur) request.getSession().getAttribute("Utilisateur");
 //		int idUtilisateur = user.getNoUtilisateur();
@@ -84,7 +97,7 @@ public class ServletNouvelleVente extends HttpServlet {
 					{
 						ArticleVenduManager manager = ArticleVenduManager.getInstance();
 						
-						List<ArticleVendu> listArticles = manager.ajoutArticle(newArticle, 1, categorie);
+						List<ArticleVendu> listArticles = manager.ajoutArticle(newArticle, 2, categorie);
 						request.getSession().setAttribute("listArticles", listArticles);
 					}
 				catch (BusinessException e) 
@@ -92,11 +105,11 @@ public class ServletNouvelleVente extends HttpServlet {
 						e.printStackTrace();
 					}
 			
-				//Affichage message ajout OK
-//			Boolean validerAjout = true;
-//			request.setAttribute("validerAjout", validerAjout);
+//				Affichage message ajout OK
+			validerAjout = true;
+			request.setAttribute("validerAjout", validerAjout);
 			
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/NouvelleVente.jsp");
 			rd.forward(request, response);
 			}
 	}
