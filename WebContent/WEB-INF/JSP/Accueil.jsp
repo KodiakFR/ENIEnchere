@@ -42,5 +42,18 @@
 		<h1 class = "text-center">Liste des enchères</h1>
 	
 	</div>
+	
+	<!-- 		Affichage bandeau vert ajout article reussi  \\ depuis servlet NouvelleVente -->
+			<c:if test="${validerAjout == true}">
+				<div class="container">
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+					  <strong>Holy guacamole!</strong> L'article a bien été ajouté à votre liste d'enchères.
+					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				</div>
+			</c:if>	
 </body>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
 </html>

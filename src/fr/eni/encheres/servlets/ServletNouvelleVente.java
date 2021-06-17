@@ -109,7 +109,7 @@ public class ServletNouvelleVente extends HttpServlet {
 			validerAjout = true;
 			request.setAttribute("validerAjout", validerAjout);
 			
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/NouvelleVente.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
 			rd.forward(request, response);
 			}
 	}

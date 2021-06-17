@@ -9,13 +9,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 <title>Nouvelle Vente</title>
 </head>
-<script type="text/javascript">
-var alertList = document.querySelectorAll('.alert')
-alertList.forEach(function (alert) {
-  new bootstrap.Alert(alert)
-})
 
-</script>
 <body>
 <header>
 <div style="text-align: center;">
@@ -124,13 +118,7 @@ alertList.forEach(function (alert) {
 	
 	<div class="container">
 	
-<!-- 		Affichage bandeau vert ajout ok -->
-<%-- 			<c:if test="${validerAjout == true}"> --%>
-				<div class="alert alert-success alert-dismissible fade show" role="alert">
-				  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-<%-- 			</c:if>		 --%>
+	
 					<c:if test="${!empty listArticles}">
 						<c:forEach var="a" items="${listArticles}">
 							<p>
