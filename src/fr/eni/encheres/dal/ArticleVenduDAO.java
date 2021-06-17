@@ -10,28 +10,28 @@ public interface ArticleVenduDAO {
 	
 	//Permet la récupération de l'id de la catégorie
 	
-	public int checkCategorie(String nomCategorie) throws BusinessException;
+	public Integer checkCategorie(String nomCategorie) throws BusinessException;
 
 	
 	//Permet de supprimer l'article de la plateforme
 	//vendu ou supprimer par le vendeur ou l'admin
 	
-	public void removeArticleVendu(int idArticle) throws BusinessException;
+	public void removeArticleVendu(Integer idArticle) throws BusinessException;
 	
 	
 	
 	//Ajouter un article à la BDD lié à un utilisateur et une catégorie
 	
-	public void addArticleVendu(ArticleVendu article, int idVendeur, int idCategorie) throws BusinessException;
+	public void addArticleVendu(ArticleVendu article, Integer idVendeur, Integer idCategorie) throws BusinessException;
 	
 	
 	//Récupere tous les articles d'un utilisateur par son id
 	
-	public List<ArticleVendu> recupListArticleUtilisateur(int idUtilisateur) throws BusinessException;
+	public List<ArticleVendu> recupListArticleUtilisateur(Integer idUtilisateur) throws BusinessException;
 	
 	
 	
 	//Récupère un article complet d'un utilisateur
 	
-	public ArticleVendu recupArticle(String nomArticle, int idVendeur) throws BusinessException;
+	public ArticleVendu recupArticle(String nomArticle, Integer idVendeur) throws BusinessException;
 }

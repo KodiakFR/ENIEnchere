@@ -17,14 +17,16 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	private final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS where no_article=?;";
 	
 	private final String FIND_ID_CATEGORIE= "SELECT no_categorie FROM CATEGORIES WHERE libelle=?;";
-	private final String FIND_ARTICLE_FROM_USER = "SELECT nom_article WHERE no_utilisateur=?;";
+	private final String FIND_ARTICLE_FROM_USER = "SELECT nom_article FROM ARTICLES_VENDUS WHERE no_utilisateur=?;";
 	private final String CREATE_ARTICLE_FROM_USER = "SELECT no_article, description, date_debut_encheres, date_fin_encheres, "
 													+ "prix_initial, prix_vente,no_categorie,etat_vente FROM ARTICLES_VENDUS "
 													+ "WHERE nom_article=? AND no_utilisateur=?;";
 	
 	private final String INSERT_ARTICLE = "INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?);";
+	
+	
 	@Override
-	public void removeArticleVendu(int idArticle) {
+	public void removeArticleVendu(Integer idArticle) {
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(DELETE_ARTICLE))
 			{
 			stmt.setInt(1, idArticle);	
@@ -40,7 +42,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	}
 
 	@Override
-	public void addArticleVendu(ArticleVendu article, int idVendeur, int IdCategorie) throws BusinessException {
+	public void addArticleVendu(ArticleVendu article, Integer idVendeur, Integer IdCategorie) throws BusinessException {
 		
 		
 		String nomArticle = article.getNomArticle();
@@ -78,7 +80,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	}
 	
 	@Override
-	public List<ArticleVendu> recupListArticleUtilisateur(int idUtilisateur){
+	public List<ArticleVendu> recupListArticleUtilisateur(Integer idUtilisateur){
 		List<ArticleVendu> listeArticle = new ArrayList<ArticleVendu>();
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ARTICLE_FROM_USER))
 		{
@@ -108,7 +110,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	}
 
 	@Override
-	public ArticleVendu recupArticle(String nomArticle, int idVendeur) throws BusinessException {
+	public ArticleVendu recupArticle(String nomArticle, Integer idVendeur) throws BusinessException {
 		ArticleVendu articleComplet = new ArticleVendu();
 			try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(CREATE_ARTICLE_FROM_USER))
 			{
@@ -131,8 +133,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
 
 	@Override
-	public int checkCategorie(String nomCategorie) throws BusinessException {
-		int idCategorie=0;
+	public Integer checkCategorie(String nomCategorie) throws BusinessException {
+		Integer idCategorie=null;
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ID_CATEGORIE))
 		{
 			stmt.setString(1, nomCategorie);
@@ -154,13 +156,13 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	private ArticleVendu mappingArticleVendu(ResultSet rs) throws SQLException{
 		ArticleVendu u = null;
 		
-		int noArticle = rs.getInt("no_article");
+		Integer noArticle = rs.getInt("no_article");
 		String description = rs.getString("description");
 		LocalDate dateDebutEncheres = rs.getDate("date_debut_encheres").toLocalDate();
 		LocalDate dateFinEncheres = rs.getDate("date_fin_encheres").toLocalDate();
 		int miseAPrix = rs.getInt("prix_initial");
 		int prixVente = rs.getInt("prix_vente");
-		int noCategorie = rs.getInt("no_categorie");
+		Integer noCategorie = rs.getInt("no_categorie");
 		int etatVente = rs.getInt("etat_vente");
 		
 		u = new ArticleVendu(noArticle, description,dateDebutEncheres, dateFinEncheres,
