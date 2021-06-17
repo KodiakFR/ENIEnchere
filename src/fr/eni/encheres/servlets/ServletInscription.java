@@ -47,7 +47,7 @@ public class ServletInscription extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		Boolean validationMandP = false;
-		
+		Boolean validationMDP = false;
 		
 		try {
 			UtilisateurManager utilisateur = new UtilisateurManager();
@@ -64,19 +64,30 @@ public class ServletInscription extends HttpServlet {
 			String ville = request.getParameter("ville");
 			String mdpConfirm = request.getParameter("confirm");
 			
-			
 			// Construction utilisateur
 			Utilisateur utilisateurU = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, mdp);
-			System.out.println(utilisateurU.toString());
-			
-			
-			// Utilisation de la méthode validation
-			validationMandP = utilisateur.AjouterInscription(utilisateurU);
-			if(validationMandP == false) {
-				request.setAttribute("validationMandP", validationMandP);
-				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Inscription.jsp");
+			System.out.println(utilisateurU.toString());	
+						
+			// If permettant de savoir si les deux mdps du formulaire sont identiques
+			if(mdpConfirm.equals(mdp)) {
+				
+				// Utilisation de la méthode validation
+				validationMandP = utilisateur.AjouterInscription(utilisateurU);
+				if(validationMandP == false) {
+					request.setAttribute("validationMandP", validationMandP);
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Inscription.jsp");
+					rd.forward(request, response);
+				}
+				
+			} 
+			if(!mdpConfirm.contentEquals(mdp)) {
+				validationMDP = true;
+				request.setAttribute("validationMDP", validationMDP);
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Inscription.jsp") ;
 				rd.forward(request, response);
 			}
+			
+						
 			
 		} catch (NumberFormatException | BusinessException e) {
 			e.printStackTrace();

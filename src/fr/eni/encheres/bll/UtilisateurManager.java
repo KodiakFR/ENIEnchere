@@ -73,7 +73,7 @@ public class UtilisateurManager {
 	// Méthode qui vérifie si le mail n'est pas vide ou trop long
 	private Boolean validerMail(String nomMail) {
 		Boolean StatusValidation = false;
-		if(nomMail == null | nomMail.trim().length() > 30) {
+		if(nomMail == null | nomMail.trim().length() > 60) {
 			StatusValidation = true;
 		}
 		List<String> listeEmail;

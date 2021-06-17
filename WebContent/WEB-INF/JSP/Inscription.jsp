@@ -32,6 +32,12 @@
 						Mail ou pseudo déjà existant, veuillez réssayer
 					</div>
 			</c:if>
+			
+			<c:if test="${validationMDP == true}">
+					<div 	class="alert alert-danger" role="alert">
+						Les mots de passe ne sont pas identiques, veuillez réssayer.
+					</div>
+			</c:if>
 				
 			<div class="InscriptionContenu justify-content-center d-flex flex-row">
 				<div class="InscritpionDivGauche d-flex flex-column">
@@ -66,6 +72,7 @@
 					<p> <label for="confirm">Confirmation : </label> 
 					<input type="password" name="confirm" id="confirm" required="required"> </p>								
 				</div>
+				
 			</div>
 			
 			<div class= "InscriptionBouttons">
