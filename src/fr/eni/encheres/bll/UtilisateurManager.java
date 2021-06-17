@@ -108,6 +108,14 @@ public class UtilisateurManager {
 				return testConnection;
 				
 			}
+			
+	//méthode de récuperation d'un utilisateur
+			
+		public Utilisateur recuperationUtilisateur(Utilisateur utilisateur) throws BusinessException {
+			Utilisateur U = null;
+			U = this.utilisateurDAO.SelectUser(utilisateur);
+			return U;
+		}
 	
 
 	

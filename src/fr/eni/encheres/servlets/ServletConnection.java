@@ -10,10 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.Session;
 
 import fr.eni.encheres.bll.BusinessException;
-import fr.eni.encheres.bll.MaximeUtilisateurManager;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.Utilisateur;
 
@@ -31,6 +29,7 @@ public class ServletConnection extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		
 		if (request.getServletPath().equals("/deconnexion"))
 		{
@@ -62,9 +61,7 @@ public class ServletConnection extends HttpServlet {
 
 			try {
 				UtilisateurManager Utilisateur = new UtilisateurManager();
-				//test avec le fichier de Maxime
-				MaximeUtilisateurManager MaximeUtilisateur = new MaximeUtilisateurManager();
-				
+			
 				//récupération des données
 				
 				String identifiant = request.getParameter("Identifiant");
@@ -93,7 +90,7 @@ public class ServletConnection extends HttpServlet {
 				
 				if (testConnection == true)
 				{
-					utilisateur = MaximeUtilisateur.recuperationUtilisateur(utilisateur);
+					utilisateur = Utilisateur.recuperationUtilisateur(utilisateur);
 					
 					HttpSession session = request.getSession(true);
 					session.setAttribute("Utilisateur", utilisateur);

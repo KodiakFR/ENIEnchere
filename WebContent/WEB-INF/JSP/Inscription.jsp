@@ -14,8 +14,8 @@
 <link href="${pageContext.request.contextPath}/CSS/style.css" rel = "stylesheet" >
 
 </head>
+
 	<div class = "container">	
-	
 		<div class = "header">
 			<a href="Accueil" class = "fs-2  text-reset text-decoration-none">ENI - ENCHERES</a>
 		</div>
