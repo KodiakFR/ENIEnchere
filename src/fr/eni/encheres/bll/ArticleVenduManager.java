@@ -26,23 +26,24 @@ public class ArticleVenduManager {
 	}
 	
 	//Ajout d'un article en vente par l'utilisateur et renvoi une liste des tous les articles de l'utilisateur
-	public List<ArticleVendu> ajoutArticle(ArticleVendu article, int idvendeur, String categorie) throws BusinessException {
+	public List<ArticleVendu> ajoutArticle(ArticleVendu article, Integer idvendeur, String categorie) throws BusinessException {
 		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
 		
-		int idCategorie =  articleVenduDAO.checkCategorie(categorie);
+		Integer idCategorie =  articleVenduDAO.checkCategorie(categorie);
 		articleVenduDAO.addArticleVendu(article, idvendeur, idCategorie);
 		
 		listeArticles = articleVenduDAO.recupListArticleUtilisateur(idvendeur);
+		System.out.println(listeArticles);
 		
 		return listeArticles;
 	}
 	
 	//Suppression de l'article avant la date du début de l'enchère et si pas d'enchères
-	public  void cancelArticleVendu(String nomArticle, int IdVendeur) throws BusinessException {
+	public  void cancelArticleVendu(String nomArticle, Integer IdVendeur) throws BusinessException {
 		ArticleVendu art = articleVenduDAO.recupArticle(nomArticle, IdVendeur);
-		int idArticleVendu = art.getNoArticle();
+		Integer idArticleVendu = art.getNoArticle();
 		
-		if(art.getDateDebutEncheres().compareTo(LocalDate.now())<=0 && art.getMiseAPrix()==art.getPrixVente()) {
+		if(art.getDateDebutEncheres().compareTo(LocalDate.now())<0 && art.getMiseAPrix()==art.getPrixVente()) {
 			articleVenduDAO.removeArticleVendu(idArticleVendu);
 		}
 	}

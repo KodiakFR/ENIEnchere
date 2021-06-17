@@ -11,7 +11,7 @@ public class ArticleVendu {
 	private int miseAPrix;
 	private int prixVente;
 	private int etatVente;
-	private int noCategorie;
+	private Integer noCategorie;
 	
 	
 	public ArticleVendu() {
@@ -20,7 +20,7 @@ public class ArticleVendu {
 
 
 	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			int miseAPrix, int noCategorie) {
+			int miseAPrix) {
 		super();
 		this.nomArticle = nomArticle;
 		this.description = description;
@@ -29,12 +29,11 @@ public class ArticleVendu {
 		this.miseAPrix = miseAPrix;
 		this.prixVente = miseAPrix;
 		this.etatVente = 1;
-		this.noCategorie =noCategorie;
 	}
 
 
-	public ArticleVendu(int noArticle, String description, LocalDate dateDebutEncheres,
-			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int etatVente, int noCategorie) {
+	public ArticleVendu(Integer noArticle, String description, LocalDate dateDebutEncheres,
+			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int etatVente, Integer noCategorie) {
 		super();
 		this.noArticle = noArticle;
 		this.description = description;
@@ -47,12 +46,12 @@ public class ArticleVendu {
 	}
 
 
-	public int getNoArticle() {
+	public Integer getNoArticle() {
 		return noArticle;
 	}
 
 
-	public void setNoArticle(int noArticle) {
+	public void setNoArticle(Integer noArticle) {
 		this.noArticle = noArticle;
 	}
 
@@ -127,12 +126,12 @@ public class ArticleVendu {
 	}
 
 
-	public int getNoCategorie() {
+	public Integer getNoCategorie() {
 		return noCategorie;
 	}
 
 
-	public void setNoCategorie(int noCategorie) {
+	public void setNoCategorie(Integer noCategorie) {
 		this.noCategorie = noCategorie;
 	}
 
