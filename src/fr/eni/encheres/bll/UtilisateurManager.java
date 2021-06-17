@@ -16,7 +16,7 @@ public class UtilisateurManager {
 	private static UtilisateurManager instance = null;
 	
 	
-	public UtilisateurManager() throws BusinessException {
+	private UtilisateurManager() throws BusinessException {
 		utilisateurDAO = DAOFactory.getUtilisateurDAO();
 	}
 	
