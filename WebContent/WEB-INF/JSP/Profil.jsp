@@ -21,6 +21,11 @@
 		Bonjour ${Utilisateur.getPrenom()}
 
 
+			${Utilisateur.getPseudo()}
+			
+			${Utilisateur.getVille()}
+			
+
 <body>
 
 </body>
