@@ -15,6 +15,7 @@
 
 </head>
 
+<body>
 	<div class = "container">	
 		<div class = "header">
 			<a href="Accueil" class = "fs-2  text-reset text-decoration-none">ENI - ENCHERES</a>
@@ -76,21 +77,20 @@
 			</div>
 			
 			<div class= "InscriptionBouttons">
-				<div class="Inscriptiondivbtna">
-					<a class="InscriptionBouttonCreer" href="Inscription"><button type="submit" name="btnvalider value="valider" >Creer 2</button></a>
-					
-				</div>
+				<div class="Inscriptiondivbtna">				
+					<a href="<%=request.getContextPath()%>/Accueil">
+                       <input type="submit" value="Créer" class="btn btn-primary mb-2 InscriptionBtnEspace"/></a>
+					</div>
 				
-				<div class="Inscriptiondivbtnb">
-					<a class="InscriptionBouttonAnnuler" href="Accueil">Annuler</a>
+ 			
+					<div class="Inscriptiondivbtnb">
+						<a href="<%=request.getContextPath()%>/Accueil">
+                       <input type="button" value="Annuler" class="btn btn-primary mb-2"/></a>
+					</div>
+			
 				</div>
-			</div>		
 		</fieldset>
 	</form>
-			
-			
-
-<body>
-
+				
 </body>
 </html>

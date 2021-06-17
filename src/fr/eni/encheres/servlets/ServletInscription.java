@@ -24,18 +24,9 @@ public class ServletInscription extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/JSP/Inscription.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Inscription.jsp") ;
 		rd.forward(request, response);
 	}
 
@@ -50,7 +41,7 @@ public class ServletInscription extends HttpServlet {
 		Boolean validationMDP = false;
 		
 		try {
-			UtilisateurManager utilisateur = new UtilisateurManager();
+			UtilisateurManager utilisateur = UtilisateurManager.getInstance();
 			
 			// Récuperation de l'ensemble des données du formulaire
 			String pseudo = request.getParameter("pseudo");
@@ -69,8 +60,7 @@ public class ServletInscription extends HttpServlet {
 			System.out.println(utilisateurU.toString());	
 						
 			// If permettant de savoir si les deux mdps du formulaire sont identiques
-			if(mdpConfirm.equals(mdp)) {
-				
+			if(mdpConfirm.equals(mdp)) {				
 				// Utilisation de la méthode validation
 				validationMandP = utilisateur.AjouterInscription(utilisateurU);
 				if(validationMandP == false) {
@@ -78,8 +68,8 @@ public class ServletInscription extends HttpServlet {
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Inscription.jsp");
 					rd.forward(request, response);
 				}
-				
 			} 
+			// Si mdp pas identiques renvoie d'erreur pas de création d'objet
 			if(!mdpConfirm.contentEquals(mdp)) {
 				validationMDP = true;
 				request.setAttribute("validationMDP", validationMDP);
@@ -87,15 +77,14 @@ public class ServletInscription extends HttpServlet {
 				rd.forward(request, response);
 			}
 			
-						
 			
 		} catch (NumberFormatException | BusinessException e) {
 			e.printStackTrace();
 		}
 		
-		
-		
-		
+
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp") ;
+		rd.forward(request, response);
 		
 		
 	}
