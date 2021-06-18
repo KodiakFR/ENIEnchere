@@ -50,5 +50,6 @@ header
 	margin-right : 20px;
 }
 .ProfilListeInfo {
-	text-decoration : none;
+	 list-style-type: none;
 }
+

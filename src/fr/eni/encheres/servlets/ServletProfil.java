@@ -15,7 +15,9 @@ import fr.eni.encheres.bo.Utilisateur;
 /**
  * Servlet implementation class ServletProfil
  */
-@WebServlet("/Profil")
+@WebServlet(
+		urlPatterns = {"/Profil", "/ModifProfil"}
+		)
 public class ServletProfil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -33,7 +35,7 @@ public class ServletProfil extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 					
-			
+		if (request.getServletPath().equals("/Profil")) {
 			try {
 				
 				Utilisateur Utilisateur = (Utilisateur) request.getSession().getAttribute("Utilisateur");
@@ -49,11 +51,24 @@ public class ServletProfil extends HttpServlet {
 				// TODO: handle exception
 			}
 
-//			
-//			RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/JSP/Profil.jsp");
-//			rd.forward(request, response);
-
+		}
+		
+		
+		if (request.getServletPath().equals("/ModifProfil")) {
+			Utilisateur Utilisateur = (Utilisateur) request.getSession().getAttribute("Utilisateur");
+			System.out.println("pseudo sauvegardé c'est bon " + Utilisateur);
 			
+
+			HttpSession session = request.getSession(true);
+			session.setAttribute("Utilisateur", Utilisateur);
+			RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp");
+			rd.forward(request, response);
+			
+		}
+		
+		
+		
+		
 	}
 
 	/**

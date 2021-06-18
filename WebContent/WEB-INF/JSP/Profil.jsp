@@ -36,8 +36,18 @@
 							
 				</ul>
 			
+										
+			
 			</div>
-
+					
+				<!-- Creation d'un bouton modification permettant de modifer les informations de l'utilisateur -->
+						<!-- accessible si le profil est bien celui de l'utilisateur -->
+			<div class = "Connection_boutonInscription justify-content-center d-flex flex-row">
+				<a href="ModifProfil" ><button>Modifier</button></a>
+			</div>
+						
+		
+			
 
 </body>
 </html>
