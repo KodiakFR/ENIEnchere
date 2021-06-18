@@ -45,28 +45,32 @@ public class ServletProfil extends HttpServlet {
 				Utilisateur utilisateurGeneral = (Utilisateur) request.getSession().getAttribute("Utilisateur");
 				
 				// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.				
-//				String pseudoRecup = request.getParameter("AREMPLLIR");
-				String pseudoRecup = "dg";
+				// String pseudoRecup = request.getParameter("AREMPLLIR");
+				String pseudoRecup = "JeanPierre";
 
 
-				// Si le pseudo récupéré est égal ) la session
-				if(pseudoRecup.equals(utilisateurGeneral.getPseudo())) {					
+				// Si le pseudo récupéré n'est pas egal la session
+				if(!pseudoRecup.equals(utilisateurGeneral.getPseudo())) {
+					System.out.println("je suis dans le if 1er");
 				Utilisateur utilisateurInconnu= new Utilisateur(pseudoRecup);		
 				utilisateurInconnu = utilisateur.recuperationUtilisateur(utilisateurInconnu);
 				HttpSession session = request.getSession(true);
-				session.setAttribute("UtilisateurInconnu", utilisateurInconnu);
+				valideP = false;
+				session.setAttribute("valideP", valideP);
+				session.setAttribute("utilisateurInconnu", utilisateurInconnu);
 				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Profil.jsp");
 				rd.forward(request, response);
 				}
 			
 				// si le pseudo n'est pas identique à la session alors afficher les infos de l'utilisateur inconnu
 				else {
+					System.out.println("je suis dans le else");
 					Utilisateur utilisateurInconnu = (Utilisateur) request.getSession().getAttribute("Utilisateur");
 					System.out.println("pseudo sauvegardé c'est bon " + utilisateurInconnu);			
 					HttpSession session = request.getSession(true);
-					session.setAttribute("UtilisateurInconnu", utilisateurInconnu);
 					valideP = true;
 					session.setAttribute("valideP", valideP);
+					session.setAttribute("utilisateurInconnu", utilisateurInconnu);
 					RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Profil.jsp");
 					rd.forward(request, response);
 					}

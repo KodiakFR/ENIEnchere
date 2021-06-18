@@ -65,6 +65,7 @@ public class ServletInscription extends HttpServlet {
 				validationMandP = utilisateurManager.AjouterInscription(utilisateurU);
 				if(validationMandP == false) {
 					request.setAttribute("validationMandP", validationMandP);
+					request.setAttribute("utilisateurU", utilisateurU);
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Inscription.jsp");
 					rd.forward(request, response);
 				}
@@ -73,6 +74,7 @@ public class ServletInscription extends HttpServlet {
 			if(!mdpConfirm.contentEquals(mdp)) {
 				validationMDP = true;
 				request.setAttribute("validationMDP", validationMDP);
+				request.setAttribute("utilisateurU", utilisateurU);
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Inscription.jsp") ;
 				rd.forward(request, response);
 			}

@@ -46,13 +46,13 @@
 					<input type="text" name="pseudo" id="pseudo" autofocus required="required"></p>
 					
 					<p> <label for="prenom">Prénom : </label> 
-					<input type="text" name="prenom" id="prenom" required required="required"> </p>
+					<input type="text" name="prenom" id="prenom" value="${utilisateurU.getPrenom()}"  required="required"> </p>
 					
 					<p> <label for="tel">Téléphone : </label> 
-					<input type="text" name="tel" id="tel" required="required"> </p>
+					<input type="text" name="tel" id="tel" value="${utilisateurU.getTelephone()}"  required="required"> </p>
 					
 					<p> <label for="cp">Code Postal : </label> 
-					<input type="text" name="cp" id="cp" required="required"> </p>
+					<input type="text" name="cp" id="cp" value="${utilisateurU.getCodePostale()}" required="required"> </p>
 					
 					<p> <label for="mdp">Mot de passe : </label> 
 					<input type="password" name="mdp" id="mdp" required="required"> </p>
@@ -60,15 +60,15 @@
 				</div>
 				<div class="InscritpionDivDroite d-flex flex-column">
 					<p> <label for="nom">Nom : </label>
-					<input type="text" name="nom" id="nom" autofocus required="required"></p>
+					<input type="text" name="nom" id="nom" value="${utilisateurU.getNom()}" autofocus required="required"></p>
 					<p> <label for="email">Email : </label> 
-					<input type="email" name="email" id="email" required required="required"> </p>
+					<input type="email" name="email" id="email" value="${utilisateurU.getEmail()}"required="required"> </p>
 					
 					<p> <label for="rue">Rue : </label> 
-					<input type="text" name="rue" id="rue" required="required"> </p>
+					<input type="text" name="rue" id="rue" value="${utilisateurU.getRue()}" required="required"> </p>
 					
 					<p> <label for="ville">Ville : </label> 
-					<input type="text" name="ville" id="ville" required="required"> </p>
+					<input type="text" name="ville" id="ville" value="${utilisateurU.getVille()}" required="required"> </p>
 					
 					<p> <label for="confirm">Confirmation : </label> 
 					<input type="password" name="confirm" id="confirm" required="required"> </p>								
