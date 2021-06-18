@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.Utilisateur;
 
@@ -17,7 +18,7 @@ import fr.eni.encheres.bo.Utilisateur;
  * Servlet implementation class ServletProfil
  */
 @WebServlet(
-		urlPatterns = {"/Profil", "/ModifProfil", "/ProfilInconu"}
+		urlPatterns = {"/Profil", "/ModifProfil",}
 		)
 public class ServletProfil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -34,35 +35,44 @@ public class ServletProfil extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		
 					
 		if (request.getServletPath().equals("/Profil")) {
+			
 			try {
-				String pseudoRecup = request.getParameter("AREMPLLIR");
-				
+				Boolean valideP = null;
+				UtilisateurManager utilisateur = UtilisateurManager.getInstance();
 				Utilisateur UtilisateurGeneral = (Utilisateur) request.getSession().getAttribute("Utilisateur");
 				
-				if(pseudoRecup.equals(UtilisateurGeneral.getPseudo())) {
-				Utilisateur UtilisateurInconnu = (Utilisateur) request.getSession().getAttribute("Utilisateur");
-				System.out.println("pseudo sauvegardé c'est bon " + UtilisateurInconnu);			
+				// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.
+//				String pseudoRecup = request.getParameter("AREMPLLIR");
+				String pseudoRecup = "benoit";
+
+
+				// Si le pseudo récupéré est égal ) la session
+				if(pseudoRecup.equals(UtilisateurGeneral.getPseudo())) {					
+				Utilisateur UtilisateurInconnu= new Utilisateur(pseudoRecup);		
+				UtilisateurInconnu = utilisateur.recuperationUtilisateur(UtilisateurInconnu);
 				HttpSession session = request.getSession(true);
 				session.setAttribute("UtilisateurInconnu", UtilisateurInconnu);
 				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Profil.jsp");
 				rd.forward(request, response);
 				}
-				
-				
+			
+				// si le pseudo n'est pas identique à la session alors afficher les infos de l'utilisateur inconnu
 				else {
-				Utilisateur UtilisateurInconnu= new Utilisateur(pseudoRecup);		
-				// UtilisateurInconnu = UtilisateurManager.recuperationUtilisateur(UtilisateurInconnu);
-				HttpSession session = request.getSession(true);
-				session.setAttribute("UtilisateurInconnu", UtilisateurInconnu);
-				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Profil.jsp");
-				rd.forward(request, response);
+					Utilisateur UtilisateurInconnu = (Utilisateur) request.getSession().getAttribute("Utilisateur");
+					System.out.println("pseudo sauvegardé c'est bon " + UtilisateurInconnu);			
+					HttpSession session = request.getSession(true);
+					session.setAttribute("UtilisateurInconnu", UtilisateurInconnu);
+					valideP = true;
+					session.setAttribute("valideP", valideP);
+					RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Profil.jsp");
+					rd.forward(request, response);
 					}
 				
-			} catch (Exception e) {
-				// TODO: handle exception
+			} catch (NumberFormatException | BusinessException e) {
+				e.printStackTrace();
 			}
 
 		}
@@ -133,8 +143,8 @@ public class ServletProfil extends HttpServlet {
 				rd.forward(request, response);
 			}
 			
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (NumberFormatException | BusinessException e) {
+			e.printStackTrace();
 		}
 		
 		

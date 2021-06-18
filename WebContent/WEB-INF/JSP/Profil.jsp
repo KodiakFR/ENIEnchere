@@ -39,12 +39,21 @@
 								
 			
 			</div>
+			
+				<!-- Possible de modifier si la session de l'utilisateur correspond au pseudo -->	
+				<!-- Creation d'un bouton modification permettant de modifer les informations de l'utilisateur -->	
+				<c:if test="${valideP == true}">
+					<div class = "Connection_boutonInscription justify-content-center d-flex flex-row">
+						<a href="ModifProfil" ><button>Modifier</button></a>
+					</div>
+				</c:if>
 					
-				<!-- Creation d'un bouton modification permettant de modifer les informations de l'utilisateur -->			
-			<div class = "Connection_boutonInscription justify-content-center d-flex flex-row">
-				<a href="ModifProfil" ><button>Modifier</button></a>
-			</div>
+				
+					
 						
+				
+							
+			
 		
 			
 </body>
