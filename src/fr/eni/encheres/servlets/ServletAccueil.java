@@ -42,7 +42,7 @@ public class ServletAccueil extends HttpServlet {
 		else
 		{
 			try {
-				UtilisateurManager Utilisateur = UtilisateurManager.getInstance();
+				UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
 				String userPseudo=null;
 				for(Cookie cookieConnection : cookies)
 					
@@ -53,7 +53,7 @@ public class ServletAccueil extends HttpServlet {
 						userPseudo = cookieConnection.getValue();
 						Utilisateur utilisateur = new Utilisateur(userPseudo, null);
 						System.out.println(utilisateur);
-						utilisateur = Utilisateur.recuperationUtilisateur(utilisateur);
+						utilisateur = utilisateurManager.recuperationUtilisateur(utilisateur);
 						HttpSession session = request.getSession(true);
 						session.setAttribute("Utilisateur", utilisateur);
 					}

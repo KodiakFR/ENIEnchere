@@ -15,6 +15,7 @@
 		<a href="Accueil" class = "fs-2  text-reset text-decoration-none">ENI - ENCHERES</a>
 	</div>
 </header>
+
 <body>
 	<div class = "container">
 	

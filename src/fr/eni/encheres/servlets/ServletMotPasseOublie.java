@@ -52,35 +52,35 @@ public class ServletMotPasseOublie extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		Boolean verifmail = false;
+		boolean verifMail = false;
 		if (request.getServletPath().equals("/MotDePasseOublie"))
 		{
 			try {
-				UtilisateurManager Utilisateur = UtilisateurManager.getInstance();
+				UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
 				//test avec le fichier de Maxime
-				MaximeUtilisateurManager MaximeUtilisateur = new MaximeUtilisateurManager();
+				MaximeUtilisateurManager maximeUtilisateur = new MaximeUtilisateurManager();
 				
 				//récuperation de l'adresse email
 				String email = request.getParameter("email");
 				
 				//verification de l'existance du mail
 				
-				verifmail = Utilisateur.verifmail(email);
-				System.out.println(verifmail);
+				verifMail = utilisateurManager.verifmail(email);
+				System.out.println(verifMail);
 				
-				if (verifmail == false)
+				if (verifMail == false)
 				{
-					request.setAttribute("verifmail", verifmail);
+					request.setAttribute("verifmail", verifMail);
 					RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/MotDePasseOublie.jsp");
 					rd.forward(request, response);
 				}
 				
-				if (verifmail == true)
+				if (verifMail == true)
 				{
 					
-					Utilisateur.sentmail(email);
+					utilisateurManager.sentmail(email);
 					
-					request.setAttribute("verifmail", verifmail);
+					request.setAttribute("verifmail", verifMail);
 					RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/MotDePasseOublie.jsp");
 					rd.forward(request, response);
 				}
@@ -105,7 +105,7 @@ public class ServletMotPasseOublie extends HttpServlet {
 				
 				//vérification du mot des mots de passe
 				
-				Boolean statusPassword = false;
+				boolean statusPassword = false;
 				if (password.equals(verifPassword))
 				{
 					statusPassword = true;

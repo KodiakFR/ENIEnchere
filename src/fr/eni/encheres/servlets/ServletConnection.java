@@ -72,7 +72,7 @@ public class ServletConnection extends HttpServlet {
 		Boolean testConnection = false;
 
 			try {
-				UtilisateurManager Utilisateur = UtilisateurManager.getInstance();;
+				UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
 			
 				//récupération des données
 				
@@ -90,7 +90,7 @@ public class ServletConnection extends HttpServlet {
 				//Appel de la méthode de connection
 				
 				System.out.println(utilisateur.toString());
-				testConnection = Utilisateur.connection(utilisateur);
+				testConnection = utilisateurManager.connection(utilisateur);
 				System.out.println(testConnection);
 				
 				if (testConnection == false)
@@ -103,7 +103,7 @@ public class ServletConnection extends HttpServlet {
 				
 				if (testConnection == true)
 				{
-					utilisateur = Utilisateur.recuperationUtilisateur(utilisateur);
+					utilisateur = utilisateurManager.recuperationUtilisateur(utilisateur);
 					
 					HttpSession session = request.getSession(true);
 					session.setAttribute("Utilisateur", utilisateur);

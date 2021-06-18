@@ -41,7 +41,7 @@ public class ServletInscription extends HttpServlet {
 		Boolean validationMDP = false;
 		
 		try {
-			UtilisateurManager utilisateur = UtilisateurManager.getInstance();
+			UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
 			
 			// Récuperation de l'ensemble des données du formulaire
 			String pseudo = request.getParameter("pseudo");
@@ -62,7 +62,7 @@ public class ServletInscription extends HttpServlet {
 			// If permettant de savoir si les deux mdps du formulaire sont identiques
 			if(mdpConfirm.equals(mdp)) {				
 				// Utilisation de la méthode validation
-				validationMandP = utilisateur.AjouterInscription(utilisateurU);
+				validationMandP = utilisateurManager.AjouterInscription(utilisateurU);
 				if(validationMandP == false) {
 					request.setAttribute("validationMandP", validationMandP);
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Inscription.jsp");

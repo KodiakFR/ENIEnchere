@@ -38,10 +38,10 @@ public class UtilisateurManager {
 	}
 	
 	// Méthode de BLL pour inserer une nouvelle inscription	
-	public Boolean AjouterInscription(Utilisateur utilisateur) throws BusinessException {
+	public boolean AjouterInscription(Utilisateur utilisateur) throws BusinessException {
 		
-		Boolean inscriValideP = false;
-		Boolean inscriValideE = false;
+		boolean inscriValideP = false;
+		boolean inscriValideE = false;
 		
 		inscriValideP = validerPseudo(utilisateur.getPseudo());
 		inscriValideE = validerMail(utilisateur.getEmail());
@@ -59,8 +59,8 @@ public class UtilisateurManager {
 	
 
 	// Méthode qui vérifie que le pseudo n'est pas vide ou trop long
-			private Boolean validerPseudo(String nomPseudo) {
-				Boolean StatusValidation = false;
+			private boolean validerPseudo(String nomPseudo) {
+				boolean StatusValidation = false;
 				if(nomPseudo == null | nomPseudo.trim().length() > 30) {
 					StatusValidation = true;
 				}
@@ -81,8 +81,8 @@ public class UtilisateurManager {
 	
 	
 	// Méthode qui vérifie si le mail n'est pas vide ou trop long
-	private Boolean validerMail(String nomMail) {
-		Boolean StatusValidation = false;
+	private boolean validerMail(String nomMail) {
+		boolean StatusValidation = false;
 		if(nomMail == null | nomMail.trim().length() > 60) {
 			StatusValidation = true;
 		}
@@ -99,16 +99,16 @@ public class UtilisateurManager {
 	}
 	
 	//Méthode de connection
-			public Boolean connection(Utilisateur utilisateur) throws BusinessException{
-				Utilisateur U;
-				Boolean testConnection = false;
+			public boolean connection(Utilisateur utilisateur) throws BusinessException{
+				Utilisateur u;
+				boolean testConnection = false;
 				System.out.println("je suis dans ma bll avant d'aller dans la DAL");
 				testConnection = validerPseudo(utilisateur.getPseudo());
 				System.out.println(testConnection);
 				if (testConnection == true)
 				{
-					U = this.utilisateurDAO.SelectUser(utilisateur);
-					if(utilisateur.getMotDePasse().equals(U.getMotDePasse())) {
+					u = this.utilisateurDAO.SelectUser(utilisateur);
+					if(utilisateur.getMotDePasse().equals(u.getMotDePasse())) {
 						testConnection = true;
 					}
 					else {
@@ -122,14 +122,14 @@ public class UtilisateurManager {
 	//méthode de récuperation d'un utilisateur
 			
 		public Utilisateur recuperationUtilisateur(Utilisateur utilisateur) throws BusinessException {
-			Utilisateur U = null;
-			U = this.utilisateurDAO.SelectUser(utilisateur);
-			return U;
+			Utilisateur u = null;
+			u = this.utilisateurDAO.SelectUser(utilisateur);
+			return u;
 		}
 		
 	//méthode vérification de mail
 		
-		public Boolean verifmail(String email) throws BusinessException 
+		public boolean verifmail(String email) throws BusinessException 
 		{
 			return validerMail(email);
 		}

@@ -44,7 +44,7 @@ public class ServletProfil extends HttpServlet {
 				UtilisateurManager utilisateur = UtilisateurManager.getInstance();
 				Utilisateur utilisateurGeneral = (Utilisateur) request.getSession().getAttribute("Utilisateur");
 				
-				// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.
+				// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.				
 //				String pseudoRecup = request.getParameter("AREMPLLIR");
 				String pseudoRecup = "dg";
 
@@ -98,12 +98,12 @@ public class ServletProfil extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Boolean validationMdp = false;
-		Boolean validationMdpAc = false;
+		boolean validationMdp = false;
+		boolean validationMdpAc = false;
 		try {
-			Utilisateur Utilisateur = (Utilisateur) request.getSession().getAttribute("Utilisateur");
-			System.out.println("pseudo sauvegardé c'est bon " + Utilisateur);
-			UtilisateurManager utilisateur = UtilisateurManager.getInstance();
+			Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("Utilisateur");
+			System.out.println("pseudo sauvegardé c'est bon " + utilisateur);
+			UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
 			
 			String pseudo = request.getParameter("pseudo");
 			String prenom = request.getParameter("prenom");
@@ -119,7 +119,7 @@ public class ServletProfil extends HttpServlet {
 			
 			
 			if(newMdp.equals(confirmMdp)) {
-				if(mdpAc.equals(Utilisateur.getMotDePasse())) {
+				if(mdpAc.equals(utilisateur.getMotDePasse())) {
 					
 //		mettre un if pour chaque string pour utiliser la methode update de la bll
 				
@@ -136,7 +136,7 @@ public class ServletProfil extends HttpServlet {
 			}
 			
 			// Si mdp saisie n'est pas egal à la mdp session
-			else if(!mdpAc.equals(Utilisateur.getMotDePasse())) {
+			else if(!mdpAc.equals(utilisateur.getMotDePasse())) {
 				validationMdpAc = true;
 				request.setAttribute("validationMdpAc", validationMdpAc);
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
