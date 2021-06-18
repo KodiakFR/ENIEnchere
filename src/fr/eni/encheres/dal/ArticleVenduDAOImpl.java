@@ -224,7 +224,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 					Integer noUtilisateur = 		rs.getInt("no_utilisateur");
 					Integer noCategorie = 			rs.getInt("no_categorie");
 					
-					ArticleVendu art = new ArticleVendu(noArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente, etatVente, noCategorie);
+					ArticleVendu art = new ArticleVendu(noArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente, etatVente, noCategorie, noUtilisateur);
 					lstArticle.add(art);
 				}
 			
