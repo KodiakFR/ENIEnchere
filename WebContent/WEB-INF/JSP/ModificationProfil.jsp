@@ -24,47 +24,60 @@
 	
 		
 
-		<form name="FormModifProfi" action="" method="POST">
+		<form name="FormModifProfi" action="ModifProfil" method="POST">
 			<fieldset>
+			
+			<c:if test="${validationMdp == true}">
+					<div 	class="alert alert-danger" role="alert">
+						Les mots de passe ne sont pas identiques, veuillez réssayer.
+					</div>
+			</c:if>
+			
+			<c:if test="${validationMdpAc == true}">
+					<div 	class="alert alert-danger" role="alert">
+						Les mots de passe ne sont pas identiques, veuillez réssayer.
+					</div>
+			</c:if>
+			
 				<div class="InscriptionContenu justify-content-center d-flex flex-row">
 					<div class="InscritpionDivGauche d-flex flex-column">
+					
 							<p> <label for="pseudo">Pseudo : </label>
-							<input type="text" name="pseudo" id="pseudo" placeholder="${Utilisateur.getPseudo()}" autofocus required="required"></p>
+							<input type="text" name="pseudo" id="pseudo" placeholder="${Utilisateur.getPseudo()}" autofocus ></p>
 							
 							<p> <label for="prenom">Prénom : </label> 
-							<input type="text" name="prenom" id="prenom" placeholder="${Utilisateur.getPrenom()}" required required="required"> </p>
+							<input type="text" name="prenom" id="prenom" placeholder="${Utilisateur.getPrenom()}" "> </p>
 							
 							<p> <label for="tel">Téléphone : </label> 
-							<input type="text" name="tel" id="tel" placeholder="${Utilisateur.getTelephone()}" required="required"> </p>
+							<input type="text" name="tel" id="tel" placeholder="${Utilisateur.getTelephone()}" > </p>
 							
 							<p> <label for="cp">Code Postal : </label> 
-							<input type="text" name="cp" id="cp" placeholder="${Utilisateur.getCodePostale()}" required="required"> </p>
+							<input type="text" name="cp" id="cp" placeholder="${Utilisateur.getCodePostale()}" > </p>
 							
 							<p> <label for="mdp">Mot de passe actuel : </label> 
-							<input type="password" name="mdp" id="mdp"  required="required"> </p>
+							<input type="password" name="mdp" id="mdp" > </p>
 							
 							<p> <label for="mdp"> Nouveau mot de passe : </label> 
-							<input type="password" name="newmdp" id="mdp"  required="required"> </p>
+							<input type="password" name="newmdp" id="newmdp" > </p>
 							
 						</div>
 						<div class="InscritpionDivDroite d-flex flex-column">
 							<p> <label for="nom">Nom : </label>
-							<input type="text" name="nom" id="nom" autofocus placeholder="${Utilisateur.getNom()}" required="required"></p>
+							<input type="text" name="nom" id="nom" autofocus placeholder="${Utilisateur.getNom()}" ></p>
 							
 							<p> <label for="email">Email : </label> 
-							<input type="email" name="email" id="email" required placeholder="${Utilisateur.getEmail()}" required="required"> </p>
+							<input type="email" name="email" id="email" required placeholder="${Utilisateur.getEmail()}" > </p>
 							
 							<p> <label for="rue">Rue : </label> 
-							<input type="text" name="rue" id="rue" placeholder="${Utilisateur.getRue()}" required="required"> </p>
+							<input type="text" name="rue" id="rue" placeholder="${Utilisateur.getRue()}" > </p>
 							
 							<p> <label for="ville">Ville : </label> 
-							<input type="text" name="ville" id="ville" placeholder="${Utilisateur.getVille()}" required="required"> </p>
+							<input type="text" name="ville" id="ville" placeholder="${Utilisateur.getVille()}" > </p>
 							
 							<p> <label for="ville"></label> 
 							
-							
 							<p> <label for="confirm">Confirmation : </label> 
-							<input type="password" name="confirm" id="confirm"  required="required"> </p>								
+							<input type="password" name="confirm" id="confirm" > </p>								
 						</div>
 						
 					</div>
