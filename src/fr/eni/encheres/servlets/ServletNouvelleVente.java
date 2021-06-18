@@ -17,6 +17,7 @@ import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Utilisateur;
 
 /**
  * Servlet implementation class ServletNouvelleVente
@@ -29,11 +30,12 @@ public class ServletNouvelleVente extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+			
 		
 			ArticleVenduManager manager = ArticleVenduManager.getInstance();
 			try {
 				Set<Categorie> listeDeCategories = manager.getListCategories();
-				System.out.println(listeDeCategories);
 				request.setAttribute("listeDeCategories", listeDeCategories);
 			} catch (BusinessException e) {
 				e.ajouterErreur(40000);
@@ -49,13 +51,13 @@ public class ServletNouvelleVente extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Boolean validerAjout = false;
+		boolean validerAjout = false;
 		request.setCharacterEncoding("UTF-8");
-//		Utilisateur user = (Utilisateur) request.getSession().getAttribute("Utilisateur");
-//		int idUtilisateur = user.getNoUtilisateur();
-//		System.out.println(idUtilisateur);
+		Utilisateur user = (Utilisateur) request.getSession().getAttribute("Utilisateur");
+		int idUtilisateur = user.getNoUtilisateur();
+		System.out.println(idUtilisateur);
 		
-		// Récupération des dates et valider avant insertion de l'article
+		// Récupération des dates et validation avant insertion de l'article
 		
 		LocalDate dateDebutEncheres = ((Date.valueOf(request.getParameter("dateDebutEnchere"))).toLocalDate());
 		System.out.println(dateDebutEncheres);
@@ -97,7 +99,7 @@ public class ServletNouvelleVente extends HttpServlet {
 					{
 						ArticleVenduManager manager = ArticleVenduManager.getInstance();
 						
-						List<ArticleVendu> listArticles = manager.ajoutArticle(newArticle, 2, categorie);
+						List<ArticleVendu> listArticles = manager.ajoutArticle(newArticle, idUtilisateur, categorie);
 						request.getSession().setAttribute("listArticles", listArticles);
 					}
 				catch (BusinessException e) 
@@ -115,8 +117,8 @@ public class ServletNouvelleVente extends HttpServlet {
 	}
 
 	
-	private Boolean validationDate(LocalDate datedebut, LocalDate dateFin) {
-		Boolean validationDate = null;
+	private boolean validationDate(LocalDate datedebut, LocalDate dateFin) {
+		boolean validationDate = false;
 			if(datedebut.compareTo(LocalDate.now()) <1 || dateFin.compareTo(datedebut)<1)
 				validationDate = false;
 			else

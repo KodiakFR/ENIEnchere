@@ -116,6 +116,32 @@ public abstract class CodeResultatDAL {
 	
 	public static final int AJOUT_ENCHERE_ECHEC=15100;
 	
+
+	
+	//Erreurs Encheres
+
+
+	/**
+	 * Echec insertion du lieu de retrait dans la base de données
+	 */
+	
+	public static final int AJOUT_RETRAIT_ECHEC=15200;
+
+
+	/**
+	 * Echec update du lieu de retrait dans la base de données
+	 */
+	
+	public static final int UPDATE_RETRAIT_ECHEC=15201;
+
+
+	/**
+	 * Echec insertion de du moyen de retrait dans la base de données
+	 */
+	
+	public static final int DELETE_RETRAIT_ECHEC=15203;
+	
+
 	
 	// il faut mettre pour toutes les methodes de la dall
 	

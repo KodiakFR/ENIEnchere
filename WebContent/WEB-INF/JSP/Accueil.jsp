@@ -25,7 +25,7 @@
 			<c:if test="${!empty Utilisateur}">
 				<div class = "inscrireConnect">
 					<a href="#">Enchère</a>
-					<a href="#"> Vendre un article</a>
+					<a href="NouvelleVente"> Vendre un article</a>
 					<a href="Profil"> Mon profil</a>
 					<a href="deconnexion"> Déconnexion</a> <br>
 					Bonjour ${Utilisateur.getPrenom()}

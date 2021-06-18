@@ -90,21 +90,21 @@
 							<div class="form-group row">
 			   				 <label for="nomRue" class="col-sm-2 col-form-label">Rue: </label>
 				   				 <div class="col-sm-10">
-				     				 <input type="text" class="form-control" id="nomRue" value="Rue des licornes" name="nomRue" required="required">
+				     				 <input type="text" class="form-control" id="nomRue" value="${Utilisateur.rue }" name="nomRue" required="required">
 				    			</div>
 			  				</div>
 			  			
 							<div class="form-group row">
 			   				 <label for="codePostal" class="col-sm-2 col-form-label">Code postal: </label>
 				   				 <div class="col-sm-10">
-				     				 <input type="text" class="form-control" id="codePostal" value="99999" name="codePostal" required="required">
+				     				 <input type="text" class="form-control" id="codePostal" value="${Utilisateur.codePostale }" name="codePostal" required="required">
 				    			</div>
 			  				</div>
 			  			
 							<div class="form-group row">
 			   				 <label for="ville" class="col-sm-2 col-form-label">Ville: </label>
 				   				 <div class="col-sm-10">
-				     				 <input type="text" class="form-control" id="ville" value="PailletesCity" name="ville" required="required">
+				     				 <input type="text" class="form-control" id="ville" value="${Utilisateur.ville }" name="ville" required="required">
 				    			</div>
 			  				</div>
 						
