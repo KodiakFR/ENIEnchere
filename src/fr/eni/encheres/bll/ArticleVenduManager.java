@@ -40,12 +40,12 @@ public class ArticleVenduManager {
 		return listeArticles;
 	}
 	
-	//Suppression de l'article avant la date du début de l'enchère et si pas d'enchères
+	//Suppression de l'article avant la date de fin  de l'enchère n'est pas terminée
 	public  void cancelArticleVendu(String nomArticle, Integer IdVendeur) throws BusinessException {
 		ArticleVendu art = articleVenduDAO.recupArticle(nomArticle, IdVendeur);
 		Integer idArticleVendu = art.getNoArticle();
 		
-		if(art.getDateDebutEncheres().compareTo(LocalDate.now())<0 && art.getMiseAPrix()==art.getPrixVente()) {
+		if(LocalDate.now().compareTo(art.getDateFinEncheres())<0) {
 			articleVenduDAO.removeArticleVendu(idArticleVendu);
 		}
 	}
@@ -55,6 +55,35 @@ public class ArticleVenduManager {
 		Set<Categorie> lstCat = articleVenduDAO.getListCategorie();
 		
 		return lstCat;
+		
+	}
+	
+	//Récupération de tous les articles selon l'état de la vente Créée = 1/En Cours = 2/Enchères Terminées = 3/ Retrait Effectué = 4
+	public List<ArticleVendu> getListeEtatVente(String etatVente) throws BusinessException{
+		List<ArticleVendu> lstArticle = new ArrayList<ArticleVendu>();
+		int idEtatVente=0;
+		switch (etatVente) {
+		case "Créée":
+			idEtatVente = 1;
+			break;
+			
+		case "En Cours":
+			idEtatVente = 2;
+			break;
+			
+		case "Enchères Terminées":
+			idEtatVente = 3;
+			break;
+			
+		case "Retrait Effectué":
+			idEtatVente = 4;
+			break;
+
+		}
+
+		lstArticle = articleVenduDAO.recupListeArticleParEtatVente(idEtatVente);
+		
+		return lstArticle;
 		
 	}
 }

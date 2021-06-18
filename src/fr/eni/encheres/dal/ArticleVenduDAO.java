@@ -42,4 +42,8 @@ public interface ArticleVenduDAO {
 	
 	public Set<Categorie> getListCategorie() throws BusinessException;
 	
+	//Récupère une liste d'article par son état de vente
+	
+	public List<ArticleVendu> recupListeArticleParEtatVente(int etatVente) throws BusinessException;
+	
 }

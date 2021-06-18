@@ -100,6 +100,12 @@ public abstract class CodeResultatDAL {
 	
 	public static final int RECUP_LISTE_CATEGORIE_ECHEC=15007;
 	
+	/**
+	 * Echec RECUPERATION de la liste des catégories existantes
+	 */
+	
+	public static final int RECUP_LISTE_ARTICLES_PAR_ETATVENTE_ECHEC=15008;
+	
 	
 	
 	// il faut mettre pour toutes les methodes de la dall

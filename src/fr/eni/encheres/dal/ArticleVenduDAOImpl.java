@@ -27,7 +27,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 														+ "prix_initial, prix_vente,no_categorie,etat_vente FROM ARTICLES_VENDUS "
 														+ "WHERE nom_article=? AND no_utilisateur=?;";
 	private final String FIND_ALL_CATEGORIES=			"SELECT no_categorie,libelle FROM CATEGORIES;";
-
+	private final String FIND_ARTICLE_PAR_ETAT_VENTE=	"SELECT no_article,nom_article,description,date_debut_encheres,date_fin_encheres," 
+														+ "prix_initial,prix_vente,no_utilisateur,no_categorie FROM ARTICLES_VENDUS " 
+														+"WHERE etat_vente=?;";
 	
 	private final String INSERT_ARTICLE = 				"INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?);";
 	
@@ -172,7 +174,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next())
 			{
-			idCategorie = rs.getInt(1);
+				idCategorie = rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			BusinessException be = new BusinessException();
@@ -187,20 +189,54 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	private ArticleVendu mappingArticleVendu(ResultSet rs) throws SQLException{
 		ArticleVendu u = null;
 		
-		Integer noArticle = rs.getInt("no_article");
-		String description = rs.getString("description");
-		LocalDate dateDebutEncheres = rs.getDate("date_debut_encheres").toLocalDate();
-		LocalDate dateFinEncheres = rs.getDate("date_fin_encheres").toLocalDate();
-		int miseAPrix = rs.getInt("prix_initial");
-		int prixVente = rs.getInt("prix_vente");
-		Integer noCategorie = rs.getInt("no_categorie");
-		int etatVente = rs.getInt("etat_vente");
+		Integer noArticle = 			rs.getInt("no_article");
+		String description = 			rs.getString("description");
+		LocalDate dateDebutEncheres = 	rs.getDate("date_debut_encheres").toLocalDate();
+		LocalDate dateFinEncheres = 	rs.getDate("date_fin_encheres").toLocalDate();
+		int miseAPrix = 				rs.getInt("prix_initial");
+		int prixVente = 				rs.getInt("prix_vente");
+		Integer noCategorie = 			rs.getInt("no_categorie");
+		int etatVente = 				rs.getInt("etat_vente");
 		
 		u = new ArticleVendu(noArticle, description,dateDebutEncheres, dateFinEncheres,
 				miseAPrix, prixVente, etatVente,noCategorie);
 		
 		
 		return u;
+	}
+
+	@Override
+	public List<ArticleVendu> recupListeArticleParEtatVente(int etatVente) throws BusinessException {
+		List<ArticleVendu> lstArticle = new ArrayList<ArticleVendu>();
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ARTICLE_PAR_ETAT_VENTE))
+		{
+			stmt.setInt(1, etatVente);
+			ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) 
+				{
+					Integer noArticle = 			rs.getInt("no_article");
+					String description = 			rs.getString("description");
+					LocalDate dateDebutEncheres = 	rs.getDate("date_debut_encheres").toLocalDate();
+					LocalDate dateFinEncheres = 	rs.getDate("date_fin_encheres").toLocalDate();
+					int miseAPrix = 				rs.getInt("prix_initial");
+					int prixVente = 				rs.getInt("prix_vente");
+					Integer noUtilisateur = 		rs.getInt("no_utilisateur");
+					Integer noCategorie = 			rs.getInt("no_categorie");
+					
+					ArticleVendu art = new ArticleVendu(noArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente, etatVente, noCategorie);
+					lstArticle.add(art);
+				}
+			
+		} 
+		catch (SQLException e) 
+		{
+			BusinessException be = new BusinessException();
+			be.ajouterErreur(15008);
+			e.printStackTrace();
+		}
+		
+		return lstArticle;
 	}
 
 	
