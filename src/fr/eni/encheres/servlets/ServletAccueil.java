@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.eni.encheres.bll.BusinessException;
+import fr.eni.encheres.bll.UtilisateurManager;
+import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.dal.DAOFactory;
+
 /**
  * Servlet implementation class ServletAcceuil
  */
@@ -26,6 +31,8 @@ public class ServletAccueil extends HttpServlet {
 		
 		Cookie[] cookies = request.getCookies();
 		
+		System.out.println("j'ai crée mon tableau de cookies");
+		
 		if(cookies == null)
 		{
 			RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
@@ -34,10 +41,33 @@ public class ServletAccueil extends HttpServlet {
 		
 		else
 		{
-			HttpSession session = request.getSession(true);
-			RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
-			rd.forward(request, response);	
-		}
+			try {
+				UtilisateurManager Utilisateur = UtilisateurManager.getInstance();
+				String userPseudo=null;
+				for(Cookie cookieConnection : cookies)
+					
+				{
+					System.out.println(cookieConnection.getValue());
+					if(cookieConnection.getName().equals("userPseudo"))
+					{
+						userPseudo = cookieConnection.getValue();
+						Utilisateur utilisateur = new Utilisateur(userPseudo, null);
+						System.out.println(utilisateur);
+						utilisateur = Utilisateur.recuperationUtilisateur(utilisateur);
+						HttpSession session = request.getSession(true);
+						session.setAttribute("Utilisateur", utilisateur);
+					}
+				}
+				
+				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+				rd.forward(request, response);	
+				
+			}catch (NumberFormatException | BusinessException e) {
+				e.printStackTrace();
+				} 
+			
+		} 
+		
 	}
 
 	/**

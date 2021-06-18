@@ -37,7 +37,18 @@ public class ServletConnection extends HttpServlet {
 			
 			if (request.getSession() != null)
 			{
+				Cookie[] cookies = request.getCookies();
+				for(Cookie cookieConnection : cookies)
+					if(cookieConnection.getName().equals("userPseudo")||cookieConnection.getName().equals("JSESSIONID"))
+					{
+						{
+							cookieConnection.setMaxAge(0);
+							response.addCookie(cookieConnection);
+						}
+					}
+				
 				request.getSession().invalidate();
+				
 				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
 				rd.forward(request, response);
 			}
@@ -99,7 +110,7 @@ public class ServletConnection extends HttpServlet {
 					if(souvenirMoi != null)
 					{
 						//création d'un cookie de connection pour une semaine
-						Cookie cookieConnection	= new Cookie ("Usermail", utilisateur.getEmail());
+						Cookie cookieConnection	= new Cookie ("userPseudo", utilisateur.getPseudo());
 						cookieConnection.setMaxAge(7*24*3600);
 						response.addCookie(cookieConnection);
 						System.out.println(cookieConnection.getName() + " " + cookieConnection.getValue());
