@@ -75,8 +75,10 @@ public class Utilisateur {
 		this.motDePasse = motDePasse;
 	}
 
-	
 
+	public Utilisateur (String pseudo) {
+		this.pseudo = pseudo;
+	}
 
 	//getters setters 
 	

@@ -19,9 +19,10 @@
 	</div>
 
 		Bonjour ${Utilisateur.getPrenom()}
-
-
-			
+		
+		
+		
+			<!-- accessible si le profil est bien celui de l'utilisateur -->
 			<div class="InscriptionContenu justify-content-center d-flex flex-row">
 				<ul>
 					<li class="ProfilListeInfo"> Pseudo :  ${Utilisateur.getPseudo()} </li> <br>
@@ -35,19 +36,16 @@
 					<li class="ProfilListeInfo">Ville : &thinsp;	${Utilisateur.getVille()} </li>
 							
 				</ul>
-			
-										
+								
 			
 			</div>
 					
-				<!-- Creation d'un bouton modification permettant de modifer les informations de l'utilisateur -->
-						<!-- accessible si le profil est bien celui de l'utilisateur -->
+				<!-- Creation d'un bouton modification permettant de modifer les informations de l'utilisateur -->			
 			<div class = "Connection_boutonInscription justify-content-center d-flex flex-row">
 				<a href="ModifProfil" ><button>Modifier</button></a>
 			</div>
 						
 		
 			
-
 </body>
 </html>
