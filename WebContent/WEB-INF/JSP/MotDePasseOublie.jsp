@@ -29,7 +29,7 @@
 		<form action="MotDePasseOublie" method="post">
 			<p>
 				<label for="email">Votre Email</label>
-				<input type="email" name="email" id="email" required="required">
+				<input type="email" name="email" id="email" required="required" size="50px">
 			</p>	
 			<input type="submit" value="Envoyer">	
 		</form>

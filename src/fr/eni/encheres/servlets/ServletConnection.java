@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,7 +67,8 @@ public class ServletConnection extends HttpServlet {
 				
 				String identifiant = request.getParameter("Identifiant");
 				String password	= request.getParameter("Password");
-				System.out.println("j'ai récupérer l'identifiant et le mpd");
+				String souvenirMoi = request.getParameter("souvenirMoi");
+				System.out.println("récupération des infos " + identifiant + " " + password + " " + souvenirMoi );
 				
 				//construction de l'objet Utilisateur
 				
@@ -94,6 +96,16 @@ public class ServletConnection extends HttpServlet {
 					
 					HttpSession session = request.getSession(true);
 					session.setAttribute("Utilisateur", utilisateur);
+					if(souvenirMoi != null)
+					{
+						//création d'un cookie de connection pour une semaine
+						Cookie cookieConnection	= new Cookie ("Usermail", utilisateur.getEmail());
+						cookieConnection.setMaxAge(7*24*3600);
+						response.addCookie(cookieConnection);
+						System.out.println(cookieConnection.getName() + " " + cookieConnection.getValue());
+						
+					}
+					
 					RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
 					rd.forward(request, response);
 				}
