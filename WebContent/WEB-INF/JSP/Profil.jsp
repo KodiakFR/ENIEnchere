@@ -21,12 +21,23 @@
 		Bonjour ${Utilisateur.getPrenom()}
 
 
-			${Utilisateur.getPseudo()}
 			
-			${Utilisateur.getVille()}
+			<div class="InscriptionContenu justify-content-center d-flex flex-row">
+				<ul>
+					<li class="ProfilListeInfo"> Pseudo :  ${Utilisateur.getPseudo()} </li> <br>
+					
+					<li class="ProfilListeInfo">Nom : &thinsp;	${Utilisateur.getNom()} </li>
+					<li class="ProfilListeInfo">Prénom : &thinsp; 	${Utilisateur.getPrenom()}</li>
+					<li class="ProfilListeInfo">Email : &thinsp;	 ${Utilisateur.getEmail()}</li>
+					<li class="ProfilListeInfo">Téléphone : &thinsp;	${Utilisateur.getTelephone()}</li>
+					<li class="ProfilListeInfo">Rue : &thinsp;	${Utilisateur.getRue()}</li>
+					<li class="ProfilListeInfo">Code Postal : &thinsp;	${Utilisateur.getCodePostale()}</li>
+					<li class="ProfilListeInfo">Ville : &thinsp;	${Utilisateur.getVille()} </li>
+							
+				</ul>
 			
+			</div>
 
-<body>
 
 </body>
 </html>

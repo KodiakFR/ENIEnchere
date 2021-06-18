@@ -78,14 +78,17 @@ public class ServletInscription extends HttpServlet {
 			}
 			
 			
+			HttpSession session = request.getSession(true);
+			session.setAttribute("Utilisateur", utilisateurU);
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp") ;
+			rd.forward(request, response);
+			
+			
 		} catch (NumberFormatException | BusinessException e) {
 			e.printStackTrace();
 		}
 		
 
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp") ;
-		rd.forward(request, response);
-		
 		
 	}
 
