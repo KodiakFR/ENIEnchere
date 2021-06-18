@@ -57,7 +57,7 @@ public class ArticleVendu {
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
 		this.noCategorie = noCategorie;
-		this.noUtilisateur = noUtilisateur;
+		this.setNoUtilisateur(noUtilisateur);
 	}
 
 
@@ -148,6 +148,16 @@ public class ArticleVendu {
 
 	public void setNoCategorie(Integer noCategorie) {
 		this.noCategorie = noCategorie;
+	}
+
+
+	public Integer getNoUtilisateur() {
+		return noUtilisateur;
+	}
+
+
+	public void setNoUtilisateur(Integer noUtilisateur) {
+		this.noUtilisateur = noUtilisateur;
 	}
 
 

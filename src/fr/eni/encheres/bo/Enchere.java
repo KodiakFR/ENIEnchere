@@ -5,7 +5,8 @@ import java.time.LocalDate;
 public class Enchere {
 	
 	//Attributes
-	
+	private Integer noUtilisateurMeilleureOffre;
+	private Integer noArticle;
 	private LocalDate dateEnchere;
 	private int montantEnchere;
 	
@@ -16,6 +17,14 @@ public class Enchere {
 	
 	public Enchere(LocalDate dateEnchere, int montantEnchere) {
 		super();
+		this.dateEnchere = dateEnchere;
+		this.montantEnchere = montantEnchere;
+	}
+
+	public Enchere(Integer noUtilisateurMeilleureOffre, Integer noArticle, LocalDate dateEnchere, int montantEnchere) {
+		super();
+		this.noUtilisateurMeilleureOffre = noUtilisateurMeilleureOffre;
+		this.noArticle = noArticle;
 		this.dateEnchere = dateEnchere;
 		this.montantEnchere = montantEnchere;
 	}
@@ -42,6 +51,22 @@ public class Enchere {
 	
 	//toString
 	
+	public Integer getNoUtilisateurMeilleureOffre() {
+		return noUtilisateurMeilleureOffre;
+	}
+
+	public void setNoUtilisateurMeilleureOffre(Integer noUtilisateurMeilleureOffre) {
+		this.noUtilisateurMeilleureOffre = noUtilisateurMeilleureOffre;
+	}
+
+	public Integer getNoArticle() {
+		return noArticle;
+	}
+
+	public void setNoArticle(Integer noArticle) {
+		this.noArticle = noArticle;
+	}
+
 	@Override
 	public String toString() {
 		return "Enchere [dateEnchere=" + dateEnchere + ", montantEnchere=" + montantEnchere + "]";

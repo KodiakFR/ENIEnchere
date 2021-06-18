@@ -108,6 +108,15 @@ public abstract class CodeResultatDAL {
 	
 	
 	
+	//Erreurs Encheres
+
+	/**
+	 * Echec RECUPERATION de la liste des catégories existantes
+	 */
+	
+	public static final int AJOUT_ENCHERE_ECHEC=15100;
+	
+	
 	// il faut mettre pour toutes les methodes de la dall
 	
 	
