@@ -113,6 +113,17 @@ public abstract class CodeResultatDAL {
 	
 	public static final int RECUP_ARTICLE_BY_ID_ECHEC=15009;
 	
+	/**
+	 * Echec update etat vente
+	 */
+	
+	public static final int UPDATE_ETAT_VENTE_ECHEC=15010;
+	
+	/**
+	 * Echec update prix de vente
+	 */
+	
+	public static final int UPDATE_PRIX_DE_VENTE_ECHEC=15011;
 	
 	
 	//Erreurs Encheres
@@ -122,6 +133,13 @@ public abstract class CodeResultatDAL {
 	 */
 	
 	public static final int AJOUT_ENCHERE_ECHEC=15100;
+	
+	/**
+	 * Echec RECUPERATION enchere par id
+	 */
+	
+	public static final int SELECT_ENCHERE_ECHEC=15101;
+	
 	
 
 	

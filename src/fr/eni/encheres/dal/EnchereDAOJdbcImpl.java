@@ -3,7 +3,9 @@ package fr.eni.encheres.dal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import fr.eni.encheres.bll.BusinessException;
@@ -16,7 +18,10 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 	
 	private final String INSERT_ENCHERE_EN_COURS= 	"INSERT INTO ENCHERES VALUES (?,?,?,?);";
 	
+	//select
 	
+	private final String SELECT_BY_ID=				"SELECT no_utilisateur,date_enchere,montant_enchere FROM ENCHERES "
+													+ "WHERE no_article=?;";
 	
 	@Override
 	public void ajouterEnchereEnCours(ArticleVendu article) throws BusinessException {
@@ -60,6 +65,33 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 	public Enchere deleteEnchere(int idArticle) throws BusinessException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Enchere getEnchereByIDArticle(int idArticle) throws BusinessException {
+		Enchere enchere = null;
+		
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(SELECT_BY_ID))
+			{
+				stmt.setInt(1, idArticle);
+				ResultSet rs = stmt.executeQuery();
+					while(rs.next())
+						{
+							int noUtilisateur = rs.getInt("no_utilisateur");
+							LocalDate dateEnchere = rs.getDate("date_enchere").toLocalDate();
+							int montantEnchere = rs.getInt("montant_enchere");
+							
+							enchere = new Enchere(noUtilisateur, idArticle, dateEnchere, montantEnchere);
+						}
+			} 
+		catch (SQLException e) 
+			{
+				BusinessException be = new BusinessException();
+				be.ajouterErreur(15101);
+				e.printStackTrace();
+			}
+		
+		return enchere;
 	}
 
 }

@@ -292,7 +292,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 				stmt.setInt(2, idArticle);
 				stmt.executeUpdate();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				BusinessException be = new BusinessException();
+				be.ajouterErreur(15010);
 				e.printStackTrace();
 			}
 		
@@ -306,7 +307,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			stmt.setInt(2, idArticle);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			BusinessException be = new BusinessException();
+			be.ajouterErreur(15011);
 			e.printStackTrace();
 		}
 		

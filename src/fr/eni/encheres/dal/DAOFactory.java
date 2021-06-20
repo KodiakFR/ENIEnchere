@@ -9,5 +9,9 @@ public class DAOFactory {
 	public static UtilisateurDAOJdbcImpl getUtilisateurDAO() {
 		return new UtilisateurDAOJdbcImpl();
 	}
+
+	public static EnchereDAOJdbcImpl getEnchereDAO() {
+		return new EnchereDAOJdbcImpl();
+	}
 	
 }

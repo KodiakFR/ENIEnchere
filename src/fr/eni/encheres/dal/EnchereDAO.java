@@ -24,4 +24,7 @@ public interface EnchereDAO {
 	//Cause Annulation ou Cause Fin de l'ench�re
 	//Retourne toutes les donn�es pour r�cup�rer les infos en cas de vente (NewProprietaire + prix final)
 	public Enchere deleteEnchere(int idArticle) throws BusinessException;
+	
+	//Récupérer une enchere par l'id de l'article
+	public Enchere getEnchereByIDArticle(int idArticle) throws BusinessException;
 }

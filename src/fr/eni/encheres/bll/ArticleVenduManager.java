@@ -76,6 +76,15 @@ public class ArticleVenduManager {
 		return article;
 	}
 	
+	
+	//Update etat vente
+	
+	public void updateEtatVenteArticle(int idArticle, String etatVente) throws BusinessException{
+		int idEtatVente = transcriptEtatVenteToID(etatVente);
+		
+			articleVenduDAO.updateEtatVente(idArticle, idEtatVente);
+	}
+	
 	//Permet de transformer l'etat de vente en ID pour l'utiliser en base Créée = 1/En Cours = 2/Enchères Terminées = 3/ Retrait Effectué = 4
 	private int transcriptEtatVenteToID(String etatVente) {
 		int idEtat = 0;
@@ -85,7 +94,7 @@ public class ArticleVenduManager {
 					idEtat = 1;
 					break;
 					
-				case "En Cours":
+				case "En cours":
 					idEtat = 2;
 					break;
 					
