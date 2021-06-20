@@ -18,24 +18,24 @@ public interface ArticleVenduDAO {
 	//Permet de supprimer l'article de la plateforme
 	//vendu ou supprimer par le vendeur ou l'admin
 	
-	public void removeArticleVendu(Integer idArticle) throws BusinessException;
+	public void removeArticleVendu(int idArticle) throws BusinessException;
 	
 	
 	
 	//Ajouter un article à la BDD lié à un utilisateur et une catégorie
 	
-	public void addArticleVendu(ArticleVendu article, Integer idVendeur, Integer idCategorie) throws BusinessException;
+	public void addArticleVendu(ArticleVendu article, int idVendeur, int idCategorie) throws BusinessException;
 	
 	
 	//Récupere tous les articles d'un utilisateur par son id
 	
-	public List<ArticleVendu> recupListArticleUtilisateur(Integer idUtilisateur) throws BusinessException;
+	public List<ArticleVendu> recupListArticleUtilisateur(int idUtilisateur) throws BusinessException;
 	
 	
 	
 	//Récupère un article complet d'un utilisateur
 	
-	public ArticleVendu recupArticle(String nomArticle, Integer idVendeur) throws BusinessException;
+	public ArticleVendu recupArticleBYNomEtIDVendeur(String nomArticle, int idVendeur) throws BusinessException;
 	
 	
 	//Récupère les catégories existantes
@@ -45,5 +45,9 @@ public interface ArticleVenduDAO {
 	//Récupère une liste d'article par son état de vente
 	
 	public List<ArticleVendu> recupListeArticleParEtatVente(int etatVente) throws BusinessException;
+	
+	//Récupère un article par son id (utilisation pour les enchères principalement)
+	
+	public ArticleVendu getArticleByIDArticle(int idArticle) throws BusinessException;
 	
 }

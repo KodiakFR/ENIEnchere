@@ -107,6 +107,13 @@ public abstract class CodeResultatDAL {
 	public static final int RECUP_LISTE_ARTICLES_PAR_ETATVENTE_ECHEC=15008;
 	
 	
+	/**
+	 * Echec RECUPERATION de la liste des catégories existantes
+	 */
+	
+	public static final int RECUP_ARTICLE_BY_ID_ECHEC=15009;
+	
+	
 	
 	//Erreurs Encheres
 

@@ -57,8 +57,24 @@ public class ArticleVendu {
 		this.prixVente = prixVente;
 		this.etatVente = etatVente;
 		this.noCategorie = noCategorie;
-		this.setNoUtilisateur(noUtilisateur);
+		this.noUtilisateur = noUtilisateur;
 	}
+	
+	public ArticleVendu(Integer noArticle,String nom, String description, LocalDate dateDebutEncheres,
+			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int etatVente, Integer noCategorie, Integer noUtilisateur) {
+		super();
+		this.noArticle = noArticle;
+		this.nomArticle = nom;
+		this.description = description;
+		this.dateDebutEncheres = dateDebutEncheres;
+		this.dateFinEncheres = dateFinEncheres;
+		this.miseAPrix = miseAPrix;
+		this.prixVente = prixVente;
+		this.etatVente = etatVente;
+		this.noCategorie = noCategorie;
+		this.noUtilisateur = noUtilisateur;
+	}
+
 
 
 	public Integer getNoArticle() {
