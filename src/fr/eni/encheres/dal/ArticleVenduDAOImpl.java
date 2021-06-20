@@ -74,7 +74,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 				stmt.setDate(3, dateDebutEncheresSql);
 				stmt.setDate(4, dateFinEncheresSql);
 				stmt.setInt(5, miseAPrix);
-				stmt.setInt(6, miseAPrix);
+				stmt.setInt(6, 0);
 				stmt.setInt(7, idVendeur);
 				stmt.setInt(8, IdCategorie);
 				stmt.setInt(9, etatVente);

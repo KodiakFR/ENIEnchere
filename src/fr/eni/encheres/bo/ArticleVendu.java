@@ -28,7 +28,7 @@ public class ArticleVendu {
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
 		this.miseAPrix = miseAPrix;
-		this.prixVente = miseAPrix;
+		this.prixVente = 0;
 		this.etatVente = 1;
 	}
 
