@@ -35,7 +35,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 														+ "no_article=?;";
 	
 	private final String INSERT_ARTICLE = 				"INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?);";
-	
+
+	private final String UPDATE_ETAT_VENTE=				"UPDATE ARTICLES_VENDUS SET etat_vente='?' WHERE no_article=?;";
+	private final String UPDATE_PRIX_VENTE=				"UPDATE ARTICLES_VENDUS SET prix_vente='?' WHERE no_article=?;";
 	
 	@Override
 	public void removeArticleVendu(int idArticle) {
@@ -280,6 +282,34 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 					e.printStackTrace();
 				}
 		return article;
+	}
+
+	@Override
+	public void updateEtatVente(int idArticle, int idEtatVente) throws BusinessException {
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(UPDATE_ETAT_VENTE))
+			{
+				stmt.setInt(1, idEtatVente);
+				stmt.setInt(2, idArticle);
+				stmt.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+	}
+
+	@Override
+	public void updatePrixVente(int idArticle, int prixVente) throws BusinessException {
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(UPDATE_PRIX_VENTE))
+		{
+			stmt.setInt(1, prixVente);
+			stmt.setInt(2, idArticle);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	

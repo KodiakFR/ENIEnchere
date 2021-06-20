@@ -50,4 +50,14 @@ public interface ArticleVenduDAO {
 	
 	public ArticleVendu getArticleByIDArticle(int idArticle) throws BusinessException;
 	
+	
+	
+	//Mise à jour de l'état de vente de l'article
+	
+	public void updateEtatVente(int idArticle, int idEtatVente) throws BusinessException;
+	
+	//Mise à jour du prix de vente
+	
+	public void updatePrixVente(int idArticle, int prixVente) throws BusinessException;
+	
 }

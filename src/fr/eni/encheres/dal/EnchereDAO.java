@@ -15,7 +15,7 @@ public interface EnchereDAO {
 	public void ajouterEnchereEnCours(ArticleVendu article) throws BusinessException;
 	
 	//Mise � jour de l'ench�re
-	public void updateEnchere(ArticleVendu article, int idEncherisseur, int nouvelleEnchere) throws BusinessException;
+	public void updateEnchere(int idArticle, int idEncherisseur, int nouvelleEnchere) throws BusinessException;
 	
 	//R�cup�ration des encheres en cours
 	public List<Enchere> getListeEncheresEnCours() throws BusinessException;
@@ -23,5 +23,5 @@ public interface EnchereDAO {
 	//Suppression d'une ench�re
 	//Cause Annulation ou Cause Fin de l'ench�re
 	//Retourne toutes les donn�es pour r�cup�rer les infos en cas de vente (NewProprietaire + prix final)
-	public Enchere deleteEnchere(ArticleVendu article) throws BusinessException;
+	public Enchere deleteEnchere(int idArticle) throws BusinessException;
 }
