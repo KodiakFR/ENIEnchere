@@ -45,7 +45,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 	}
 
 	@Override
-	public void updateEnchere(ArticleVendu article, Integer idEncherisseur) throws BusinessException {
+	public void updateEnchere(ArticleVendu article, int idEncherisseur, int nouvelleEnchere) throws BusinessException {
 		// TODO Auto-generated method stub
 		
 	}

@@ -8,20 +8,20 @@ import fr.eni.encheres.bo.Enchere;
 
 public interface EnchereDAO {
 
-	//Ajout de l'article aux enchère en cours au moment où date début = date actuelle
-	//par défaut et jusqu'à la prmière enchère
-	//Le propriètaire reste le vendeur
-	//Le montant de l'enchère prend la mise à prix
+	//Ajout de l'article aux enchï¿½re en cours au moment oï¿½ date dï¿½but = date actuelle
+	//par dï¿½faut et jusqu'ï¿½ la prmiï¿½re enchï¿½re
+	//Le propriï¿½taire reste le vendeur
+	//Le montant de l'enchï¿½re prend la mise ï¿½ prix
 	public void ajouterEnchereEnCours(ArticleVendu article) throws BusinessException;
 	
-	//Mise à jour de l'enchère
-	public void updateEnchere(ArticleVendu article, Integer idEncherisseur) throws BusinessException;
+	//Mise ï¿½ jour de l'enchï¿½re
+	public void updateEnchere(ArticleVendu article, int idEncherisseur, int nouvelleEnchere) throws BusinessException;
 	
-	//Récupération des encheres en cours
+	//Rï¿½cupï¿½ration des encheres en cours
 	public List<Enchere> getListeEncheresEnCours() throws BusinessException;
 	
-	//Suppression d'une enchère
-	//Cause Annulation ou Cause Fin de l'enchère
-	//Retourne toutes les données pour récupérer les infos en cas de vente (NewProprietaire + prix final)
+	//Suppression d'une enchï¿½re
+	//Cause Annulation ou Cause Fin de l'enchï¿½re
+	//Retourne toutes les donnï¿½es pour rï¿½cupï¿½rer les infos en cas de vente (NewProprietaire + prix final)
 	public Enchere deleteEnchere(ArticleVendu article) throws BusinessException;
 }
