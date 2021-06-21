@@ -21,20 +21,20 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
 	private final String DELETE_ARTICLE =				"DELETE FROM ARTICLES_VENDUS where no_article=?;";
 	
-	private final String FIND_ID_CATEGORIE=				"SELECT no_categorie FROM CATEGORIES WHERE libelle=?;";
-	private final String FIND_ARTICLE_FROM_USER =		"SELECT nom_article FROM ARTICLES_VENDUS WHERE no_utilisateur=?;";
+	private final String FIND_ARTICLE_FROM_USER =		"SELECT nom_article FROM ARTICLES_VENDUS WHERE pseudo_utilisateur=?;";
 	private final String CREATE_ARTICLE_FROM_USER = 	"SELECT no_article, description, date_debut_encheres, date_fin_encheres, "
-														+ "prix_initial, prix_vente,no_categorie,etat_vente FROM ARTICLES_VENDUS "
-														+ "WHERE nom_article=? AND no_utilisateur=?;";
+														+ "prix_initial, prix_vente,no_utilisateur,no_categorie,etat_vente FROM ARTICLES_VENDUS "
+														+ "WHERE nom_article=? AND pseudo_utilisateur=?;";
 	private final String FIND_ALL_CATEGORIES=			"SELECT no_categorie,libelle FROM CATEGORIES;";
 	private final String FIND_ARTICLE_PAR_ETAT_VENTE=	"SELECT no_article,nom_article,description,date_debut_encheres,date_fin_encheres," 
-														+ "prix_initial,prix_vente,no_utilisateur,no_categorie FROM ARTICLES_VENDUS " 
+														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,pseudo_utilisateur FROM ARTICLES_VENDUS " 
 														+"WHERE etat_vente=?;";
 	private final String FIND_ARTICLE_BY_ID=			"SELECT nom_article,description,date_debut_encheres,date_fin_encheres,"
-														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente WHERE "
+														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente, pseudo_utilisateur WHERE "
 														+ "no_article=?;";
+	private final String FIND_ID_CATEGORIE=				"SELECT no_categorie WHERE libelle=?;";
 	
-	private final String INSERT_ARTICLE = 				"INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?);";
+	private final String INSERT_ARTICLE = 				"INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?,?);";
 
 	private final String UPDATE_ETAT_VENTE=				"UPDATE ARTICLES_VENDUS SET etat_vente='?' WHERE no_article=?;";
 	private final String UPDATE_PRIX_VENTE=				"UPDATE ARTICLES_VENDUS SET prix_vente='?' WHERE no_article=?;";
@@ -56,7 +56,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	}
 
 	@Override
-	public void addArticleVendu(ArticleVendu article, int idVendeur, int IdCategorie) throws BusinessException {
+	public void addArticleVendu(ArticleVendu article, String pseudoVendeur,int idVendeur, String categorie) throws BusinessException {
 		
 		
 		String nomArticle = article.getNomArticle();
@@ -65,9 +65,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		Date dateFinEncheresSql = Date.valueOf(article.getDateFinEncheres());
 		int miseAPrix = article.getMiseAPrix();
 		int etatVente = article.getEtatVente();
+		int idCategorie = getIdCategorie(categorie);
 		
-		
-		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(INSERT_ARTICLE, PreparedStatement.NO_GENERATED_KEYS))
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(INSERT_ARTICLE))
 			{
 				stmt.setString(1, nomArticle);
 				stmt.setString(2, description);
@@ -76,8 +76,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 				stmt.setInt(5, miseAPrix);
 				stmt.setInt(6, 0);
 				stmt.setInt(7, idVendeur);
-				stmt.setInt(8, IdCategorie);
+				stmt.setInt(8, idCategorie);
 				stmt.setInt(9, etatVente);
+				stmt.setString(10, pseudoVendeur);
 				int nbRows = stmt.executeUpdate();
 				if(nbRows != 1)
 				{
@@ -93,19 +94,21 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			}
 	}
 	
+
+
 	@Override
-	public List<ArticleVendu> recupListArticleUtilisateur(int idUtilisateur){
+	public List<ArticleVendu> recupListArticleUtilisateur(String pseudoUtilisateur){
 		List<ArticleVendu> listeArticle = new ArrayList<ArticleVendu>();
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ARTICLE_FROM_USER))
 			{
-				stmt.setInt(1, idUtilisateur);
+				stmt.setString(1, pseudoUtilisateur);
 				ResultSet rs = stmt.executeQuery();
 					while(rs.next())
 					{
 						String nomArticle = rs.getString("nom_article");
 						ArticleVendu art;
 						try {
-							art = recupArticleBYNomEtIDVendeur(nomArticle, idUtilisateur);
+							art = recupArticleBYNomEtPseudoVendeur(nomArticle, pseudoUtilisateur);
 							listeArticle.add(art);
 						} catch (BusinessException e) {
 							e.ajouterErreur(15005);
@@ -125,18 +128,20 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	}
 
 	@Override
-	public ArticleVendu recupArticleBYNomEtIDVendeur(String nomArticle, int idVendeur) throws BusinessException {
+	public ArticleVendu recupArticleBYNomEtPseudoVendeur(String nomArticle, String pseudoUtilisateur) throws BusinessException {
 		ArticleVendu articleComplet = new ArticleVendu();
 			try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(CREATE_ARTICLE_FROM_USER))
 			{
 				stmt.setString(1, nomArticle);
-				stmt.setInt(2, idVendeur);
+				stmt.setString(2, pseudoUtilisateur);
 				ResultSet rs = stmt.executeQuery();
 				
 				while(rs.next())
-				articleComplet = mappingArticleVendu(rs);
-				articleComplet.setNomArticle(nomArticle);
-				articleComplet.setNoUtilisateur(idVendeur);
+					{
+						articleComplet = mappingArticleVendu(rs);
+						articleComplet.setNomArticle(nomArticle);
+						articleComplet.setPseudoUtilisateur(pseudoUtilisateur);
+					}
 				
 			} catch (SQLException e) {
 				BusinessException be = new BusinessException();
@@ -172,47 +177,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		return listCategorie;
 	}
 
-	@Override
-	public Integer checkCategorie(String nomCategorie) throws BusinessException {
-		Integer idCategorie=null;
-		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ID_CATEGORIE))
-		{
-			stmt.setString(1, nomCategorie);
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next())
-				{
-					idCategorie = rs.getInt(1);
-				}
-		} 
-		catch (SQLException e) 
-			{
-				BusinessException be = new BusinessException();
-				be.ajouterErreur(15006);
-				e.printStackTrace();
-			}
-		return idCategorie;
-	}
-	
-	
-	
-	private ArticleVendu mappingArticleVendu(ResultSet rs) throws SQLException{
-		ArticleVendu u = null;
-		
-		int noArticle = 			rs.getInt("no_article");
-		String description = 			rs.getString("description");
-		LocalDate dateDebutEncheres = 	rs.getDate("date_debut_encheres").toLocalDate();
-		LocalDate dateFinEncheres = 	rs.getDate("date_fin_encheres").toLocalDate();
-		int miseAPrix = 				rs.getInt("prix_initial");
-		int prixVente = 				rs.getInt("prix_vente");
-		int noCategorie = 			rs.getInt("no_categorie");
-		int etatVente = 				rs.getInt("etat_vente");
-		
-		u = new ArticleVendu(noArticle, description,dateDebutEncheres, dateFinEncheres,
-				miseAPrix, prixVente, etatVente,noCategorie);
-		
-		
-		return u;
-	}
+
+
 
 	@Override
 	public List<ArticleVendu> recupListeArticleParEtatVente(int etatVente) throws BusinessException {
@@ -233,8 +199,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 					int prixVente = 				rs.getInt("prix_vente");
 					int noUtilisateur = 		rs.getInt("no_utilisateur");
 					int noCategorie = 			rs.getInt("no_categorie");
+					String pseudoUtilisateur=		rs.getString("pseudo_utilisateur");
 					
-					ArticleVendu art = new ArticleVendu(noArticle,nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente, etatVente, noCategorie, noUtilisateur);
+					ArticleVendu art = new ArticleVendu(noArticle,nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente,noUtilisateur, noCategorie, etatVente,pseudoUtilisateur);
 					lstArticle.add(art);
 				}
 			
@@ -270,8 +237,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 								int noUtilisateur = 			rs.getInt("no_utilisateur");
 								int noCategorie = 				rs.getInt("no_categorie");
 								int etatVente=					rs.getInt("etat_vente");
+								String pseudoUsilisateur=		rs.getString("pseudo_utilisateur");
 								
-								article = new ArticleVendu(idArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente, etatVente, noCategorie, noUtilisateur);
+								article = new ArticleVendu(idArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente, noUtilisateur, noCategorie, etatVente,pseudoUsilisateur);
 							
 							}
 				} 
@@ -315,4 +283,43 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	}
 
 	
+	
+	private ArticleVendu mappingArticleVendu(ResultSet rs) throws SQLException{
+		ArticleVendu u = null;
+		
+		int noArticle = 				rs.getInt("no_article");
+		String description = 			rs.getString("description");
+		LocalDate dateDebutEncheres = 	rs.getDate("date_debut_encheres").toLocalDate();
+		LocalDate dateFinEncheres = 	rs.getDate("date_fin_encheres").toLocalDate();
+		int miseAPrix = 				rs.getInt("prix_initial");
+		int prixVente = 				rs.getInt("prix_vente");
+		int noUtilisateur=				rs.getInt("no_utilisateur");
+		int noCategorie = 				rs.getInt("no_categorie");
+		int etatVente = 				rs.getInt("etat_vente");
+		
+		u = new ArticleVendu(noArticle, description,dateDebutEncheres,dateFinEncheres,miseAPrix,prixVente,etatVente,noCategorie,noUtilisateur);
+		
+		return u;
+	}
+	
+	private int getIdCategorie(String categorie) {
+		int idCategorie = 0;
+		try(Connection con=ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ID_CATEGORIE))
+			{
+				stmt.setString(1, categorie);
+				ResultSet rs = stmt.executeQuery();
+					while(rs.next())
+						{
+							idCategorie = rs.getInt("no_categorie");
+						}
+			} 
+		catch (SQLException e) 
+			{
+				BusinessException be = new BusinessException();
+				be.ajouterErreur(15006);
+				e.printStackTrace();
+			}
+		
+		return idCategorie;
+	}
 }

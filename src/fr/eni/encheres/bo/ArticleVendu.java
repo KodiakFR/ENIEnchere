@@ -12,7 +12,8 @@ public class ArticleVendu {
 	private int prixVente;
 	private int etatVente;
 	private Integer noCategorie;
-	private Integer noUtilisateur;
+	private String pseudoUtilisateur;
+	private int noUtilisateur;
 	
 	
 	public ArticleVendu() {
@@ -33,8 +34,8 @@ public class ArticleVendu {
 	}
 
 
-	public ArticleVendu(Integer noArticle, String description, LocalDate dateDebutEncheres,
-			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int etatVente, Integer noCategorie) {
+	public ArticleVendu(int noArticle, String description, LocalDate dateDebutEncheres,
+			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int etatVente, int noCategorie) {
 		super();
 		this.noArticle = noArticle;
 		this.description = description;
@@ -46,25 +47,26 @@ public class ArticleVendu {
 		this.noCategorie = noCategorie;
 	}
 	
-	public ArticleVendu(Integer noArticle, String description, LocalDate dateDebutEncheres,
-			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int etatVente, Integer noCategorie, Integer noUtilisateur) {
+	public ArticleVendu(int noArticle,String nomArticle, String description, LocalDate dateDebutEncheres,
+			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int noUtilisateur, int noCategorie, int etatVente, String pseudoUtilisateur) {
 		super();
 		this.noArticle = noArticle;
+		this.nomArticle= nomArticle;
 		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
-		this.etatVente = etatVente;
-		this.noCategorie = noCategorie;
 		this.noUtilisateur = noUtilisateur;
+		this.etatVente = etatVente;
+		this.noCategorie = noCategorie;
+		this.pseudoUtilisateur = pseudoUtilisateur;
 	}
 	
-	public ArticleVendu(Integer noArticle,String nom, String description, LocalDate dateDebutEncheres,
-			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int etatVente, Integer noCategorie, Integer noUtilisateur) {
+	public ArticleVendu(int noArticle, String description, LocalDate dateDebutEncheres,
+			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int etatVente, int noCategorie, int noUtilisateur) {
 		super();
 		this.noArticle = noArticle;
-		this.nomArticle = nom;
 		this.description = description;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
@@ -167,15 +169,23 @@ public class ArticleVendu {
 	}
 
 
-	public Integer getNoUtilisateur() {
+	public String getPseudoUtilisateur() {
+		return pseudoUtilisateur;
+	}
+
+
+	public void setPseudoUtilisateur(String pseudoUtilisateur) {
+		this.pseudoUtilisateur = pseudoUtilisateur;
+	}
+
+	public int getNoUtilisateur() {
 		return noUtilisateur;
 	}
 
 
-	public void setNoUtilisateur(Integer noUtilisateur) {
+	public void setNoUtilisateur(int noUtilisateur) {
 		this.noUtilisateur = noUtilisateur;
 	}
-
 
 	@Override
 	public String toString() {

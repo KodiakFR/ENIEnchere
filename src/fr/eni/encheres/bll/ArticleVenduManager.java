@@ -28,21 +28,21 @@ public class ArticleVenduManager {
 	}
 	
 	//Ajout d'un article en vente par l'utilisateur et renvoi une liste des tous les articles de l'utilisateur
-	public List<ArticleVendu> ajoutArticle(ArticleVendu article, Integer idvendeur, String categorie) throws BusinessException {
+	public List<ArticleVendu> ajoutArticle(ArticleVendu article,String pseudoVendeur, int idvendeur, String categorie) throws BusinessException {
 		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
 		
-		Integer idCategorie =  articleVenduDAO.checkCategorie(categorie);
-		articleVenduDAO.addArticleVendu(article, idvendeur, idCategorie);
 		
-		listeArticles = articleVenduDAO.recupListArticleUtilisateur(idvendeur);
+		articleVenduDAO.addArticleVendu(article,pseudoVendeur, idvendeur, categorie);
+		
+		listeArticles = articleVenduDAO.recupListArticleUtilisateur(pseudoVendeur);
 		System.out.println(listeArticles);
 		
 		return listeArticles;
 	}
 	
 	//Suppression de l'article avant la date de fin  de l'enchère n'est pas terminée
-	public  void cancelArticleVendu(String nomArticle, Integer IdVendeur) throws BusinessException {
-		ArticleVendu art = articleVenduDAO.recupArticleBYNomEtIDVendeur(nomArticle, IdVendeur);
+	public  void cancelArticleVendu(String nomArticle, String pseudoUtilisateur) throws BusinessException {
+		ArticleVendu art = articleVenduDAO.recupArticleBYNomEtPseudoVendeur(nomArticle, pseudoUtilisateur);
 		Integer idArticleVendu = art.getNoArticle();
 		
 		if(LocalDate.now().compareTo(art.getDateFinEncheres())<0) {
@@ -85,7 +85,7 @@ public class ArticleVenduManager {
 			articleVenduDAO.updateEtatVente(idArticle, idEtatVente);
 	}
 	
-	//Permet de transformer l'etat de vente en ID pour l'utiliser en base Créée = 1/En Cours = 2/Enchères Terminées = 3/ Retrait Effectué = 4
+	//Permet de transformer l'etat de vente en ID pour l'utiliser en base Créée= 1/En Cours = 2/Enchère Terminée = 3/ Retrait Effectué = 4
 	private int transcriptEtatVenteToID(String etatVente) {
 		int idEtat = 0;
 		switch (etatVente) 
@@ -98,7 +98,7 @@ public class ArticleVenduManager {
 					idEtat = 2;
 					break;
 					
-				case "Enchères Terminées":
+				case "Enchère Terminée":
 					idEtat = 3;
 					break;
 					
