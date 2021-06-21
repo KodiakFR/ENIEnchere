@@ -30,9 +30,12 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,pseudo_utilisateur FROM ARTICLES_VENDUS " 
 														+"WHERE etat_vente=?;";
 	private final String FIND_ARTICLE_BY_ID=			"SELECT nom_article,description,date_debut_encheres,date_fin_encheres,"
-														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente, pseudo_utilisateur WHERE "
+														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente, pseudo_utilisateur FROM ARTICLES_VENDUS WHERE "
 														+ "no_article=?;";
-	private final String FIND_ID_CATEGORIE=				"SELECT no_categorie WHERE libelle=?;";
+	private final String FIND_ID_CATEGORIE=				"SELECT no_categorie FROM CATEGORIES WHERE libelle=?;";
+	private final String FIND_ARTICLE_BY_NOM=			"SELECT no_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,"
+														+ "no_utilisateur,no_categorie,etat_vente,pseudo_utilisateur FROM ARTICLES_VENDUS WHERE "
+														+ "nom_article=?;";
 	
 	private final String INSERT_ARTICLE = 				"INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?,?);";
 
@@ -283,6 +286,40 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	}
 
 	
+	@Override
+	public ArticleVendu recupArticleByNomArticle(String nomArticle) throws BusinessException {
+		ArticleVendu art = null;
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ARTICLE_BY_NOM))
+			{
+				stmt.setString(1, nomArticle);
+				ResultSet rs = stmt.executeQuery();
+				
+					while(rs.next())
+						{
+							int noArticle = 				rs.getInt("no_article");
+							String description = 			rs.getString("description");
+							LocalDate dateDebutEnchere = 	rs.getDate("date_debut_encheres").toLocalDate();
+							LocalDate dateFinEnchere=		rs.getDate("date_fin_encheres").toLocalDate();
+							int prixInitial=				rs.getInt("prix_initial");
+							int prixVente = 				rs.getInt("prix_vente");
+							int noUtilisateur = 			rs.getInt("no_utilisateur");
+							int noCategorie =				rs.getInt("no_categorie");
+							int etatVente = 				rs.getInt("etat_vente");
+							String pseudoUtilisateur=		rs.getString("pseudo_utilisateur");
+							
+							art = new ArticleVendu(noArticle, nomArticle, description, dateDebutEnchere, dateFinEnchere, prixInitial, prixVente, noUtilisateur, noCategorie, etatVente, pseudoUtilisateur);
+						}
+			} 
+		catch (SQLException e) 
+			{
+				BusinessException be = new BusinessException();
+				be.ajouterErreur(15012);
+				e.printStackTrace();
+			}
+		return art;
+	}
+	
+	
 	
 	private ArticleVendu mappingArticleVendu(ResultSet rs) throws SQLException{
 		ArticleVendu u = null;
@@ -322,4 +359,6 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		
 		return idCategorie;
 	}
+
+
 }
