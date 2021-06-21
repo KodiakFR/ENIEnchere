@@ -112,8 +112,9 @@ public class UtilisateurManager {
 	// Méthode de verif MPD :
 	public boolean validerMDP(String password) throws BusinessException {
 		boolean statusValidation = false;
+		int passwordValide = 0;
 			try {
-				int passwordValide = 0;
+				passwordValide  = this.utilisateurDAO.selectPassword(password);
 				if(passwordValide >= 1) {
 					statusValidation = true;
 				}
