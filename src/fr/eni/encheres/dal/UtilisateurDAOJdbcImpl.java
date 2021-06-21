@@ -5,20 +5,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
-
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.Utilisateur;
 
 public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
+	
 	// Requete SQL insertion lors inscription utilisateur
 	private static final String INSERT_INSCRIP = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES (?,?,?,?,?,?,?,?,?,50,0)";
 	// Requete recuperation de toute la liste des pseudos
-	private static final String SELECT_PSEUDO = "SELECT pseudo FROM UTILISATEURS";
+	private static final String COUNT_PSEUDO = "SELECT COUNT (*) as cnt FROM UTILISATEURS WHERE pseudo=?";
 	
 	// Requete recuperation de toute la liste des emails
-	private static final String SELECT_EMAIL = "SELECT email FROM UTILISATEURS";
+	private static final String COUNT_EMAIL = "SELECT COUNT (*) as cnt FROM UTILISATEURS WHERE email=?";
 	
 	// Requete recuperation d'un utilisateur
 	private static final String SELECT_USER = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur"+
@@ -54,53 +53,56 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			businessException.ajouterErreur(CodeResultatDAL.INSERT_OBJET_ECHEC);
 			throw businessException;
 		}
-		
-		
+			
 	}
 	
+	
+
 	
 	// M�thode de r�cup�ration d'information d'unicit� pseudo 
-	public List<String> selectPseudo() throws BusinessException {
-		List<String> pseudoUtil = new ArrayList<String>();
-		String util = null;
-		try (Connection cnx = ConnectionProvider.getConnection();
-			Statement stmt = cnx.createStatement();) {
-			ResultSet rs = stmt.executeQuery(SELECT_PSEUDO);
-			while(rs.next()) {
-				util = rs.getString("pseudo");
-				pseudoUtil.add(util);
+		public Integer selectPseudo(String pseudo) throws BusinessException {
+			Integer pseudoUtil = 0; 
+			
+			try (Connection cnx = ConnectionProvider.getConnection();
+				PreparedStatement stmt= cnx.prepareStatement(COUNT_PSEUDO);){
+				stmt.setString(1, pseudo);
+				ResultSet rs = stmt.executeQuery();
+					rs.next();
+					pseudoUtil = rs.getInt("cnt");
+					
 				
+			} catch (Exception e) {
+				e.printStackTrace();
+				BusinessException businessException = new BusinessException();
+				businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_PSEUDO_ECHEC);
+				throw businessException;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_PSEUDO_ECHEC);
-			throw businessException;
+			System.out.println(pseudoUtil);
+			return pseudoUtil;	
 		}
-		return pseudoUtil;	
-	}
+	
+
 	
 	// M�thode de r�cup�ration d'information d'unicit� mail 
-	public List<String> selectEmail() throws BusinessException {
-		List<String> emailUtil = new ArrayList<String>();
-		String util = null;
-		try (Connection cnx = ConnectionProvider.getConnection();
-			Statement stmt = cnx.createStatement();) {
-			
-			ResultSet rs = stmt.executeQuery(SELECT_EMAIL);
-			while(rs.next()) {
-				util = rs.getString("email");
-				emailUtil.add(util);
-				
+		public Integer selectEmail(String email) throws BusinessException {
+			Integer emailUtil = 0;
+			try (Connection cnx = ConnectionProvider.getConnection();
+					PreparedStatement stmt= cnx.prepareStatement(COUNT_EMAIL);){
+				stmt.setString(1, email);
+				ResultSet rs = stmt.executeQuery();
+					rs.next();
+					emailUtil = rs.getInt("cnt");
+					System.out.println(emailUtil + "traitement du selectEmail valide ?");
+					
+			} catch (Exception e) {
+				e.printStackTrace();
+				BusinessException businessException = new BusinessException();
+				businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_EMAIL_ECHEC);
+				throw businessException;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_EMAIL_ECHEC);
-			throw businessException;
+			
+			return emailUtil;	
 		}
-		return emailUtil;	
-	}
 	
 	
 	// Mapping pour r�cup�rer la liste des informations utilisateurs

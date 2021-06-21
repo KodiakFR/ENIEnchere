@@ -12,10 +12,10 @@ public interface UtilisateurDAO {
 	public void insertInscription(Utilisateur utili) throws BusinessException;
 	
 	// Selection de la liste des pseudos pour v�rifier // Dimitri
-	public List<String> selectPseudo() throws BusinessException;
+	public Integer selectPseudo(String pseudo) throws BusinessException;
 	
 	// Methode de verif unicite email
-	public List<String> selectEmail() throws BusinessException;
+	public Integer selectEmail(String email) throws BusinessException;
 	
 	
 	public Utilisateur SelectUser(Utilisateur utilisateur) throws BusinessException;
