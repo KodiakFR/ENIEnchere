@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.encheres.bll.BusinessException;
-import fr.eni.encheres.bll.MaximeUtilisateurManager;
 import fr.eni.encheres.bll.UtilisateurManager;
 
 /**
@@ -57,8 +56,6 @@ public class ServletMotPasseOublie extends HttpServlet {
 		{
 			try {
 				UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
-				//test avec le fichier de Maxime
-				MaximeUtilisateurManager maximeUtilisateur = new MaximeUtilisateurManager();
 				
 				//récuperation de l'adresse email
 				String email = request.getParameter("email");
@@ -95,8 +92,6 @@ public class ServletMotPasseOublie extends HttpServlet {
 		{
 			try {
 				UtilisateurManager Utilisateur = UtilisateurManager.getInstance();
-				//test avec le fichier de Maxime
-				MaximeUtilisateurManager MaximeUtilisateur = new MaximeUtilisateurManager();
 				
 				//récuperation de l'adresse email et le mot de passe 
 				String password = request.getParameter("password");
@@ -126,7 +121,7 @@ public class ServletMotPasseOublie extends HttpServlet {
 				{
 					//utilisationd de la méthode pour changer le mot de passe
 					
-					MaximeUtilisateur.UpdatePassword(password, verifPassword, usermail);
+					Utilisateur.UpdatePassword(password, verifPassword, usermail);
 					
 					//affichage d'un message de validation
 					

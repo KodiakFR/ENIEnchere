@@ -91,7 +91,7 @@ public class ServletConnection extends HttpServlet {
 				
 				System.out.println(utilisateur.toString());
 				testConnection = utilisateurManager.connection(utilisateur);
-				System.out.println(testConnection);
+				System.out.println("test connection = " +testConnection);
 				
 				if (testConnection == false)
 				{

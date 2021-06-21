@@ -175,7 +175,14 @@ public class UtilisateurManager {
 			}			
 		}
 		
-	
+		
+		//Méthode pour update mot de passe
+		public void UpdatePassword(String password, String verifPassword, String userEmail)throws BusinessException {
+			
+			this.utilisateurDAO.updatePassword(password, userEmail);
+		
+	}
+
 
 	
 }
