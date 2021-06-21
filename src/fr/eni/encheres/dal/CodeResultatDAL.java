@@ -125,6 +125,12 @@ public abstract class CodeResultatDAL {
 	
 	public static final int UPDATE_PRIX_DE_VENTE_ECHEC=15011;
 	
+	/**
+	 * Echec récupération article par son nom
+	 */
+	
+	public static final int RECUP_ARTICLE_BY_NOM_ECHEC=15012;
+	
 	
 	//Erreurs Encheres
 

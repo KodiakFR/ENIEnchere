@@ -36,7 +36,7 @@ public class ServletAccueil extends HttpServlet {
 				
 			ArticleVenduManager manager = ArticleVenduManager.getInstance();
 			
-			// travail maxime
+			 travail maxime
 			
 			MaximeUtilisateurManager MaximeManager = MaximeUtilisateurManager.getInstance();
 			
@@ -79,7 +79,7 @@ public class ServletAccueil extends HttpServlet {
 				
 			} 
 			
-			//récupérer la liste des articles en status en cours 
+			récupérer la liste des articles en status en cours 
 			
 			int etatVente = 1;
 			
@@ -87,7 +87,7 @@ public class ServletAccueil extends HttpServlet {
 			
 			request.setAttribute("listeEnchereEnCours", listeEnchereEnCours);
 			
-			//afficher la page accueil
+			afficher la page accueil
 			RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
 			rd.forward(request, response);	
 		
