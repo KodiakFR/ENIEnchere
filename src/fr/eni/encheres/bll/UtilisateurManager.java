@@ -176,7 +176,9 @@ public class UtilisateurManager {
 		}
 		
 	
-
+private void methodeLambda() {
+	
+}
 	
 }
 
