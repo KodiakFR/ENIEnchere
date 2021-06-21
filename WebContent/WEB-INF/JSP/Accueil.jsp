@@ -55,6 +55,8 @@
 	
 	<!-- Affichage des articles en mode carte -->		
 	
+	
+
 		<div class = "row">
 			<div class = "col-6" >
 				<div class = "card flex-row">
