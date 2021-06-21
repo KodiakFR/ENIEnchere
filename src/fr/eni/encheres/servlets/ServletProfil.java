@@ -133,9 +133,10 @@ public class ServletProfil extends HttpServlet {
 			
 			if(newMdp.equals(confirmMdp)) {
 				Utilisateur utilisateur = new Utilisateur(pseudo, prenom, tel, cp, nom, email, rue, ville, newMdp);
-				//Utilisateur utilisateurRecup = utilisateurManager.recuperationUtilisateur(utilBis);
-				
-				// if(!mdpAc.equals(utilBis.getMotDePasse())) {}	
+				Utilisateur utilBis = new Utilisateur();
+				Utilisateur utilisateurRecup = utilisateurManager.recuperationUtilisateur(utilBis);
+				utilisateurRecup.getMotDePasse();
+				// if(!mdpAc.equals(utilBis.getMotDePasse())) {}	a changer
 				
 			}
 			
