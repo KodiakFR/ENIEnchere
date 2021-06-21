@@ -43,6 +43,7 @@ public class ServletProfil extends HttpServlet {
 				boolean valideP = false;
 				UtilisateurManager utilisateur = UtilisateurManager.getInstance();
 				Utilisateur utilisateurGeneral = (Utilisateur) request.getSession().getAttribute("Utilisateur");
+
 				
 				// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.				
 				// String pseudoRecup = request.getParameter("AREMPLLIR");
@@ -81,7 +82,7 @@ public class ServletProfil extends HttpServlet {
 
 		}
 		
-		// A FAIRE 
+
 		if (request.getServletPath().equals("/ModifProfil")) {
 			
 			try {
@@ -112,10 +113,11 @@ public class ServletProfil extends HttpServlet {
 		boolean validationMdp = false;
 		boolean validationMdpAc = false;
 		try {
-			Utilisateur utilisateur = (Utilisateur) request.getSession().getAttribute("Utilisateur");
-			System.out.println("pseudo sauvegardé c'est bon " + utilisateur);
+			Utilisateur utilisateurSession = (Utilisateur) request.getSession().getAttribute("Utilisateur");
+			System.out.println("pseudo sauvegardé c'est bon " + utilisateurSession);
 			UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
 			
+			// Récupération des nouvelles données
 			String pseudo = request.getParameter("pseudo");
 			String prenom = request.getParameter("prenom");
 			String tel = request.getParameter("tel");
@@ -130,12 +132,11 @@ public class ServletProfil extends HttpServlet {
 			
 			
 			if(newMdp.equals(confirmMdp)) {
-				if(mdpAc.equals(utilisateur.getMotDePasse())) {
-					
-//		mettre un if pour chaque string pour utiliser la methode update de la bll
+				Utilisateur utilisateur = new Utilisateur(pseudo, prenom, tel, cp, nom, email, rue, ville, newMdp);
+				//Utilisateur utilisateurRecup = utilisateurManager.recuperationUtilisateur(utilBis);
 				
-				}	
-			
+				// if(!mdpAc.equals(utilBis.getMotDePasse())) {}	
+				
 			}
 			
 			// methode verif si les deux nouveaux mdp saisie sont egaux
@@ -147,12 +148,12 @@ public class ServletProfil extends HttpServlet {
 			}
 			
 			// Si mdp saisie n'est pas egal à la mdp session
-			else if(!mdpAc.equals(utilisateur.getMotDePasse())) {
-				validationMdpAc = true;
-				request.setAttribute("validationMdpAc", validationMdpAc);
-				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
-				rd.forward(request, response);
-			}
+//			else if(!mdpAc.equals(utilisateur.getMotDePasse())) {
+//				validationMdpAc = true;
+//				request.setAttribute("validationMdpAc", validationMdpAc);
+//				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
+//				rd.forward(request, response);
+//			}
 			
 		} catch (NumberFormatException | BusinessException e) {
 			e.printStackTrace();
