@@ -58,25 +58,7 @@ public class UtilisateurManager {
 	
 	
 
-//	// Méthode qui vérifie que le pseudo n'est pas vide ou trop long
-//			private boolean validerPseudo(String nomPseudo) {
-//				boolean StatusValidation = false;
-//				if(nomPseudo == null | nomPseudo.trim().length() > 30) {
-//					StatusValidation = true;
-//				}
-//				
-//					List<String> listepseudo;
-//					try {
-//						listepseudo = this.utilisateurDAO.selectPseudo();
-//						if(listepseudo.contains(nomPseudo)) {
-//							StatusValidation = true;
-//						}
-//					} catch (BusinessException e) {
-//						e.printStackTrace();
-//					}
-//					return StatusValidation;
-//			}
-	
+
 	// Méthode qui vérifie que le pseudo n'est pas vide ou trop long
 	private boolean validerPseudo(String nomPseudo) {
 		boolean statusValidation = false;
@@ -101,24 +83,7 @@ public class UtilisateurManager {
 	}
 	
 	
-//	// Méthode qui vérifie si le mail n'est pas vide ou trop long
-//	private boolean validerMail(String nomMail) {
-//		boolean StatusValidation = false;
-//		if(nomMail == null | nomMail.trim().length() > 60) {
-//			StatusValidation = true;
-//		}
-//		List<String> listeEmail;
-//		try {
-//			listeEmail = this.utilisateurDAO.selectEmail();
-//			if(listeEmail.contains(nomMail)) {
-//				StatusValidation = true;
-//			}
-//		} catch (BusinessException e) {
-//			e.printStackTrace();
-//		}
-//			return StatusValidation;
-//	}
-	
+
 	// Méthode qui vérifie si le mail n'est pas vide ou trop long
 		private boolean validerMail(String nomMail) {
 			boolean statusValidation = false;

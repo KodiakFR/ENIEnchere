@@ -39,58 +39,65 @@
 						Les mots de passe ne sont pas identiques, veuillez réssayer.
 					</div>
 			</c:if>
-				
-			<div class="InscriptionContenu justify-content-center d-flex flex-row">
-				<div class="InscritpionDivGauche d-flex flex-column">
-					<p> <label for="pseudo">Pseudo : </label>
-					<input type="text" name="pseudo" id="pseudo" autofocus required="required"></p>
-					
-					<p> <label for="prenom">Prénom : </label> 
-					<input type="text" name="prenom" id="prenom" value="${utilisateurU.getPrenom()}"  required="required"> </p>
-					
-					<p> <label for="tel">Téléphone : </label> 
-					<input type="text" name="tel" id="tel" value="${utilisateurU.getTelephone()}"  required="required"> </p>
-					
-					<p> <label for="cp">Code Postal : </label> 
-					<input type="text" name="cp" id="cp" value="${utilisateurU.getCodePostale()}" required="required"> </p>
-					
-					<p> <label for="mdp">Mot de passe : </label> 
-					<input type="password" name="mdp" id="mdp" required="required"> </p>
-					
-				</div>
-				<div class="InscritpionDivDroite d-flex flex-column">
-					<p> <label for="nom">Nom : </label>
-					<input type="text" name="nom" id="nom" value="${utilisateurU.getNom()}" autofocus required="required"></p>
-					<p> <label for="email">Email : </label> 
-					<input type="email" name="email" id="email" value="${utilisateurU.getEmail()}"required="required"> </p>
-					
-					<p> <label for="rue">Rue : </label> 
-					<input type="text" name="rue" id="rue" value="${utilisateurU.getRue()}" required="required"> </p>
-					
-					<p> <label for="ville">Ville : </label> 
-					<input type="text" name="ville" id="ville" value="${utilisateurU.getVille()}" required="required"> </p>
-					
-					<p> <label for="confirm">Confirmation : </label> 
-					<input type="password" name="confirm" id="confirm" required="required"> </p>								
-				</div>
-				
-			</div>
 			
-			<div class= "InscriptionBouttons">
-				<div class="Inscriptiondivbtna">				
-					<a href="<%=request.getContextPath()%>/Accueil">
-                       <input type="submit" value="Créer" class="btn btn-primary mb-2 InscriptionBtnEspace"/></a>
-					</div>
-				
- 			
-					<div class="Inscriptiondivbtnb">
-						<a href="<%=request.getContextPath()%>/Accueil">
-                       <input type="button" value="Annuler" class="btn btn-primary mb-2"/></a>
-					</div>
 			
-				</div>
-		</fieldset>
-	</form>
+		<div class="container">
+			
+				<div class="InscriptionContenu justify-content-center d-flex flex-row ">
 				
+					<div class="InscritpionDivGauche d-flex flex-column ">
+						
+								<p> <label for="pseudo">Pseudo : </label>
+								<input type="text" name="pseudo" id="pseudo" autofocus required="required"></p></li>
+								
+								<p> <label for="prenom">Prénom : </label> 
+								<input type="text" name="prenom" id="prenom" value="${utilisateurU.getPrenom()}"  required="required"> </p></li>
+								
+								<p> <label for="tel">Téléphone : </label> 
+								<input type="text" name="tel" id="tel" value="${utilisateurU.getTelephone()}"  required="required"> </p></li>
+								
+								<p> <label for="cp">Code Postal : </label> 
+								<input type="text" name="cp" id="cp" value="${utilisateurU.getCodePostale()}" required="required"> </p></li>
+								
+								<p> <label for="mdp">Mot de passe : </label> 
+								<input type="password" name="mdp" id="mdp" required="required"> </p>	
+					</div>
+					
+					<div class="InscritpionDivDroite d-flex  flex-column">
+
+						<p> <label for="nom">Nom : </label>
+						<input type="text" name="nom" id="nom" value="${utilisateurU.getNom()}" autofocus required="required"></p>
+						<p> <label for="email">Email : </label> 
+						<input type="email" name="email" id="email" value="${utilisateurU.getEmail()}"required="required"> </p>
+						
+						<p> <label for="rue">Rue : </label> 
+						<input type="text" name="rue" id="rue" value="${utilisateurU.getRue()}" required="required"> </p>
+						
+						<p> <label for="ville">Ville : </label> 
+						<input type="text" name="ville" id="ville" value="${utilisateurU.getVille()}" required="required"> </p>
+						
+						<p> <label for="confirm">Confirmation : </label> 
+						<input type="password" name="confirm" id="confirm" required="required"> </p>							
+
+					</div>
+				</div>
+		
+					<div class= "InscriptionBouttons">
+						<div class="Inscriptiondivbtna">				
+							<a href="<%=request.getContextPath()%>/Accueil">
+		                       <input type="submit" value="Créer" class="btn btn-primary mb-2 InscriptionBtnEspace"/></a>
+							</div>
+						
+		 			
+							<div class="Inscriptiondivbtnb">
+								<a href="<%=request.getContextPath()%>/Accueil">
+		                       <input type="button" value="Annuler" class="btn btn-primary mb-2"/></a>
+							</div>
+				
+					</div>
+			</div>	
+			</fieldset>
+			</form>
+						
 </body>
 </html>

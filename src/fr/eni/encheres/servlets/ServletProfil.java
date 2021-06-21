@@ -54,23 +54,23 @@ public class ServletProfil extends HttpServlet {
 					System.out.println("je suis dans le if 1er");
 				Utilisateur utilisateurInconnu= new Utilisateur(pseudoRecup);		
 				utilisateurInconnu = utilisateur.recuperationUtilisateur(utilisateurInconnu);
-				HttpSession session = request.getSession(true);
 				valideP = false;
-				session.setAttribute("valideP", valideP);
-				session.setAttribute("utilisateurInconnu", utilisateurInconnu);
+				request.setAttribute("valideP", valideP);
+				request.setAttribute("utilisateurInconnu", utilisateurInconnu);
 				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Profil.jsp");
 				rd.forward(request, response);
 				}
 			
-				// si le pseudo n'est pas identique à la session alors afficher les infos de l'utilisateur inconnu
+				// si le pseudo est  identique à la session alors afficher les infos de l'utilisateur inconnu
 				else {
 					System.out.println("je suis dans le else");
-					Utilisateur utilisateurInconnu = (Utilisateur) request.getSession().getAttribute("Utilisateur");
+					//Utilisateur utilisateurInconnu = (Utilisateur) request.getSession().getAttribute("Utilisateur");
+					Utilisateur utilisateurInconnu= new Utilisateur(utilisateurGeneral.getPseudo());
+					utilisateurInconnu = utilisateur.recuperationUtilisateur(utilisateurInconnu);
 					System.out.println("pseudo sauvegardé c'est bon " + utilisateurInconnu);			
-					HttpSession session = request.getSession(true);
 					valideP = true;
-					session.setAttribute("valideP", valideP);
-					session.setAttribute("utilisateurInconnu", utilisateurInconnu);
+					request.setAttribute("valideP", valideP);
+					request.setAttribute("utilisateurInconnu", utilisateurInconnu);
 					RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Profil.jsp");
 					rd.forward(request, response);
 					}
@@ -81,17 +81,24 @@ public class ServletProfil extends HttpServlet {
 
 		}
 		
-		
+		// A FAIRE 
 		if (request.getServletPath().equals("/ModifProfil")) {
-			Utilisateur Utilisateur = (Utilisateur) request.getSession().getAttribute("Utilisateur");
-			System.out.println("pseudo sauvegardé c'est bon " + Utilisateur);
 			
+			try {
+				UtilisateurManager utilisateur = UtilisateurManager.getInstance();
+				Utilisateur utilisateurGener = (Utilisateur) request.getSession().getAttribute("Utilisateur");
+				Utilisateur utilisateurProfil = new Utilisateur(utilisateurGener.getPseudo());
+				utilisateurProfil = utilisateur.recuperationUtilisateur(utilisateurProfil);
+				System.out.println("pseudo sauvegardé c'est bon " + utilisateurGener);
 
-			HttpSession session = request.getSession(true);
-			session.setAttribute("Utilisateur", Utilisateur);
-			RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp");
-			rd.forward(request, response);
-			
+				request.setAttribute("utilisateurProfil", utilisateurProfil);
+				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp");
+				rd.forward(request, response);
+			} catch (BusinessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+						
 		}
 		
 		

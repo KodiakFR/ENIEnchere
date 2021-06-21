@@ -43,16 +43,16 @@
 					<div class="InscritpionDivGauche d-flex flex-column">
 					
 							<p> <label for="pseudo">Pseudo : </label>
-							<input type="text" name="pseudo" id="pseudo" placeholder="${Utilisateur.getPseudo()}" autofocus ></p>
+							<input type="text" name="pseudo" id="pseudo" placeholder="${utilisateurProfil.getPseudo()}" autofocus ></p>
 							
 							<p> <label for="prenom">Prénom : </label> 
-							<input type="text" name="prenom" id="prenom" placeholder="${Utilisateur.getPrenom()}" "> </p>
+							<input type="text" name="prenom" id="prenom" placeholder="${utilisateurProfil.getPrenom()}" "> </p>
 							
 							<p> <label for="tel">Téléphone : </label> 
-							<input type="text" name="tel" id="tel" placeholder="${Utilisateur.getTelephone()}" > </p>
+							<input type="text" name="tel" id="tel" placeholder="${utilisateurProfil.getTelephone()}" > </p>
 							
 							<p> <label for="cp">Code Postal : </label> 
-							<input type="text" name="cp" id="cp" placeholder="${Utilisateur.getCodePostale()}" > </p>
+							<input type="text" name="cp" id="cp" placeholder="${utilisateurProfil.getCodePostale()}" > </p>
 							
 							<p> <label for="mdp">Mot de passe actuel : </label> 
 							<input type="password" name="mdp" id="mdp" > </p>
@@ -63,16 +63,16 @@
 						</div>
 						<div class="InscritpionDivDroite d-flex flex-column">
 							<p> <label for="nom">Nom : </label>
-							<input type="text" name="nom" id="nom" autofocus placeholder="${Utilisateur.getNom()}" ></p>
+							<input type="text" name="nom" id="nom" autofocus placeholder="${utilisateurProfil.getNom()}" ></p>
 							
 							<p> <label for="email">Email : </label> 
-							<input type="email" name="email" id="email" required placeholder="${Utilisateur.getEmail()}" > </p>
+							<input type="email" name="email" id="email" required placeholder="${utilisateurProfil.getEmail()}" > </p>
 							
 							<p> <label for="rue">Rue : </label> 
-							<input type="text" name="rue" id="rue" placeholder="${Utilisateur.getRue()}" > </p>
+							<input type="text" name="rue" id="rue" placeholder="${utilisateurProfil.getRue()}" > </p>
 							
 							<p> <label for="ville">Ville : </label> 
-							<input type="text" name="ville" id="ville" placeholder="${Utilisateur.getVille()}" > </p>
+							<input type="text" name="ville" id="ville" placeholder="${utilisateurProfil.getVille()}" > </p>
 							
 							<p> <label for="ville"></label> 
 							
