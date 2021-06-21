@@ -53,11 +53,11 @@ public class ServletProfil extends HttpServlet {
 				// Si le pseudo récupéré n'est pas egal la session
 				
 				System.out.println("je suis dans le if 1er");
-				Utilisateur utilisateurInconnu= new Utilisateur(pseudoRecup);		
+				Utilisateur utilisateurInconnu= new Utilisateur(utilisateurGeneral.getPseudo());		
 				utilisateurInconnu = utilisateur.recuperationUtilisateur(utilisateurInconnu);
 				request.setAttribute("utilisateurInconnu", utilisateurInconnu);
 				
-				if(!pseudoRecup.equals(utilisateurGeneral.getPseudo())) {
+				if(pseudoRecup.equals(utilisateurGeneral.getPseudo())) {
 				valideP = false;	
 				request.setAttribute("valideP", valideP);
 				}
@@ -127,14 +127,16 @@ public class ServletProfil extends HttpServlet {
 			// Vérification du mot de passe : résultat en boolean
 			verifMdp = utilisateurManager.validerMDP(mdpAc);
 			
+			
 			if(verifMdp = true) {
-				if(newMdp.equals(confirmMdp) & newMdp != null & confirmMdp != null ) {
-					Utilisateur utilisateur = new Utilisateur(pseudo, prenom, tel, cp, nom, email, rue, ville, newMdp);
-					utilisateurManager.modificationProfil(utilisateur);					
+				if(newMdp.equals(confirmMdp)) {
+					if(newMdp != null & confirmMdp != null) {
+						Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, newMdp);
+						utilisateurManager.modificationProfil(utilisateur);
+					}
 				}
 				if(newMdp == null & confirmMdp == null) {
-					newMdp = mdpAc;
-					Utilisateur utilisateur = new Utilisateur(pseudo, prenom, tel, cp, nom, email, rue, ville, newMdp);
+					Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, mdpAc);
 					utilisateurManager.modificationProfil(utilisateur);	
 				}
 				else if(!newMdp.equals(confirmMdp)) {
