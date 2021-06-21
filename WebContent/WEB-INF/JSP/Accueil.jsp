@@ -41,7 +41,7 @@
 	
 		<h1 class = "text-center">Liste des enchères</h1>
 	
-	</div>
+
 	
 	<!-- 		Affichage bandeau vert ajout article reussi  \\ depuis servlet NouvelleVente -->
 			<c:if test="${validerAjout == true}">
@@ -52,6 +52,37 @@
 					</div>
 				</div>
 			</c:if>	
+	
+	<!-- Affichage des articles en mode carte -->		
+	
+	
+
+		<div class = "row">
+			<div class = "col-6" >
+				<div class = "card flex-row">
+					<img alt="image article" src="#">
+					<div class="card-body">
+					 PC Gamer pour travailler <br>
+					 prix : 210 points <br>
+					 Fin d'enchère: 30/06/2021 <br>
+					 Vendeur : <a href="#">jojo44</a>
+					 
+					</div>
+				</div>
+			</div>
+			<div class = "col-6">
+				<div class = "card flex-row">
+					<img alt="image article" src="#">
+					<div class="card-body">
+					 PC Gamer pour travailler <br>
+					 prix : 210 points <br>
+					 Fin d'enchère: 30/06/2021 <br>
+					 Vendeur : <a href="#">jojo44</a>
+					</div>
+				</div>	
+			</div>
+		</div>	
+	</div>	
 </body>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
