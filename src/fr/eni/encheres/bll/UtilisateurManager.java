@@ -58,55 +58,45 @@ public class UtilisateurManager {
 	
 	
 
-
 	// Méthode qui vérifie que le pseudo n'est pas vide ou trop long
-	private boolean validerPseudo(String nomPseudo) {
-		boolean statusValidation = false;
-		if(nomPseudo == null | nomPseudo.length() > 30) {
-			statusValidation = true;
-		}
-			int pseudoValide = 0;
-			try {
-				pseudoValide = this.utilisateurDAO.selectPseudo(nomPseudo);
-				System.out.println(pseudoValide);
-				if(pseudoValide >= 1) {
-					statusValidation = true;
+			private boolean validerPseudo(String nomPseudo) {
+				boolean StatusValidation = false;
+				if(nomPseudo == null | nomPseudo.trim().length() > 30) {
+					StatusValidation = true;
 				}
-				else if(pseudoValide == 0) {
-					statusValidation = false;
-				}
-			} catch (BusinessException e) {
-				e.printStackTrace();
-			}
-			System.out.println(statusValidation);
-			return statusValidation;
-	}
-	
-	
-
-	// Méthode qui vérifie si le mail n'est pas vide ou trop long
-		private boolean validerMail(String nomMail) {
-			boolean statusValidation = false;
-			if(nomMail == null | nomMail.length() > 60) {
-				statusValidation = true;
-			}
-			int emailValide =0;
-			try {
-				emailValide = this.utilisateurDAO.selectEmail(nomMail);
-				System.out.println(emailValide);
-				if(emailValide >= 1) {
-					statusValidation = true;
-				}
-				else if(emailValide == 0) {
-					statusValidation = false;
-				}
-			} catch (BusinessException e) {
-				e.printStackTrace();
-			}
-			System.out.println(statusValidation);
-				return statusValidation;
 				
+					List<String> listepseudo;
+					try {
+						listepseudo = this.utilisateurDAO.selectPseudo();
+						if(listepseudo.contains(nomPseudo)) {
+							StatusValidation = true;
+						}
+					} catch (BusinessException e) {
+						e.printStackTrace();
+					}
+					return StatusValidation;
+			}
+	
+	
+	
+	
+	// Méthode qui vérifie si le mail n'est pas vide ou trop long
+	private boolean validerMail(String nomMail) {
+		boolean StatusValidation = false;
+		if(nomMail == null | nomMail.trim().length() > 60) {
+			StatusValidation = true;
 		}
+		List<String> listeEmail;
+		try {
+			listeEmail = this.utilisateurDAO.selectEmail();
+			if(listeEmail.contains(nomMail)) {
+				StatusValidation = true;
+			}
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+			return StatusValidation;
+	}
 	
 	//Méthode de connection
 			public boolean connection(Utilisateur utilisateur) throws BusinessException{
@@ -185,10 +175,15 @@ public class UtilisateurManager {
 			}			
 		}
 		
-	
-private void methodeLambda() {
-	
-}
+		
+		//Méthode pour update mot de passe
+		public void UpdatePassword(String password, String verifPassword, String userEmail)throws BusinessException {
+			
+			this.utilisateurDAO.updatePassword(password, userEmail);
+		
+	}
+
+
 	
 }
 
