@@ -53,7 +53,7 @@
 				</div>
 			</c:if>	
 	
-	<!-- Affichage des articles en mode carte -->		
+	<!-- Affichage des articles en mode carte test -->		
 	
 	
 
