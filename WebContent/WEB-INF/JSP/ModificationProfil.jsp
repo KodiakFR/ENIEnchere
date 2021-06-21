@@ -35,7 +35,7 @@
 			
 			<c:if test="${validationMdpAc == true}">
 					<div 	class="alert alert-danger" role="alert">
-						Les mots de passe ne sont pas identiques, veuillez réssayer.
+						Le mot de passe actuel n'est pas le bon, veuillez réssayer.
 					</div>
 			</c:if>
 			

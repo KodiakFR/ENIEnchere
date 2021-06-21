@@ -40,10 +40,10 @@ public class ServletProfil extends HttpServlet {
 		if (request.getServletPath().equals("/Profil")) {
 			
 			try {
-				boolean valideP = false;
+				boolean valideP = true;
 				UtilisateurManager utilisateur = UtilisateurManager.getInstance();
 				Utilisateur utilisateurGeneral = (Utilisateur) request.getSession().getAttribute("Utilisateur");
-
+	
 				
 				// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.				
 				// String pseudoRecup = request.getParameter("AREMPLLIR");
@@ -51,30 +51,22 @@ public class ServletProfil extends HttpServlet {
 
 
 				// Si le pseudo récupéré n'est pas egal la session
-				if(!pseudoRecup.equals(utilisateurGeneral.getPseudo())) {
-					System.out.println("je suis dans le if 1er");
+				
+				System.out.println("je suis dans le if 1er");
 				Utilisateur utilisateurInconnu= new Utilisateur(pseudoRecup);		
 				utilisateurInconnu = utilisateur.recuperationUtilisateur(utilisateurInconnu);
-				valideP = false;
-				request.setAttribute("valideP", valideP);
 				request.setAttribute("utilisateurInconnu", utilisateurInconnu);
+				
+				if(!pseudoRecup.equals(utilisateurGeneral.getPseudo())) {
+				valideP = false;	
+				request.setAttribute("valideP", valideP);
+				}
+				request.setAttribute("valideP", valideP);
 				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Profil.jsp");
 				rd.forward(request, response);
-				}
+				
 			
-				// si le pseudo est  identique à la session alors afficher les infos de l'utilisateur inconnu
-				else {
-					System.out.println("je suis dans le else");
-					//Utilisateur utilisateurInconnu = (Utilisateur) request.getSession().getAttribute("Utilisateur");
-					Utilisateur utilisateurInconnu= new Utilisateur(utilisateurGeneral.getPseudo());
-					utilisateurInconnu = utilisateur.recuperationUtilisateur(utilisateurInconnu);
-					System.out.println("pseudo sauvegardé c'est bon " + utilisateurInconnu);			
-					valideP = true;
-					request.setAttribute("valideP", valideP);
-					request.setAttribute("utilisateurInconnu", utilisateurInconnu);
-					RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Profil.jsp");
-					rd.forward(request, response);
-					}
+
 				
 			} catch (NumberFormatException | BusinessException e) {
 				e.printStackTrace();
@@ -113,9 +105,11 @@ public class ServletProfil extends HttpServlet {
 		boolean validationMdp = false;
 		boolean validationMdpAc = false;
 		try {
+			boolean verifMdp = false;
 			Utilisateur utilisateurSession = (Utilisateur) request.getSession().getAttribute("Utilisateur");
 			System.out.println("pseudo sauvegardé c'est bon " + utilisateurSession);
 			UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
+			
 			
 			// Récupération des nouvelles données
 			String pseudo = request.getParameter("pseudo");
@@ -130,31 +124,37 @@ public class ServletProfil extends HttpServlet {
 			String newMdp = request.getParameter("newmdp");
 			String confirmMdp = request.getParameter("confirm");
 			
+			// Vérification du mot de passe : résultat en boolean
+			verifMdp = utilisateurManager.validerMDP(mdpAc);
 			
-			if(newMdp.equals(confirmMdp)) {
-				Utilisateur utilisateur = new Utilisateur(pseudo, prenom, tel, cp, nom, email, rue, ville, newMdp);
-				Utilisateur utilBis = new Utilisateur();
-				Utilisateur utilisateurRecup = utilisateurManager.recuperationUtilisateur(utilBis);
-				utilisateurRecup.getMotDePasse();
-				// if(!mdpAc.equals(utilBis.getMotDePasse())) {}	a changer
-				
+			if(verifMdp = true) {
+				if(newMdp.equals(confirmMdp) & newMdp != null & confirmMdp != null ) {
+					Utilisateur utilisateur = new Utilisateur(pseudo, prenom, tel, cp, nom, email, rue, ville, newMdp);
+					utilisateurManager.modificationProfil(utilisateur);					
+				}
+				if(newMdp == null & confirmMdp == null) {
+					newMdp = mdpAc;
+					Utilisateur utilisateur = new Utilisateur(pseudo, prenom, tel, cp, nom, email, rue, ville, newMdp);
+					utilisateurManager.modificationProfil(utilisateur);	
+				}
+				else if(!newMdp.equals(confirmMdp)) {
+					validationMdpAc = true;
+					request.setAttribute("validationMdpAc", validationMdpAc);
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
+					rd.forward(request, response);
+				}
 			}
 			
 			// methode verif si les deux nouveaux mdp saisie sont egaux
-			else if(!newMdp.equals(confirmMdp)) {
+			 else if(verifMdp = false) {
 				validationMdp = true;
 				request.setAttribute("validationMdp", validationMdp);
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
 				rd.forward(request, response);
 			}
 			
-			// Si mdp saisie n'est pas egal à la mdp session
-//			else if(!mdpAc.equals(utilisateur.getMotDePasse())) {
-//				validationMdpAc = true;
-//				request.setAttribute("validationMdpAc", validationMdpAc);
-//				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
-//				rd.forward(request, response);
-//			}
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Profil.jsp") ;
+			rd.forward(request, response);
 			
 		} catch (NumberFormatException | BusinessException e) {
 			e.printStackTrace();

@@ -59,7 +59,7 @@ public class UtilisateurManager {
 	
 
 	// Méthode qui vérifie que le pseudo n'est pas vide ou trop long
-	private boolean validerPseudo(String nomPseudo) {
+	private boolean validerPseudo(String nomPseudo) throws BusinessException {
 				boolean statusValidation = false;
 				if(nomPseudo == null | nomPseudo.length() > 30) {
 					statusValidation = true;
@@ -84,7 +84,7 @@ public class UtilisateurManager {
 	
 	
 	// Méthode qui vérifie si le mail n'est pas vide ou trop long
-	private boolean validerMail(String nomMail) {
+	private boolean validerMail(String nomMail) throws BusinessException {
 					boolean statusValidation = false;
 					if(nomMail == null | nomMail.length() > 60) {
 						statusValidation = true;
@@ -109,7 +109,29 @@ public class UtilisateurManager {
 
 	
 	
+	// Méthode de verif MPD :
+	public boolean validerMDP(String password) throws BusinessException {
+		boolean statusValidation = false;
+			try {
+				int passwordValide = 0;
+				if(passwordValide >= 1) {
+					statusValidation = true;
+				}
+				else if(passwordValide == 0) {
+					statusValidation = false;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		return statusValidation;
+	}
 	
+	
+	//Méthode modification profil
+	public void modificationProfil(Utilisateur utilisateur) throws BusinessException {
+		this.utilisateurDAO.updateProfil(utilisateur);
+	}
 	
 	
 	

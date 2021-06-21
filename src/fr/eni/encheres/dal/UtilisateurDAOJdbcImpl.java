@@ -13,11 +13,14 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	
 	// Requete SQL insertion lors inscription utilisateur
 	private static final String INSERT_INSCRIP = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES (?,?,?,?,?,?,?,?,?,50,0)";
-	// Requete recuperation de toute la liste des pseudos
+	// Requete recuperation en COUNT de pseudo
 	private static final String COUNT_PSEUDO = "SELECT COUNT (*) as cnt FROM UTILISATEURS WHERE pseudo=?";
 	
-	// Requete recuperation de toute la liste des emails
+	// Requete recuperation en COUNT de emails
 	private static final String COUNT_EMAIL = "SELECT COUNT (*) as cnt FROM UTILISATEURS WHERE email=?";
+	
+	// Requete recueperation du password en COUNT
+	private static final String COUNT_PASSWORD = "SELECT COUNT (*) as cnt FROM UTILISATEURS WHERE mot_de_passe=?";
 	
 	// Requete recuperation d'un utilisateur
 	private static final String SELECT_USER = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur"+
@@ -26,10 +29,12 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	// Requete modification mot de passe
 	private static final String UPDATE_PASSWORD = "UPDATE UTILISATEURS SET mot_de_passe=? WHERE email=?";
 	
+	// Requete Update formulaire modification profil
+	private static final String UPDATE_PROFIL = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? WHERE pseudo=? ";
 	
 	
 	
-	// M�thode insertion des utilisateurs lors de l'inscription
+	// Méthode insertion des utilisateurs lors de l'inscription
 	public void insertInscription(Utilisateur utili) throws BusinessException {
 		
 		if(utili == null) {
@@ -59,7 +64,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	
 
 	
-	// M�thode de r�cup�ration d'information d'unicit� pseudo 
+	// Méthode de récupération d'information d'unicité pseudo 
 		public Integer selectPseudo(String pseudo) throws BusinessException {
 			Integer pseudoUtil = 0; 
 			
@@ -83,7 +88,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	
 
 	
-	// M�thode de r�cup�ration d'information d'unicit� mail 
+	// Méthode de récupération d'information d'unicité mail 
 		public Integer selectEmail(String email) throws BusinessException {
 			Integer emailUtil = 0;
 			try (Connection cnx = ConnectionProvider.getConnection();
@@ -104,6 +109,45 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			return emailUtil;	
 		}
 	
+	// Méthode récupérationdu MDP en COUNT
+		public Integer selectPassword(String password) throws BusinessException {
+			Integer passwordUtil = 0;
+			try (Connection cnx = ConnectionProvider.getConnection();
+					PreparedStatement stmt= cnx.prepareStatement(COUNT_PASSWORD);){
+				stmt.setString(1, password);
+				ResultSet rs = stmt.executeQuery();
+					rs.next();
+					passwordUtil = rs.getInt("cnt");
+					
+					
+			} catch (Exception e) {
+				e.printStackTrace();
+				BusinessException businessException = new BusinessException();
+				businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_EMAIL_ECHEC);
+				throw businessException;
+			}
+			
+			return passwordUtil;	
+		}
+
+
+		
+	// Méthode modification du profil de l'utilisateur 
+	public void updateProfil(Utilisateur utilisateur) throws BusinessException {
+		try (Connection cnx = ConnectionProvider.getConnection();
+				PreparedStatement stmt= cnx.prepareStatement(UPDATE_PROFIL);){
+		setParameter(stmt, utilisateur);
+		stmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			// A FAIRE
+			//businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_PSEUDO_ECHEC);
+			throw businessException;
+		
+		}
+	}
 	
 	// Mapping pour r�cup�rer la liste des informations utilisateurs
 	private Utilisateur mappingUtilisateur(ResultSet rs) throws SQLException {

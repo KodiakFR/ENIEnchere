@@ -17,10 +17,15 @@ public interface UtilisateurDAO {
 	// Methode de verif unicite email
 	public Integer selectEmail(String email) throws BusinessException;
 	
+	// Méthode de verif si mdp correct pour la modification de profil
+	public Integer selectPassword(String password) throws BusinessException;
 	
 	public Utilisateur SelectUser(Utilisateur utilisateur) throws BusinessException;
 
 	public void updatePassword(String password, String userEmail) throws BusinessException;
+	
+	// Méthode de modification du profil de l'utilisateur 
+	public void updateProfil(Utilisateur utilisateur) throws BusinessException;
 	
 	
 	
