@@ -20,7 +20,7 @@ public interface UtilisateurDAO {
 	// Méthode de verif si mdp correct pour la modification de profil
 	public Integer selectPassword(String password) throws BusinessException;
 	
-	public Utilisateur SelectUser(Utilisateur utilisateur) throws BusinessException;
+	public Utilisateur SelectUser(String pseudo) throws BusinessException;
 
 	public void updatePassword(String password, String userEmail) throws BusinessException;
 	

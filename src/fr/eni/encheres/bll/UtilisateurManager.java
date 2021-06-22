@@ -151,9 +151,9 @@ public class UtilisateurManager {
 			
 	//méthode de récuperation d'un utilisateur
 			
-		public Utilisateur recuperationUtilisateur(Utilisateur utilisateur) throws BusinessException {
+		public Utilisateur recuperationUtilisateur(String pseudo) throws BusinessException {
 			Utilisateur u = null;
-			u = this.utilisateurDAO.SelectUser(utilisateur);
+			u = this.utilisateurDAO.SelectUser(pseudo);
 			return u;
 		}
 		

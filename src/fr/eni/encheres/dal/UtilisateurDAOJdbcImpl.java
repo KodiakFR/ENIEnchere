@@ -189,8 +189,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	}
 	
 	//Méthode recuperation d'un utilisateur
-	public Utilisateur SelectUser(Utilisateur utilisateur) throws BusinessException {
-		String pseudo = utilisateur.getPseudo();
+	public Utilisateur SelectUser(String pseudo) throws BusinessException {
 		Utilisateur U = null;
 		try (Connection cnx = ConnectionProvider.getConnection();
 			PreparedStatement stmt= cnx.prepareStatement(SELECT_USER);){
