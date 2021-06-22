@@ -80,7 +80,7 @@ public class UtilisateurManager {
 					System.out.println(statusValidation);
 					return statusValidation;
 			}
-	
+	//
 	// Méthode qui vérifie que le pseudo ne soit pas déjà existant
 		public boolean validerPseudoModifProfil(String nomPseudo) throws BusinessException {
 					boolean statusValidation = false;
@@ -94,7 +94,7 @@ public class UtilisateurManager {
 							if(pseudoValide >= 2) {
 								statusValidation = true;
 							}			
-							else if(pseudoValide <= 1) {
+							else  {
 								statusValidation = false;
 							}
 						} catch (BusinessException e) {
@@ -129,7 +129,7 @@ public class UtilisateurManager {
 			}
 	
 	
-	
+	//
 	// Méthode qui vérifie si le mail est deja existant lors de la modification du profil
 	public boolean validerMailModifProfil(String nomMail) throws BusinessException {
 					boolean statusValidation = false;
@@ -143,7 +143,7 @@ public class UtilisateurManager {
 						if(emailValide >= 2) {
 							statusValidation = true;
 						}
-						else if(emailValide <= 1) {
+						else  {
 							statusValidation = false;
 						}
 					

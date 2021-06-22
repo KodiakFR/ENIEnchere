@@ -49,11 +49,8 @@ public class ServletProfil extends HttpServlet {
 				// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.	
 				
 				String pseudoRecup = request.getParameter("pseudo");
-				//String pseudoRecup = "zizou";
-				System.out.println(pseudoRecup + "ceci est le pseudo recup");
-				
-
-				// Si le pseudo récupéré n'est pas egal la session
+			
+			
 				
 				System.out.println("je suis dans le if 1er");	
 				Utilisateur utilisateurInconnu = utilisateur.recuperationUtilisateur(utilisateurGeneral);
@@ -137,7 +134,8 @@ public class ServletProfil extends HttpServlet {
 			if(verifMdp == true) {
 				verifMail = utilisateurManager.validerMailModifProfil(email);
 				verifPseudo = utilisateurManager.validerPseudoModifProfil(pseudo);
-
+				System.out.println(verifMail);
+				System.out.println(verifPseudo);
 				// Methode verifie que mail et pseudo ne sont pas déjà existant
 				if(verifMail == false && verifPseudo == false) {
 					//méthode verifie si le nouveau mdp ne sont pas : null
@@ -179,6 +177,7 @@ public class ServletProfil extends HttpServlet {
 			 if(verifMdp == false) {
 				validationMdpAc = true;
 				request.setAttribute("validationMdpAc", validationMdpAc);
+				request.setAttribute("utilisateurProfil", utilisateurProfil);
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
 				rd.forward(request, response);
 				System.out.println("je passe 4");
