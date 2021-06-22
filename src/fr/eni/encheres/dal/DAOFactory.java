@@ -14,4 +14,8 @@ public class DAOFactory {
 		return new EnchereDAOJdbcImpl();
 	}
 	
+	public static RetraitDAOJdbcImpl getRetraitDAO() {
+		return new RetraitDAOJdbcImpl();
+	}
+	
 }

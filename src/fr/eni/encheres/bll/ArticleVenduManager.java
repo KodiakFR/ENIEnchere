@@ -28,18 +28,17 @@ public class ArticleVenduManager {
 	}
 	
 	//Ajout d'un article en vente par l'utilisateur et renvoi une liste des tous les articles de l'utilisateur
-	public List<ArticleVendu> ajoutArticle(ArticleVendu article,String pseudoVendeur, int idvendeur, String categorie) throws BusinessException {
-		List<ArticleVendu> listeArticles = new ArrayList<ArticleVendu>();
+	public void ajoutArticle(ArticleVendu article,String pseudoVendeur, int idvendeur, String categorie) throws BusinessException {
+		
 		
 		
 		articleVenduDAO.addArticleVendu(article,pseudoVendeur, idvendeur, categorie);
 		
-		listeArticles = articleVenduDAO.recupListArticleUtilisateur(pseudoVendeur);
-		System.out.println(listeArticles);
 		
-		return listeArticles;
 	}
 	
+
+
 	//Suppression de l'article avant la date de fin  de l'enchère n'est pas terminée
 	public  void cancelArticleVendu(String nomArticle, String pseudoUtilisateur) throws BusinessException {
 		ArticleVendu art = articleVenduDAO.recupArticleBYNomEtPseudoVendeur(nomArticle, pseudoUtilisateur);
@@ -118,4 +117,5 @@ public class ArticleVenduManager {
 			}
 		return idEtat;
 	}
+
 }

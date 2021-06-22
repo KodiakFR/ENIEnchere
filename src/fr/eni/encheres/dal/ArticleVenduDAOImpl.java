@@ -64,14 +64,13 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	@Override
 	public void addArticleVendu(ArticleVendu article, String pseudoVendeur,int idVendeur, String categorie) throws BusinessException {
 		
-		
+		int idCategorie = getIdCategorie(categorie);
 		String nomArticle = article.getNomArticle();
 		String description = article.getDescription();
 		Date dateDebutEncheresSql = Date.valueOf(article.getDateDebutEncheres());
 		Date dateFinEncheresSql = Date.valueOf(article.getDateFinEncheres());
 		int miseAPrix = article.getMiseAPrix();
 		int etatVente = article.getEtatVente();
-		int idCategorie = getIdCategorie(categorie);
 		
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(INSERT_ARTICLE))
 			{
