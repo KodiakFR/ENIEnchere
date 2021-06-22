@@ -17,6 +17,7 @@ import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 
 /**
@@ -55,6 +56,7 @@ public class ServletNouvelleVente extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		Utilisateur user = (Utilisateur) request.getSession().getAttribute("Utilisateur");
 		int idUtilisateur = user.getNoUtilisateur();
+		String pseudoUtilisateur = user.getPseudo();
 		System.out.println(idUtilisateur);
 		
 		// Récupération des dates et validation avant insertion de l'article
@@ -65,6 +67,25 @@ public class ServletNouvelleVente extends HttpServlet {
 		System.out.println(dateFinEncheres);
 		Boolean validateDateDebut = validationDate(dateDebutEncheres, dateFinEncheres);
 		System.out.println("Date Validate: "+validateDateDebut);
+		
+		//Récupération des entrées utilisateurs de l'article
+		
+		String nomArticle = request.getParameter("nomArticle").trim();
+		String description = request.getParameter("description").trim();
+		String categorie = request.getParameter("categorie");
+		System.out.println(categorie);
+		int miseAPrix = Integer.parseInt(request.getParameter("map"));
+		String rue = request.getParameter("nomRue").trim();
+		String cp = request.getParameter("codePostal").trim();
+		String ville = request.getParameter("ville").trim();
+	
+	//Construction de l'article pour sa manipulation en dal
+		
+		ArticleVendu newArticle = new ArticleVendu(nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix);
+	
+	//Construction du retrait pour la manipulation en dal
+		
+		Retrait retrait = new Retrait(rue,cp,ville);
 		
 		//Dates invalides
 		
@@ -79,28 +100,14 @@ public class ServletNouvelleVente extends HttpServlet {
 		
 		else
 			{
-			//Récupération des entrées utilisateurs de l'article
-			
-				String nomArticle = request.getParameter("nomArticle");
-				String description = request.getParameter("description");
-				String categorie = request.getParameter("categorie");
-				Integer miseAPrix = Integer.parseInt(request.getParameter("map"));
-				String rue = request.getParameter("nomRue");
-				Integer cp = Integer.parseInt(request.getParameter("codePostal"));
-				String ville = request.getParameter("ville");
-			
-			//Construction de l'article pour sa manipulation en dal
-				
-				ArticleVendu newArticle = new ArticleVendu(nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix);
-				
+	
 			//Ajout de l'article à la base de donnée et récupére tous les articles
 			//mis en vente par cet utilisateur
 				try 
 					{
 						ArticleVenduManager manager = ArticleVenduManager.getInstance();
 						
-						List<ArticleVendu> listArticles = manager.ajoutArticle(newArticle, idUtilisateur, categorie);
-						request.getSession().setAttribute("listArticles", listArticles);
+						manager.ajoutArticle(newArticle, pseudoUtilisateur, idUtilisateur, categorie);
 					}
 				catch (BusinessException e) 
 					{

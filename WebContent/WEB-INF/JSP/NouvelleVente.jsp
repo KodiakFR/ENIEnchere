@@ -13,7 +13,7 @@
 <body>
 <header>
 <div style="text-align: center;">
-<h1>ENI-Enchères</h1>
+<a href="<%=request.getContextPath()%>/Accueil"><h1>ENI-Enchères</h1></a>
 <h2 class="center">Nouvelle vente</h2>
 </div>
 </header>
