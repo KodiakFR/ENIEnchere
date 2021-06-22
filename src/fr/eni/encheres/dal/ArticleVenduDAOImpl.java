@@ -26,9 +26,12 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 														+ "prix_initial, prix_vente,no_utilisateur,no_categorie,etat_vente FROM ARTICLES_VENDUS "
 														+ "WHERE nom_article=? AND pseudo_utilisateur=?;";
 	private final String FIND_ALL_CATEGORIES=			"SELECT no_categorie,libelle FROM CATEGORIES;";
+	
 	private final String FIND_ARTICLE_PAR_ETAT_VENTE=	"SELECT no_article,nom_article,description,date_debut_encheres,date_fin_encheres," 
-														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,pseudo_utilisateur FROM ARTICLES_VENDUS " 
+														+ "prix_initial,prix_vente,u.no_utilisateur,no_categorie,pseudo " 
+														+ "FROM ARTICLES_VENDUS av INNER JOIN UTILISATEURS u ON av.no_utilisateur = u.no_utilisateur " 
 														+"WHERE etat_vente=?;";
+	
 	private final String FIND_ARTICLE_BY_ID=			"SELECT nom_article,description,date_debut_encheres,date_fin_encheres,"
 														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente, pseudo_utilisateur FROM ARTICLES_VENDUS WHERE "
 														+ "no_article=?;";
@@ -202,7 +205,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 					int prixVente = 				rs.getInt("prix_vente");
 					int noUtilisateur = 		rs.getInt("no_utilisateur");
 					int noCategorie = 			rs.getInt("no_categorie");
-					String pseudoUtilisateur=		rs.getString("pseudo_utilisateur");
+					String pseudoUtilisateur=		rs.getString("utilisateur");
 					
 					ArticleVendu art = new ArticleVendu(noArticle,nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente,noUtilisateur, noCategorie, etatVente,pseudoUtilisateur);
 					lstArticle.add(art);
@@ -305,7 +308,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 							int noUtilisateur = 			rs.getInt("no_utilisateur");
 							int noCategorie =				rs.getInt("no_categorie");
 							int etatVente = 				rs.getInt("etat_vente");
-							String pseudoUtilisateur=		rs.getString("pseudo_utilisateur");
+							String pseudoUtilisateur=		rs.getString("utilisateur");
 							
 							art = new ArticleVendu(noArticle, nomArticle, description, dateDebutEnchere, dateFinEnchere, prixInitial, prixVente, noUtilisateur, noCategorie, etatVente, pseudoUtilisateur);
 						}

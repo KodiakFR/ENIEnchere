@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.BusinessException;
-import fr.eni.encheres.bll.MaximeUtilisateurManager;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
@@ -35,11 +34,6 @@ public class ServletAccueil extends HttpServlet {
 		try {
 				
 			ArticleVenduManager manager = ArticleVenduManager.getInstance();
-			
-			 travail maxime
-			
-			MaximeUtilisateurManager MaximeManager = MaximeUtilisateurManager.getInstance();
-			
 			
 			
 			Cookie[] cookies = request.getCookies();
@@ -79,15 +73,15 @@ public class ServletAccueil extends HttpServlet {
 				
 			} 
 			
-			récupérer la liste des articles en status en cours 
+			//récupérer la liste des articles en status en cours 
 			
-			int etatVente = 1;
+			String etatVente = "En cours";
 			
-			List<ArticleVendu> listeEnchereEnCours = MaximeManager.listeEnchereEnCours(etatVente);
-			
+			List<ArticleVendu> listeEnchereEnCours = manager.getListeEtatVente(etatVente);
+			System.out.println(listeEnchereEnCours.toString());
 			request.setAttribute("listeEnchereEnCours", listeEnchereEnCours);
-			
-			afficher la page accueil
+						
+			//afficher la page accueil
 			RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
 			rd.forward(request, response);	
 		

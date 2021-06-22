@@ -55,6 +55,22 @@
 	
 	<!-- Affichage des articles en mode carte test -->		
 	
+	<c:forEach var="A" items="${listeEnchereEnCours}">
+
+				<div class = "col-6" >
+				<div class = "card flex-row">
+					<img alt="image article" src="#">
+					<div class="card-body">
+					 ${A.getNomArticle()} <br>
+					 prix : ${A.getPrixVente()} <br>
+					 Fin d'enchère: ${A.getDateFinEncheres()} <br>
+					 Vendeur : <a href="#">${A.getPseudoUtilisateur()}</a>
+					 
+					</div>
+				</div>
+			</div>
+					
+	</c:forEach>
 	
 
 		<div class = "row">
