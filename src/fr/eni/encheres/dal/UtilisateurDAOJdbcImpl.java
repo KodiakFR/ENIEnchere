@@ -19,8 +19,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	// Requete recuperation en COUNT de emails
 	private static final String COUNT_EMAIL = "SELECT COUNT (*) as cnt FROM UTILISATEURS WHERE email=?";
 	
-		// Requete recueperation du password en COUNT
-		private static final String COUNT_PASSWORD = "SELECT COUNT (*) as cnt FROM UTILISATEURS WHERE mot_de_passe=?";
+	// Requete recueperation du password en COUNT
+	private static final String COUNT_PASSWORD = "SELECT COUNT (*) as cnt FROM UTILISATEURS WHERE mot_de_passe=?";
 	
 	// Requete recuperation d'un utilisateur
 	private static final String SELECT_USER = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur"+
@@ -31,6 +31,9 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	
 	// Requete Update formulaire modification profil
 	private static final String UPDATE_PROFIL = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? WHERE pseudo=? ";
+	
+	// Requete suppression du compte 
+	private static final String DELETE_PROFIl = "DELETE FROM UTILISATEURS WHERE pseudo=?";
 	
 	
 	
@@ -86,7 +89,9 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			return pseudoUtil;	
 		}
 	
+	
 
+		
 	
 	// Méthode de récupération d'information d'unicité mail 
 		public Integer selectEmail(String email) throws BusinessException {
@@ -149,6 +154,24 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 		
 		}
 	}
+	
+	
+	// Methode suppresion du profil de l'utilisateur
+	public void deleteProfil(String pseudo) throws BusinessException {
+		try (Connection cnx = ConnectionProvider.getConnection();
+				PreparedStatement stmt= cnx.prepareStatement(DELETE_PROFIl);){
+			stmt.setString(1, pseudo);
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			// A FAIRE
+			//businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_PSEUDO_ECHEC);
+			throw businessException;
+		}
+	}
+	
+	
 	
 	// Mapping pour r�cup�rer la liste des informations utilisateurs
 	private Utilisateur mappingUtilisateur(ResultSet rs) throws SQLException {

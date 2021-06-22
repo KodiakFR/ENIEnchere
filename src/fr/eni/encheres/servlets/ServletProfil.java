@@ -42,25 +42,24 @@ public class ServletProfil extends HttpServlet {
 			try {
 				boolean valideP = false;
 				UtilisateurManager utilisateur = UtilisateurManager.getInstance();
-				Utilisateur utilisateurGeneral = (Utilisateur) request.getSession().getAttribute("Utilisateur");
+				String utilisateurGeneral = (String) request.getSession().getAttribute("Utilisateur");
 				System.out.println("utilisateurGeneral= " + utilisateurGeneral);
 	
 				
 				// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.	
 				
 				String pseudoRecup = request.getParameter("pseudo");
-
+				//String pseudoRecup = "zizou";
 				System.out.println(pseudoRecup + "ceci est le pseudo recup");
 				
 
 				// Si le pseudo récupéré n'est pas egal la session
 				
-				System.out.println("je suis dans le if 1er");
-				Utilisateur utilisateurInconnu = new Utilisateur(utilisateurGeneral.getPseudo());		
-				utilisateurInconnu = utilisateur.recuperationUtilisateur(utilisateurInconnu);
+				System.out.println("je suis dans le if 1er");	
+				Utilisateur utilisateurInconnu = utilisateur.recuperationUtilisateur(utilisateurGeneral);
 				request.setAttribute("utilisateurInconnu", utilisateurInconnu);
 				
-				if(pseudoRecup.equals(utilisateurGeneral.getPseudo())) {
+				if(pseudoRecup.equals(utilisateurGeneral)) {
 				valideP = true;	
 				request.setAttribute("valideP", valideP);
 				}
@@ -82,9 +81,8 @@ public class ServletProfil extends HttpServlet {
 			
 			try {
 				UtilisateurManager utilisateur = UtilisateurManager.getInstance();
-				Utilisateur utilisateurGener = (Utilisateur) request.getSession().getAttribute("Utilisateur");
-				Utilisateur utilisateurProfil = new Utilisateur(utilisateurGener.getPseudo());
-				utilisateurProfil = utilisateur.recuperationUtilisateur(utilisateurProfil);
+				String utilisateurGener = (String) request.getSession().getAttribute("Utilisateur");
+				Utilisateur utilisateurProfil = utilisateur.recuperationUtilisateur(utilisateurGener);
 				System.out.println("pseudo sauvegardé c'est bon " + utilisateurGener);
 
 				request.setAttribute("utilisateurProfil", utilisateurProfil);
@@ -113,10 +111,10 @@ public class ServletProfil extends HttpServlet {
 		boolean verifMail = false;
 		try {
 			
-			Utilisateur utilisateurSession = (Utilisateur) request.getSession().getAttribute("Utilisateur");
-			System.out.println("pseudo sauvegardé c'est bon " + utilisateurSession);
+		
 			UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
-			
+			String utilisateurGener = (String) request.getSession().getAttribute("Utilisateur");
+			Utilisateur utilisateurProfil = utilisateurManager.recuperationUtilisateur(utilisateurGener);
 			
 			// Récupération des nouvelles données
 			String pseudo = request.getParameter("pseudo");
@@ -135,33 +133,49 @@ public class ServletProfil extends HttpServlet {
 			verifMdp = utilisateurManager.validerMDP(mdpAc);
 			System.out.println(verifMdp + " reponse");
 			
+			//if verifie si mdp bon
 			if(verifMdp == true) {
-				verifMail = utilisateurManager.verifmail(email);
-				verifPseudo = utilisateurManager.validerPseudo(pseudo);
-				if() {
+				verifMail = utilisateurManager.validerMailModifProfil(email);
+				verifPseudo = utilisateurManager.validerPseudoModifProfil(pseudo);
+
+				// Methode verifie que mail et pseudo ne sont pas déjà existant
+				if(verifMail == false && verifPseudo == false) {
+					//méthode verifie si le nouveau mdp ne sont pas : null
 					if(newMdp.length()>0 & confirmMdp.length()>0) {
+						//methode verifie si les deux nouveaux mdp sont egaux
 						if(newMdp.equals(confirmMdp)) {
 							Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, newMdp);
 							utilisateurManager.modificationProfil(utilisateur);
 							System.out.println("je passe 1");
 						}
 					}
+					// Vérifie si les deux new mdps sont : null
 					if(newMdp.length()==0 & confirmMdp.length()==0) {
 						Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, mdpAc);
 						utilisateurManager.modificationProfil(utilisateur);	
 						System.out.println("je passe 2");
 					}
+					// si mdp les deux mdp ne sont pas egaux
 					else if(!newMdp.equals(confirmMdp)) {
 						validationMdp = true;
 						request.setAttribute("validationMdp", validationMdp);
+						request.setAttribute("utilisateurProfil", utilisateurProfil);
 						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
 						rd.forward(request, response);
 						System.out.println("je passe 3");
 					}
-				}	
+				}
+				//si mail et pseudo existe déjà renvoie message
+				else if(verifMail == true || verifPseudo == true) {
+					verifMail = true;
+					request.setAttribute("verifMail", verifMail);
+					request.setAttribute("utilisateurProfil", utilisateurProfil);
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
+					rd.forward(request, response);
+				}
 			}
 			
-			// methode verif si les deux nouveaux mdp saisie sont egaux
+			// methode envoie erreur si le mdp saisie n'est pas bon  pas egaux
 			 if(verifMdp == false) {
 				validationMdpAc = true;
 				request.setAttribute("validationMdpAc", validationMdpAc);

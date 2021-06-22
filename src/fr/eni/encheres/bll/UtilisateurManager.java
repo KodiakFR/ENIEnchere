@@ -58,7 +58,7 @@ public class UtilisateurManager {
 	
 	
 
-	// Méthode qui vérifie que le pseudo n'est pas vide ou trop long
+	// Méthode qui vérifie que le pseudo ne soit pas déjà existant
 	public boolean validerPseudo(String nomPseudo) throws BusinessException {
 				boolean statusValidation = false;
 				if(nomPseudo == null | nomPseudo.length() > 30) {
@@ -81,9 +81,30 @@ public class UtilisateurManager {
 					return statusValidation;
 			}
 	
+	// Méthode qui vérifie que le pseudo ne soit pas déjà existant
+		public boolean validerPseudoModifProfil(String nomPseudo) throws BusinessException {
+					boolean statusValidation = false;
+					if(nomPseudo == null | nomPseudo.length() > 30) {
+						statusValidation = true;
+					}
+						int pseudoValide = 0;
+						try {
+							pseudoValide = this.utilisateurDAO.selectPseudo(nomPseudo);
+							System.out.println(pseudoValide);
+							if(pseudoValide >= 2) {
+								statusValidation = true;
+							}			
+							else if(pseudoValide <= 1) {
+								statusValidation = false;
+							}
+						} catch (BusinessException e) {
+							e.printStackTrace();
+			 			}
+						System.out.println(statusValidation);
+						return statusValidation;
+				}
 	
-	
-	// Méthode qui vérifie si le mail n'est pas vide ou trop long
+	// Méthode qui vérifie si le mail ne soit pas déjà existant
 	public boolean validerMail(String nomMail) throws BusinessException {
 					boolean statusValidation = false;
 					if(nomMail == null | nomMail.length() > 60) {
@@ -106,7 +127,32 @@ public class UtilisateurManager {
 		 		}
 					return statusValidation;
 			}
-
+	
+	
+	
+	// Méthode qui vérifie si le mail est deja existant lors de la modification du profil
+	public boolean validerMailModifProfil(String nomMail) throws BusinessException {
+					boolean statusValidation = false;
+					if(nomMail == null | nomMail.length() > 60) {
+						statusValidation = true;
+					}
+					int emailValide =0;
+					try {
+						emailValide = this.utilisateurDAO.selectEmail(nomMail);
+						System.out.println(emailValide);
+						if(emailValide >= 2) {
+							statusValidation = true;
+						}
+						else if(emailValide <= 1) {
+							statusValidation = false;
+						}
+					
+				} catch (BusinessException e) {
+					e.printStackTrace();
+								
+		 		}
+					return statusValidation;
+			}
 	
 	
 	// Méthode de verif MPD :
@@ -129,12 +175,16 @@ public class UtilisateurManager {
 	}
 	
 	
+	
 	//Méthode modification profil
 	public void modificationProfil(Utilisateur utilisateur) throws BusinessException {
 		this.utilisateurDAO.updateProfil(utilisateur);
 	}
 	
-	
+	//Methode de suppression du profil
+	public void suppressionProfil(String pseudo) throws BusinessException {
+		this.utilisateurDAO.deleteProfil(pseudo);
+	}
 	
 	//Méthode de connection
 			public boolean connection(String identifiant, String password) throws BusinessException{

@@ -18,7 +18,7 @@
 		</div>
 	</div>
 
-		Bonjour ${Utilisateur.getPrenom()}
+<%-- 		Bonjour ${Utilisateur.getPrenom()} --%>
 		
 		
 		

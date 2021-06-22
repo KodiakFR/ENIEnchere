@@ -82,8 +82,6 @@ public class ServletInscription extends HttpServlet {
 			
 			
 			// A modifier la clé une fois le programme terminé pou garder la session active
-			HttpSession session = request.getSession(true);	
-			session.setAttribute("Utilisateur", utilisateurU);
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp") ;
 			rd.forward(request, response);
 			

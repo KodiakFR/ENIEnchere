@@ -39,6 +39,12 @@
 					</div>
 			</c:if>
 			
+			<c:if test="${verifMail == true}">
+					<div 	class="alert alert-danger" role="alert">
+						pseudo ou mdp déjà existant, veuillez réssayer.
+					</div>
+			</c:if>
+			
 				<div class="InscriptionContenu justify-content-center d-flex flex-row">
 					<div class="InscritpionDivGauche d-flex flex-column">
 					
