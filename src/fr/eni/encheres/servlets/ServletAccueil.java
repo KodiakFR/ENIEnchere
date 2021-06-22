@@ -73,7 +73,7 @@ public class ServletAccueil extends HttpServlet {
 				
 			} 
 			
-			//récupérer la liste des articles en status en cours 
+			//récupérer la liste des articles en status en cours .
 			
 			String etatVente = "En cours";
 			

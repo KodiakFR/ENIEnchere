@@ -41,7 +41,7 @@
 	
 		<h1 class = "text-center">Liste des enchères</h1>
 		
-	<!-- Affichage du formulaire  -->
+	<!-- Affichage du formulaire.  -->
 	
 	<h3>Filtre:</h3>	
 	

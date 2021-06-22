@@ -11,7 +11,7 @@ import fr.eni.encheres.bo.Utilisateur;
 
 public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	
-	// Requete SQL insertion lors inscription utilisateur
+	// Requete SQL insertion lors inscription utilisateur.
 	private static final String INSERT_INSCRIP = "INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES (?,?,?,?,?,?,?,?,?,50,0)";
 	// Requete recuperation en COUNT de pseudo
 	private static final String COUNT_PSEUDO = "SELECT COUNT (*) as cnt FROM UTILISATEURS WHERE pseudo=?";
