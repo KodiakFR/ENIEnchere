@@ -65,7 +65,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	}
 
 	@Override
-	public void addArticleVendu(ArticleVendu article, String pseudoVendeur,int idVendeur, String categorie) throws BusinessException {
+	public int addArticleVendu(ArticleVendu article,int idVendeur, String categorie) throws BusinessException {
+		
+		int idNouvelleVente = 0;
 		
 		int idCategorie = getIdCategorie(categorie);
 		String nomArticle = article.getNomArticle();
@@ -75,7 +77,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		int miseAPrix = article.getMiseAPrix();
 		int etatVente = article.getEtatVente();
 		
-		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(INSERT_ARTICLE))
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(INSERT_ARTICLE,PreparedStatement.RETURN_GENERATED_KEYS))
 			{
 				stmt.setString(1, nomArticle);
 				stmt.setString(2, description);
@@ -87,18 +89,23 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 				stmt.setInt(8, idCategorie);
 				stmt.setInt(9, etatVente);
 				int nbRows = stmt.executeUpdate();
-				if(nbRows != 1)
-				{
-					throw new BusinessException();
-			}
+				if(nbRows == 1)
+					{
+						ResultSet rs = stmt.getGeneratedKeys();
+							if(rs.next())
+								{
+									idNouvelleVente = rs.getInt(1);
+								}
+					}
 			
-		} 
+			} 
 		catch (SQLException e) 
 			{
 				BusinessException be = new BusinessException();
 				be.ajouterErreur(15002);
 				e.printStackTrace();
 			}
+		return idNouvelleVente;
 	}
 	
 

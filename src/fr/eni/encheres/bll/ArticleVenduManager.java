@@ -28,13 +28,13 @@ public class ArticleVenduManager {
 	}
 	
 	//Ajout d'un article en vente par l'utilisateur et renvoi une liste des tous les articles de l'utilisateur
-	public void ajoutArticle(ArticleVendu article,String pseudoVendeur, int idvendeur, String categorie) throws BusinessException {
+	public int ajoutArticle(ArticleVendu article, int idvendeur, String categorie) throws BusinessException {
+		int idNouvelleVente = 0;
 		
 		
+		idNouvelleVente = articleVenduDAO.addArticleVendu(article, idvendeur, categorie);
 		
-		articleVenduDAO.addArticleVendu(article,pseudoVendeur, idvendeur, categorie);
-		
-		
+		return idNouvelleVente;
 	}
 	
 

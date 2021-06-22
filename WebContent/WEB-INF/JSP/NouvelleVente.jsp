@@ -12,8 +12,8 @@
 
 <body>
 <header>
+<h1><a href="<%=request.getContextPath()%>/Accueil">ENI-Enchères</a></h1>
 <div style="text-align: center;">
-<a href="<%=request.getContextPath()%>/Accueil"><h1>ENI-Enchères</h1></a>
 <h2 class="center">Nouvelle vente</h2>
 </div>
 </header>
@@ -33,14 +33,22 @@
 					 <div class="form-group row">
 		   				 <label for="nomArticle" class="col-sm-2 col-form-label">Article</label>
 			   				 <div class="col-sm-10">
-			     				 <input type="text" class="form-control" id="nomArticle" name="nomArticle" maxlength="30" required="required">
+			     				 <input type="text" class="form-control" id="nomArticle" name="nomArticle" maxlength="30" required="required" 
+			     				 <c:if test="${!empty newArticle }">
+			     				 	value="${newArticle.nomArticle }"
+			     				 </c:if>
+			     				 >
 			    			</div>
 		  			</div>
 		  			
 					<div class="form-group row">
 		   				 <label for="description" class="col-sm-2 col-form-label">Description</label>
 			   				 <div class="col-sm-10">
-			     				 <textarea class="form-control" id="description"  rows="5" cols="40" name="description" placeholder="Entrer une description ici" required="required"></textarea>
+			     				 <textarea class="form-control" id="description"  rows="5" cols="40" name="description"  required="required" 
+				     				 <c:if test="${empty newArticle }">
+				     				 placeholder="Entrer une description ici" required="required" 
+				     				 </c:if>
+				     				 ><c:if test="${!empty newArticle }">${newArticle.description }</c:if></textarea>
 			    			</div>
 		  			</div>
 		  			
@@ -66,7 +74,11 @@
 		  			<div class="form-group row">
 		   				 <label for="map" class="col-sm-2 col-form-label">Mise à prix</label>
 			   				 <div class="col-sm-10">
-			     				 <input type="number" class="form-control" id="map" name="map" min="0"  required="required">
+			     				 <input type="number" class="form-control" id="map" name="map" min="0"  required="required" 
+			     				  <c:if test="${!empty newArticle }">
+			     				 	value="${newArticle.miseAPrix }"
+			     				 </c:if>
+			     				 >
 			    			</div>
 		  			</div>
 		  			
@@ -90,21 +102,45 @@
 							<div class="form-group row">
 			   				 <label for="nomRue" class="col-sm-2 col-form-label">Rue: </label>
 				   				 <div class="col-sm-10">
-				     				 <input type="text" class="form-control" id="nomRue" value="${Utilisateur.rue }" name="nomRue" required="required">
+				     				 <input type="text" class="form-control" id="nomRue" name="nomRue" required="required" 
+				     				 <c:if test="${!empty user }">
+				     				 value="${user.rue }"
+				     				 </c:if>
+				     				 
+				     				 <c:if test="${!empty retrait }">
+				     				 value="${retrait.rue }"
+				     				 </c:if>
+				     				 >
 				    			</div>
 			  				</div>
 			  			
 							<div class="form-group row">
 			   				 <label for="codePostal" class="col-sm-2 col-form-label">Code postal: </label>
 				   				 <div class="col-sm-10">
-				     				 <input type="text" class="form-control" id="codePostal" value="${Utilisateur.codePostale }" name="codePostal" required="required">
+				     				 <input type="text" class="form-control" id="codePostal" name="codePostal" required="required" 
+				     				 <c:if test="${!empty user }">
+				     				 value="${user.codePostale }"
+				     				 </c:if>
+				     				 
+				     				 <c:if test="${!empty retrait }">
+				     				 value="${retrait.codePostal }"
+				     				 </c:if>
+				     				 >
 				    			</div>
 			  				</div>
 			  			
 							<div class="form-group row">
 			   				 <label for="ville" class="col-sm-2 col-form-label">Ville: </label>
 				   				 <div class="col-sm-10">
-				     				 <input type="text" class="form-control" id="ville" value="${Utilisateur.ville }" name="ville" required="required">
+				     				 <input type="text" class="form-control" id="ville" name="ville" required="required" 
+				     				 <c:if test="${!empty user }">
+				     				 value="${user.ville }"
+				     				 </c:if>
+				     				 
+				     				 <c:if test="${!empty retrait }">
+				     				 value="${retrait.ville }"
+				     				 </c:if>
+				     				 >
 				    			</div>
 			  				</div>
 						

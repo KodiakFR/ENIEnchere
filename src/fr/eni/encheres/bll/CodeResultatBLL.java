@@ -7,18 +7,38 @@ public abstract class CodeResultatBLL {
 	 */
 	public static final int REGLE_MAIL_NOM_ERREUR=20000;
 	/**
-	 * Echec le format du pseudo n'est pas bon ou il y a trop de caractère
+	 * Echec le format du pseudo n'est pas bon ou il y a trop de caractï¿½re
 	 */
 	public static final int REGLE_PSEUDO_ERREUR = 20001;
 	
 	/*
-	 * Echec le pseudo est déjà utilisé
+	 * Echec le pseudo est dï¿½jï¿½ utilisï¿½
 	 */
 	public static final int REGLE_PSEUDO_DEJA_UTIL_ERREUR = 20002;
 	
 	/*
-	 * Echec l'adrsse mail est déjà utilisé
+	 * Echec l'adrsse mail est dï¿½jï¿½ utilisï¿½
 	 */
 	public static final int REGLE_MAIL_DEJA_UTIL_ERREUR = 20003;
+	
+	/*
+	 * Echec rÃ©cupÃ©ration de la liste des catÃ©gories
+	 */
+	public static final int RECUPERATION_LISTE_CATEGORIE_ERREUR = 40000;
+	
+	/*
+	 * Echec l'adrsse mail est dï¿½jï¿½ utilisï¿½
+	 */
+	public static final int RECUPERATION_UTILISATEUR_ERREUR = 40001;
+	
+	/*
+	 * Echec ajout de l'article
+	 */
+	public static final int AJOUT_ARTICLE_ERREUR = 40002;
+	
+	/*
+	 * Echec ajout ou MAJ lieu de retrait
+	 */
+	public static final int UPDATE_OR_ADD_RETRAIT_ERREUR = 40003;
 	
 }

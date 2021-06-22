@@ -19,7 +19,7 @@ public interface ArticleVenduDAO {
 	
 	//Ajouter un article à la BDD lié à un utilisateur et une catégorie
 	
-	public void addArticleVendu(ArticleVendu article, String pseudoVendeur, int idVendeur, String categorie) throws BusinessException;
+	public int addArticleVendu(ArticleVendu article, int idVendeur, String categorie) throws BusinessException;
 	
 	
 	//Récupere tous les articles d'un utilisateur par son id

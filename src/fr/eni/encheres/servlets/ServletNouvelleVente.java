@@ -3,7 +3,6 @@ package fr.eni.encheres.servlets;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
@@ -15,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.BusinessException;
+import fr.eni.encheres.bll.RetraitManager;
+import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
@@ -32,16 +33,31 @@ public class ServletNouvelleVente extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
+			//Récupération des données utilisateur
+			try 
+				{
+				String pseudoUtilisateur = (String) request.getSession().getAttribute("Utilisateur");
+					UtilisateurManager userManager = UtilisateurManager.getInstance();
+					Utilisateur user = userManager.recuperationUtilisateur(pseudoUtilisateur);
+					request.setAttribute("user", user);
+				} 
+			catch (BusinessException e1) 
+				{
+					e1.ajouterErreur(40001);
+					e1.printStackTrace();
+				}
 			
-		
-			ArticleVenduManager manager = ArticleVenduManager.getInstance();
-			try {
-				Set<Categorie> listeDeCategories = manager.getListCategories();
-				request.setAttribute("listeDeCategories", listeDeCategories);
-			} catch (BusinessException e) {
-				e.ajouterErreur(40000);
-				e.printStackTrace();
-			}
+			//Récupération des catégories existantes pour les afficher dans un eliste déroulante
+			try 
+				{
+					ArticleVenduManager manager = ArticleVenduManager.getInstance();
+					Set<Categorie> listeDeCategories = manager.getListCategories();
+					request.setAttribute("listeDeCategories", listeDeCategories);
+				} 
+			catch (BusinessException e) 
+				{
+					e.ajouterErreur(40000);
+				}
 			
 		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/NouvelleVente.jsp");
@@ -54,19 +70,25 @@ public class ServletNouvelleVente extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		boolean validerAjout = false;
 		request.setCharacterEncoding("UTF-8");
-		Utilisateur user = (Utilisateur) request.getSession().getAttribute("Utilisateur");
+		
+		//Récupération de l'utilisateur pour utilisation en DAL
+
+		Utilisateur user = null;
+		try {
+			UtilisateurManager userManager = UtilisateurManager.getInstance();
+			String pseudoUtilisateur = (String) request.getSession().getAttribute("Utilisateur");
+			 user = userManager.recuperationUtilisateur(pseudoUtilisateur);
+		} catch (BusinessException e1) {
+			e1.ajouterErreur(40001);
+		}
+		
 		int idUtilisateur = user.getNoUtilisateur();
-		String pseudoUtilisateur = user.getPseudo();
-		System.out.println(idUtilisateur);
 		
 		// Récupération des dates et validation avant insertion de l'article
 		
 		LocalDate dateDebutEncheres = ((Date.valueOf(request.getParameter("dateDebutEnchere"))).toLocalDate());
-		System.out.println(dateDebutEncheres);
 		LocalDate dateFinEncheres = ((Date.valueOf(request.getParameter("dateFinEnchere"))).toLocalDate());
-		System.out.println(dateFinEncheres);
 		Boolean validateDateDebut = validationDate(dateDebutEncheres, dateFinEncheres);
-		System.out.println("Date Validate: "+validateDateDebut);
 		
 		//Récupération des entrées utilisateurs de l'article
 		
@@ -79,11 +101,11 @@ public class ServletNouvelleVente extends HttpServlet {
 		String cp = request.getParameter("codePostal").trim();
 		String ville = request.getParameter("ville").trim();
 	
-	//Construction de l'article pour sa manipulation en dal
+	//Construction de l'article pour sa manipulation en dal ou pré remplissage en cas d'erreur
 		
 		ArticleVendu newArticle = new ArticleVendu(nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix);
-	
-	//Construction du retrait pour la manipulation en dal
+	System.out.println(newArticle.getDescription());
+	//Construction du retrait pour la manipulation en dal pré remplissage en cas d'erreur
 		
 		Retrait retrait = new Retrait(rue,cp,ville);
 		
@@ -91,6 +113,8 @@ public class ServletNouvelleVente extends HttpServlet {
 		
 		if(validateDateDebut == false)
 			{
+			request.setAttribute("newArticle", newArticle);
+			request.setAttribute("retrait", retrait);
 			request.setAttribute("validateDateDebut", validateDateDebut);
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/NouvelleVente.jsp");
 			rd.forward(request, response);
@@ -100,21 +124,37 @@ public class ServletNouvelleVente extends HttpServlet {
 		
 		else
 			{
-	
+			
+			int idNouvelleVente = 0;
+			
 			//Ajout de l'article à la base de donnée et récupére tous les articles
 			//mis en vente par cet utilisateur
 				try 
 					{
-						ArticleVenduManager manager = ArticleVenduManager.getInstance();
+						ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
 						
-						manager.ajoutArticle(newArticle, pseudoUtilisateur, idUtilisateur, categorie);
+						idNouvelleVente = (int) articleManager.ajoutArticle(newArticle, idUtilisateur, categorie);
 					}
 				catch (BusinessException e) 
 					{
-						e.printStackTrace();
+						e.ajouterErreur(40002);
+					}
+				
+				//Ajout du point de retrait de cette article nouvellement créé
+				
+				
+				
+				try 
+					{
+						RetraitManager retraitManager = RetraitManager.getInstance();
+						retraitManager.ajouterRetrait(retrait, idNouvelleVente);
+					} 
+				catch (BusinessException e) 
+					{
+						e.ajouterErreur(40003);
 					}
 			
-//				Affichage message ajout OK
+				//Affichage message ajout OK
 			validerAjout = true;
 			request.setAttribute("validerAjout", validerAjout);
 			
