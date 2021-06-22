@@ -19,8 +19,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	// Requete recuperation en COUNT de emails
 	private static final String COUNT_EMAIL = "SELECT COUNT (*) as cnt FROM UTILISATEURS WHERE email=?";
 	
-	// Requete recueperation du password en COUNT
-	private static final String COUNT_PASSWORD = "SELECT COUNT (*) as cnt FROM UTILISATEURS WHERE mot_de_passe=?";
+		// Requete recueperation du password en COUNT
+		private static final String COUNT_PASSWORD = "SELECT COUNT (*) as cnt FROM UTILISATEURS WHERE mot_de_passe=?";
 	
 	// Requete recuperation d'un utilisateur
 	private static final String SELECT_USER = "SELECT no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur"+

@@ -40,6 +40,22 @@
 	<div class = "container">	
 	
 		<h1 class = "text-center">Liste des enchères</h1>
+		
+	<!-- Affichage du formulaire  -->
+	
+	<h3>Filtre:</h3>	
+	
+	<form action="" method="post">
+		<p>
+			<input type="text" placeholder="Le nom de l'article contient" class="form-control">
+		</p>
+		<p>
+			<label for="categorie">Catégories</label>
+			<select>
+			
+			</select>
+		</p>
+	</form>
 	
 
 	
@@ -55,24 +71,24 @@
 	
 	<!-- Affichage des articles en mode carte test -->		
 	
-	<c:forEach var="A" items="${listeEnchereEnCours}">
-
-				<div class = "col-6" >
-				<div class = "card flex-row">
-					<img alt="image article" src="#">
-					<div class="card-body">
-					 ${A.getNomArticle()} <br>
-					 prix : ${A.getPrixVente()} <br>
-					 Fin d'enchère: ${A.getDateFinEncheres()} <br>
-					 Vendeur : <a href="#">${A.getPseudoUtilisateur()}</a>
-					 
-					</div>
-				</div>
-			</div>
-					
-	</c:forEach>
 	
-
+	<div class = "row">
+		<c:forEach var="A" items="${listeEnchereEnCours}">
+	
+				<div class = "col-12 col-lg-6 mb-2 mt-2" >
+					<div class = "card flex-row">
+						<img alt="image article" src="#">
+						<div class="card-body">
+						 ${A.getNomArticle()} <br>
+						 prix : ${A.getPrixVente()} points <br>
+						 Fin d'enchère: ${A.getDateFinEncheres()} <br>
+						 Vendeur : <a href="Profil?pseudo=${A.getPseudoUtilisateur()}">${A.getPseudoUtilisateur()}</a>
+						</div>
+					</div>
+				</div>		
+		</c:forEach>
+	</div>	
+<!--  
 		<div class = "row">
 			<div class = "col-6" >
 				<div class = "card flex-row">
@@ -98,6 +114,7 @@
 				</div>	
 			</div>
 		</div>	
+		-->
 	</div>	
 </body>
 

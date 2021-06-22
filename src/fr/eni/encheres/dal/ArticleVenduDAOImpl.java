@@ -205,7 +205,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 					int prixVente = 				rs.getInt("prix_vente");
 					int noUtilisateur = 		rs.getInt("no_utilisateur");
 					int noCategorie = 			rs.getInt("no_categorie");
-					String pseudoUtilisateur=		rs.getString("utilisateur");
+					String pseudoUtilisateur=		rs.getString("pseudo");
 					
 					ArticleVendu art = new ArticleVendu(noArticle,nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente,noUtilisateur, noCategorie, etatVente,pseudoUtilisateur);
 					lstArticle.add(art);

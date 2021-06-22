@@ -43,11 +43,13 @@ public class ServletProfil extends HttpServlet {
 				boolean valideP = true;
 				UtilisateurManager utilisateur = UtilisateurManager.getInstance();
 				Utilisateur utilisateurGeneral = (Utilisateur) request.getSession().getAttribute("Utilisateur");
+				System.out.println("utilisateurGeneral= "+utilisateurGeneral.toString());
 	
 				
-				// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.				
-				// String pseudoRecup = request.getParameter("AREMPLLIR");
-				String pseudoRecup = "JeanPierre";
+				// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.	
+				
+				String pseudoRecup = request.getParameter("pseudo");
+
 
 
 				// Si le pseudo récupéré n'est pas egal la session
