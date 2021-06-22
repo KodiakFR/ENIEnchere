@@ -160,7 +160,7 @@ public class ServletProfil extends HttpServlet {
 				System.out.println("je passe 4");
 			}
 			
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Profil.jsp") ;
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp") ;
 			rd.forward(request, response);
 			
 		} catch (NumberFormatException | BusinessException e) {
