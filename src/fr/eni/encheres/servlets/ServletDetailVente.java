@@ -10,8 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.encheres.bll.ArticleVenduManager;
+import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bll.EnchereManager;
+import fr.eni.encheres.bll.RetraitManager;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Retrait;
 
 /**
  * Servlet implementation class ServletDetailVente
@@ -24,14 +27,43 @@ public class ServletDetailVente extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String nomArticle = request.getParameter("nomArticle");
+		String pseudoVendeur = request.getParameter("pseudoVendeur");
+
 		
 		ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
-		EnchereManager enchereManager = EnchereManager.getInstance();
+		RetraitManager retraitManager = RetraitManager.getInstance();
+
+		try 
+			{
+				ArticleVendu articleAAfficher = articleManager.recupererArticleParNomArticleEtNomVendeur(nomArticle, pseudoVendeur);
+			System.out.println(articleAAfficher);
+			int idArticle = articleAAfficher.getNoArticle();
+			System.out.println(idArticle);
+				request.setAttribute("articleAAfficher", articleAAfficher);
+				request.setAttribute("vendeur", pseudoVendeur);
+				
+				Retrait retraitArticleSelected = retraitManager.recupererRetraitByID(idArticle);
+				
+				System.out.println(retraitArticleSelected);
+				
+				request.setAttribute("retraitArticleSelected", retraitArticleSelected);
+				
+				if(articleAAfficher.getEtatVente()>1)
+					{
+						EnchereManager enchereManager = EnchereManager.getInstance();
+						int montantEnchere = enchereManager.recupMontantEnchere(idArticle);
+						request.setAttribute("montantEnchere", montantEnchere);
+					}
+				
+				
+			} 
+		catch (BusinessException e) 
+			{
+				e.ajouterErreur(40002);
+				e.printStackTrace();
+			}
 		
-		
-		ArticleVendu articleAAfficher = articleManager.getArticleByNomArticle(nomArticle) ;
-		
-		request.setAttribute("articleAAfficher", articleAAfficher);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/DetailVente.jsp");
 		rd.forward(request, response);

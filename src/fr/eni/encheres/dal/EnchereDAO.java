@@ -27,4 +27,7 @@ public interface EnchereDAO {
 	
 	//Récupérer une enchere par l'id de l'article
 	public Enchere getEnchereByIDArticle(int idArticle) throws BusinessException;
+
+	//Récupérer le montant de l'enchère par l'id de l'article
+	public int getMontantEnchereByIDArticle(int idArticle) throws BusinessException;
 }

@@ -68,6 +68,14 @@ public class ArticleVenduManager {
 		
 	}
 	
+	//Récupération d'un article son nom et le pseudo du vendeur
+	
+	public ArticleVendu recupererArticleParNomArticleEtNomVendeur(String nomArticle, String pseudoVendeur) throws BusinessException{
+		ArticleVendu articleAGenerer = articleVenduDAO.recupArticleBYNomEtPseudoVendeur(nomArticle, pseudoVendeur);
+				
+		return articleAGenerer;
+	}
+	
 	//Récupération d'un article par son id
 	public ArticleVendu getArticleByID(int idArticle) throws BusinessException{
 		ArticleVendu article = articleVenduDAO.getArticleByIDArticle(idArticle);

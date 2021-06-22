@@ -48,5 +48,9 @@ public class EnchereManager {
 			}
 	}
 	
-	
+	//Récupérer montant de l'enchère
+	public int recupMontantEnchere(int idArticle) throws BusinessException{
+		int montantEnchere = enchereDAO.getMontantEnchereByIDArticle(idArticle);
+		return montantEnchere;
+	}
 }

@@ -146,10 +146,15 @@ public abstract class CodeResultatDAL {
 	
 	public static final int SELECT_ENCHERE_ECHEC=15101;
 	
+	/**
+	 * Echec RECUPERATION enchere par id
+	 */
+	
+	public static final int SELECT_MONTANT_ENCHERE_ECHEC=15102;
 	
 
 	
-	//Erreurs Encheres
+	//Erreurs retraits
 
 
 	/**
@@ -170,7 +175,13 @@ public abstract class CodeResultatDAL {
 	 * Echec insertion de du moyen de retrait dans la base de données
 	 */
 	
-	public static final int DELETE_RETRAIT_ECHEC=15203;
+	public static final int DELETE_RETRAIT_ECHEC=15202;
+	
+	/**
+	 * Echec récupération du lieu de retrait en bdd
+	 */
+	
+	public static final int RECUP_RETRAIT_ECHEC=15203;
 	
 
 	

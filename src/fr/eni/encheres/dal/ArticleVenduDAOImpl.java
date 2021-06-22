@@ -26,7 +26,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	private final String FIND_ARTICLE_FROM_USER =		"Select nom_article from ARTICLES_VENDUS Inner join UTILISATEURS ON Articles_vendus.no_utilisateur = UTILISATEURS.no_utilisateur AND UTILISATEURS.pseudo=?;";
 	
 	private final String CREATE_ARTICLE_FROM_USER = 	"SELECT no_article, description, date_debut_encheres, date_fin_encheres, "
-														+ "prix_initial, prix_vente,no_utilisateur,no_categorie,etat_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS "
+														+ "prix_initial, prix_vente,ARTICLES_VENDUS.no_utilisateur,no_categorie,etat_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS "
 														+ "ON ARTICLES_VENDUS.nom_article=? AND UTILISATEURS.pseudo=? AND Articles_vendus.no_utilisateur = UTILISATEURS.no_utilisateur;";
 	
 	private final String FIND_ALL_CATEGORIES=			"SELECT no_categorie,libelle FROM CATEGORIES;";

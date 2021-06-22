@@ -22,6 +22,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 	
 	private final String SELECT_BY_ID=				"SELECT no_utilisateur,date_enchere,montant_enchere FROM ENCHERES "
 													+ "WHERE no_article=?;";
+	private final String SELECT_MONTANT_BY_ID=		"SELECT montant_enchere FROM ENCHERES WHERE no_article=?;";
 	
 	@Override
 	public void ajouterEnchereEnCours(ArticleVendu article) throws BusinessException {
@@ -92,6 +93,26 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 			}
 		
 		return enchere;
+	}
+
+	@Override
+	public int getMontantEnchereByIDArticle(int idArticle) throws BusinessException {
+		int montantEnchere = 0;
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(SELECT_MONTANT_BY_ID))
+			{
+				ResultSet rs = stmt.executeQuery();
+				if(rs.next())
+					{
+						montantEnchere = rs.getInt("montant_enchere"); 
+					}
+			} 
+		catch (SQLException e) 
+			{
+				BusinessException be = new BusinessException();
+				be.ajouterErreur(15102);
+				e.printStackTrace();
+			}
+		return montantEnchere;
 	}
 
 }
