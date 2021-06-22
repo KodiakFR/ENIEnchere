@@ -96,7 +96,7 @@
 						
 		 			
 							<div class="Inscriptiondivbtnb">
-								<a href="<%=request.getContextPath()%>/Accueil">
+								<a href="<%=request.getContextPath()%>/Suppression">
 		                       <input type="button" value="Supprimer mon compte" class="btn btn-primary mb-2"/></a>
 							</div>
 					

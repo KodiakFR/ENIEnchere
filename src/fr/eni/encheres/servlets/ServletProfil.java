@@ -18,7 +18,7 @@ import fr.eni.encheres.bo.Utilisateur;
  * Servlet implementation class ServletProfil
  */
 @WebServlet(
-		urlPatterns = {"/Profil", "/ModifProfil",}
+		urlPatterns = {"/Profil", "/ModifProfil", "/Suppression"}
 		)
 public class ServletProfil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -49,8 +49,6 @@ public class ServletProfil extends HttpServlet {
 				// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.	
 				
 				String pseudoRecup = request.getParameter("pseudo");
-			
-			
 				
 				System.out.println("je suis dans le if 1er");	
 				Utilisateur utilisateurInconnu = utilisateur.recuperationUtilisateur(utilisateurGeneral);
@@ -92,10 +90,18 @@ public class ServletProfil extends HttpServlet {
 						
 		}
 		
-		
+		if (request.getServletPath().equals("/Suppression")) {
+						
+				try {
+					UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
+					String utilisateurSession = (String) request.getSession().getAttribute("Utilisateur");
+					Utilisateur utilisateurSuppr = utilisateurManager.suppressionProfil(utilisateurSession);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}	
+		}
 		
 	}
-
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -106,6 +112,8 @@ public class ServletProfil extends HttpServlet {
 		
 		boolean verifPseudo = false;
 		boolean verifMail = false;
+		
+		
 		try {
 			
 		
