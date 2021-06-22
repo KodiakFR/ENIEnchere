@@ -104,8 +104,9 @@ public class ServletProfil extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		boolean validationMdp = false;
 		boolean validationMdpAc = false;
+		boolean verifMdp = false;
 		try {
-			boolean verifMdp = false;
+			
 			Utilisateur utilisateurSession = (Utilisateur) request.getSession().getAttribute("Utilisateur");
 			System.out.println("pseudo sauvegardé c'est bon " + utilisateurSession);
 			UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
@@ -126,33 +127,37 @@ public class ServletProfil extends HttpServlet {
 			
 			// Vérification du mot de passe : résultat en boolean
 			verifMdp = utilisateurManager.validerMDP(mdpAc);
+			System.out.println(verifMdp + " reponse");
 			
-			
-			if(verifMdp = true) {
-				if(newMdp.equals(confirmMdp)) {
-					if(newMdp != null & confirmMdp != null) {
+			if(verifMdp == true) {
+				if(newMdp.length()>0 & confirmMdp.length()>0) {
+					if(newMdp.equals(confirmMdp)) {
 						Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, newMdp);
 						utilisateurManager.modificationProfil(utilisateur);
+						System.out.println("je passe 1");
 					}
 				}
-				if(newMdp == null & confirmMdp == null) {
+				if(newMdp.length()==0 & confirmMdp.length()==0) {
 					Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, mdpAc);
 					utilisateurManager.modificationProfil(utilisateur);	
+					System.out.println("je passe 2");
 				}
 				else if(!newMdp.equals(confirmMdp)) {
-					validationMdpAc = true;
-					request.setAttribute("validationMdpAc", validationMdpAc);
+					validationMdp = true;
+					request.setAttribute("validationMdp", validationMdp);
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
 					rd.forward(request, response);
+					System.out.println("je passe 3");
 				}
 			}
 			
 			// methode verif si les deux nouveaux mdp saisie sont egaux
-			 else if(verifMdp = false) {
-				validationMdp = true;
-				request.setAttribute("validationMdp", validationMdp);
+			 if(verifMdp == false) {
+				validationMdpAc = true;
+				request.setAttribute("validationMdpAc", validationMdpAc);
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
 				rd.forward(request, response);
+				System.out.println("je passe 4");
 			}
 			
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Profil.jsp") ;

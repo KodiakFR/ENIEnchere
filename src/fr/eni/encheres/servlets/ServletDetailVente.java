@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.bll.ArticleVenduManager;
+import fr.eni.encheres.bll.EnchereManager;
+import fr.eni.encheres.bo.ArticleVendu;
+
 /**
  * Servlet implementation class ServletDetailVente
  */
@@ -20,6 +24,15 @@ public class ServletDetailVente extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
+		EnchereManager enchereManager = EnchereManager.getInstance();
+		
+		
+		ArticleVendu articleAAfficher = articleManager.getArticleByNomArticle(nomArticle) ;
+		
+		request.setAttribute("articleAAfficher", articleAAfficher);
+		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/DetailVente.jsp");
 		rd.forward(request, response);
 	}
