@@ -75,15 +75,6 @@ public class ArticleVenduManager {
 		return article;
 	}
 	
-	//Récupération d'un article par son nom
-	
-	public ArticleVendu getArticleByNomArticle(String nomArticle) throws BusinessException{
-		ArticleVendu article = null;
-		
-		article = articleVenduDAO.recupArticleByNomArticle(nomArticle);
-		
-		return article;
-	}
 	
 	//Update etat vente
 	

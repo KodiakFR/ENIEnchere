@@ -116,18 +116,6 @@
 			</form>
 	</div>
 	
-	<div class="container">
-	
-	
-					<c:if test="${!empty listArticles}">
-						<c:forEach var="a" items="${listArticles}">
-							<p>
-								${a}
-							</p>
-						</c:forEach>
-					</c:if>
-					
-			
-	</div>
+
 </body>
 </html>

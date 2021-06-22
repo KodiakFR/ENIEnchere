@@ -19,12 +19,16 @@ import fr.eni.encheres.bo.Categorie;
 
 public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
+	// DELETE
 	private final String DELETE_ARTICLE =				"DELETE FROM ARTICLES_VENDUS where no_article=?;";
 	
-	private final String FIND_ARTICLE_FROM_USER =		"SELECT nom_article FROM ARTICLES_VENDUS WHERE pseudo_utilisateur=?;";
+	//SELECT
+	private final String FIND_ARTICLE_FROM_USER =		"Select nom_article from ARTICLES_VENDUS Inner join UTILISATEURS ON Articles_vendus.no_utilisateur = UTILISATEURS.no_utilisateur AND UTILISATEURS.pseudo=?;";
+	
 	private final String CREATE_ARTICLE_FROM_USER = 	"SELECT no_article, description, date_debut_encheres, date_fin_encheres, "
-														+ "prix_initial, prix_vente,no_utilisateur,no_categorie,etat_vente FROM ARTICLES_VENDUS "
-														+ "WHERE nom_article=? AND pseudo_utilisateur=?;";
+														+ "prix_initial, prix_vente,no_utilisateur,no_categorie,etat_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS "
+														+ "ON ARTICLES_VENDUS.nom_article=? AND UTILISATEURS.pseudo=? AND Articles_vendus.no_utilisateur = UTILISATEURS.no_utilisateur;";
+	
 	private final String FIND_ALL_CATEGORIES=			"SELECT no_categorie,libelle FROM CATEGORIES;";
 	
 	private final String FIND_ARTICLE_PAR_ETAT_VENTE=	"SELECT no_article,nom_article,description,date_debut_encheres,date_fin_encheres," 
@@ -35,13 +39,12 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	private final String FIND_ARTICLE_BY_ID=			"SELECT nom_article,description,date_debut_encheres,date_fin_encheres,"
 														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente, pseudo_utilisateur FROM ARTICLES_VENDUS WHERE "
 														+ "no_article=?;";
-	private final String FIND_ID_CATEGORIE=				"SELECT no_categorie FROM CATEGORIES WHERE libelle=?;";
-	private final String FIND_ARTICLE_BY_NOM=			"SELECT no_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,"
-														+ "no_utilisateur,no_categorie,etat_vente,pseudo_utilisateur FROM ARTICLES_VENDUS WHERE "
-														+ "nom_article=?;";
 	
-	private final String INSERT_ARTICLE = 				"INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?,?);";
+	private final String FIND_ID_CATEGORIE=				"SELECT no_categorie FROM CATEGORIES WHERE libelle=?;";
+	
+	private final String INSERT_ARTICLE = 				"INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?);";
 
+	//UPDATE
 	private final String UPDATE_ETAT_VENTE=				"UPDATE ARTICLES_VENDUS SET etat_vente='?' WHERE no_article=?;";
 	private final String UPDATE_PRIX_VENTE=				"UPDATE ARTICLES_VENDUS SET prix_vente='?' WHERE no_article=?;";
 	
@@ -83,7 +86,6 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 				stmt.setInt(7, idVendeur);
 				stmt.setInt(8, idCategorie);
 				stmt.setInt(9, etatVente);
-				stmt.setString(10, pseudoVendeur);
 				int nbRows = stmt.executeUpdate();
 				if(nbRows != 1)
 				{
@@ -288,38 +290,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	}
 
 	
-	@Override
-	public ArticleVendu recupArticleByNomArticle(String nomArticle) throws BusinessException {
-		ArticleVendu art = null;
-		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ARTICLE_BY_NOM))
-			{
-				stmt.setString(1, nomArticle);
-				ResultSet rs = stmt.executeQuery();
-				
-					while(rs.next())
-						{
-							int noArticle = 				rs.getInt("no_article");
-							String description = 			rs.getString("description");
-							LocalDate dateDebutEnchere = 	rs.getDate("date_debut_encheres").toLocalDate();
-							LocalDate dateFinEnchere=		rs.getDate("date_fin_encheres").toLocalDate();
-							int prixInitial=				rs.getInt("prix_initial");
-							int prixVente = 				rs.getInt("prix_vente");
-							int noUtilisateur = 			rs.getInt("no_utilisateur");
-							int noCategorie =				rs.getInt("no_categorie");
-							int etatVente = 				rs.getInt("etat_vente");
-							String pseudoUtilisateur=		rs.getString("utilisateur");
-							
-							art = new ArticleVendu(noArticle, nomArticle, description, dateDebutEnchere, dateFinEnchere, prixInitial, prixVente, noUtilisateur, noCategorie, etatVente, pseudoUtilisateur);
-						}
-			} 
-		catch (SQLException e) 
-			{
-				BusinessException be = new BusinessException();
-				be.ajouterErreur(15012);
-				e.printStackTrace();
-			}
-		return art;
-	}
+
 	
 	
 	

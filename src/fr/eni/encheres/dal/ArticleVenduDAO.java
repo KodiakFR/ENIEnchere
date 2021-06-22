@@ -45,9 +45,6 @@ public interface ArticleVenduDAO {
 	
 	public ArticleVendu getArticleByIDArticle(int idArticle) throws BusinessException;
 	
-	// récupère un article par son nom
-	
-	public ArticleVendu recupArticleByNomArticle(String nomArticle) throws BusinessException;
 	
 	//Mise à jour de l'état de vente de l'article
 	
