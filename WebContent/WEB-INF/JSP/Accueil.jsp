@@ -26,9 +26,9 @@
 				<div class = "inscrireConnect">
 					<a href="#">Enchère</a>
 					<a href="NouvelleVente"> Vendre un article</a>
-					<a href="Profil"> Mon profil</a>
+					<a href="Profil?pseudo=${Utilisateur}"> Mon profil</a>
 					<a href="deconnexion"> Déconnexion</a> <br>
-					Bonjour ${Utilisateur.getPrenom()}
+					Bonjour ${Utilisateur}
 				</div>
 			</c:if>
 		</div>
@@ -51,10 +51,15 @@
 		</p>
 		<p>
 			<label for="categorie">Catégories</label>
-			<select>
-			
+			<select name="categorie" id="categorie">
+				<option value="Informatique">Informatique </option>
+				<option value="Ameublement">Ameublement </option>
+				<option value="Vêtement">Vêtement </option>
+				<option value="Sport&Loisirs">Sport&Loisirs </option>
 			</select>
 		</p>
+		
+		
 	</form>
 	
 
