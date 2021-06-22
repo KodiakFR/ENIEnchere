@@ -40,27 +40,28 @@ public class ServletProfil extends HttpServlet {
 		if (request.getServletPath().equals("/Profil")) {
 			
 			try {
-				boolean valideP = true;
+				boolean valideP = false;
 				UtilisateurManager utilisateur = UtilisateurManager.getInstance();
 				Utilisateur utilisateurGeneral = (Utilisateur) request.getSession().getAttribute("Utilisateur");
-				System.out.println("utilisateurGeneral= "+utilisateurGeneral.toString());
+				System.out.println("utilisateurGeneral= " + utilisateurGeneral);
 	
 				
 				// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.	
 				
 				String pseudoRecup = request.getParameter("pseudo");
 
-
+				System.out.println(pseudoRecup + "ceci est le pseudo recup");
+				
 
 				// Si le pseudo récupéré n'est pas egal la session
 				
 				System.out.println("je suis dans le if 1er");
-				Utilisateur utilisateurInconnu= new Utilisateur(utilisateurGeneral.getPseudo());		
+				Utilisateur utilisateurInconnu = new Utilisateur(utilisateurGeneral.getPseudo());		
 				utilisateurInconnu = utilisateur.recuperationUtilisateur(utilisateurInconnu);
 				request.setAttribute("utilisateurInconnu", utilisateurInconnu);
 				
 				if(pseudoRecup.equals(utilisateurGeneral.getPseudo())) {
-				valideP = false;	
+				valideP = true;	
 				request.setAttribute("valideP", valideP);
 				}
 				request.setAttribute("valideP", valideP);
@@ -107,6 +108,9 @@ public class ServletProfil extends HttpServlet {
 		boolean validationMdp = false;
 		boolean validationMdpAc = false;
 		boolean verifMdp = false;
+		
+		boolean verifPseudo = false;
+		boolean verifMail = false;
 		try {
 			
 			Utilisateur utilisateurSession = (Utilisateur) request.getSession().getAttribute("Utilisateur");
@@ -132,25 +136,29 @@ public class ServletProfil extends HttpServlet {
 			System.out.println(verifMdp + " reponse");
 			
 			if(verifMdp == true) {
-				if(newMdp.length()>0 & confirmMdp.length()>0) {
-					if(newMdp.equals(confirmMdp)) {
-						Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, newMdp);
-						utilisateurManager.modificationProfil(utilisateur);
-						System.out.println("je passe 1");
+				verifMail = utilisateurManager.verifmail(email);
+				verifPseudo = utilisateurManager.validerPseudo(pseudo);
+				if() {
+					if(newMdp.length()>0 & confirmMdp.length()>0) {
+						if(newMdp.equals(confirmMdp)) {
+							Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, newMdp);
+							utilisateurManager.modificationProfil(utilisateur);
+							System.out.println("je passe 1");
+						}
 					}
-				}
-				if(newMdp.length()==0 & confirmMdp.length()==0) {
-					Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, mdpAc);
-					utilisateurManager.modificationProfil(utilisateur);	
-					System.out.println("je passe 2");
-				}
-				else if(!newMdp.equals(confirmMdp)) {
-					validationMdp = true;
-					request.setAttribute("validationMdp", validationMdp);
-					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
-					rd.forward(request, response);
-					System.out.println("je passe 3");
-				}
+					if(newMdp.length()==0 & confirmMdp.length()==0) {
+						Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, mdpAc);
+						utilisateurManager.modificationProfil(utilisateur);	
+						System.out.println("je passe 2");
+					}
+					else if(!newMdp.equals(confirmMdp)) {
+						validationMdp = true;
+						request.setAttribute("validationMdp", validationMdp);
+						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
+						rd.forward(request, response);
+						System.out.println("je passe 3");
+					}
+				}	
 			}
 			
 			// methode verif si les deux nouveaux mdp saisie sont egaux

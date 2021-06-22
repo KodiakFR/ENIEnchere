@@ -59,7 +59,7 @@ public class UtilisateurManager {
 	
 
 	// Méthode qui vérifie que le pseudo n'est pas vide ou trop long
-	private boolean validerPseudo(String nomPseudo) throws BusinessException {
+	public boolean validerPseudo(String nomPseudo) throws BusinessException {
 				boolean statusValidation = false;
 				if(nomPseudo == null | nomPseudo.length() > 30) {
 					statusValidation = true;
@@ -84,7 +84,7 @@ public class UtilisateurManager {
 	
 	
 	// Méthode qui vérifie si le mail n'est pas vide ou trop long
-	private boolean validerMail(String nomMail) throws BusinessException {
+	public boolean validerMail(String nomMail) throws BusinessException {
 					boolean statusValidation = false;
 					if(nomMail == null | nomMail.length() > 60) {
 						statusValidation = true;
