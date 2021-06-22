@@ -16,7 +16,6 @@ import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.Utilisateur;
 
 /**
  * Servlet implementation class ServletAcceuil
@@ -40,12 +39,7 @@ public class ServletAccueil extends HttpServlet {
 			
 			System.out.println("j'ai crée mon tableau de cookies");
 			
-			if(cookies == null)
-			{
-			
-			}
-			
-			else
+			if(cookies != null)
 			{
 				try {
 					UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
@@ -57,11 +51,8 @@ public class ServletAccueil extends HttpServlet {
 						if(cookieConnection.getName().equals("userPseudo"))
 						{
 							userPseudo = cookieConnection.getValue();
-							Utilisateur utilisateur = new Utilisateur(userPseudo, null);
-							System.out.println(utilisateur);
-							utilisateur = utilisateurManager.recuperationUtilisateur(utilisateur);
 							HttpSession session = request.getSession(true);
-							session.setAttribute("Utilisateur", utilisateur);
+							session.setAttribute("Utilisateur", userPseudo);
 						}
 					}
 					

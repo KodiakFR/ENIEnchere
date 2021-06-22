@@ -137,24 +137,16 @@ public class UtilisateurManager {
 	
 	
 	//Méthode de connection
-			public boolean connection(Utilisateur utilisateur) throws BusinessException{
-				Utilisateur u;
+			public boolean connection(String identifiant, String password) throws BusinessException{
 				boolean testConnection = false;
 				System.out.println("je suis dans ma bll avant d'aller dans la DAL");
-				testConnection = validerPseudo(utilisateur.getPseudo());
+				testConnection = validerPseudo(identifiant);
 				System.out.println(testConnection);
 				if (testConnection == true)
 				{
-					u = this.utilisateurDAO.SelectUser(utilisateur);
-					if(utilisateur.getMotDePasse().equals(u.getMotDePasse())) {
-						testConnection = true;
+					testConnection = validerMDP(password);
 					}
-					else {
-						testConnection = false;
-					}
-				}
-				return testConnection;
-				
+				return testConnection;	
 			}
 			
 	//méthode de récuperation d'un utilisateur
@@ -220,6 +212,7 @@ public class UtilisateurManager {
 			this.utilisateurDAO.updatePassword(password, userEmail);
 		
 	}
+		
 
 
 	

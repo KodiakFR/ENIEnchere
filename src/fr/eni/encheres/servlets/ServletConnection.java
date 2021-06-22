@@ -76,21 +76,15 @@ public class ServletConnection extends HttpServlet {
 			
 				//récupération des données
 				
-				String identifiant = request.getParameter("Identifiant");
+				String utilisateur = request.getParameter("Identifiant");
 				String password	= request.getParameter("Password");
 				String souvenirMoi = request.getParameter("souvenirMoi");
-				System.out.println("récupération des infos " + identifiant + " " + password + " " + souvenirMoi );
+				System.out.println("récupération des infos " + utilisateur + " " + password + " " + souvenirMoi );
 				
-				//construction de l'objet Utilisateur
-				
-				Utilisateur utilisateur = new Utilisateur(identifiant, password);
-				System.out.println("création de l'objet utilisateur avec un id et mdp");
-				System.out.println(utilisateur.toString());
 				
 				//Appel de la méthode de connection
 				
-				System.out.println(utilisateur.toString());
-				testConnection = utilisateurManager.connection(utilisateur);
+				testConnection = utilisateurManager.connection(utilisateur, password);
 				System.out.println("test connection = " +testConnection);
 				
 				if (testConnection == false)
@@ -103,22 +97,22 @@ public class ServletConnection extends HttpServlet {
 				
 				if (testConnection == true)
 				{
-					utilisateur = utilisateurManager.recuperationUtilisateur(utilisateur);
-					
+						
 					HttpSession session = request.getSession(true);
 					session.setAttribute("Utilisateur", utilisateur);
 					if(souvenirMoi != null)
 					{
 						//création d'un cookie de connection pour une semaine
-						Cookie cookieConnection	= new Cookie ("userPseudo", utilisateur.getPseudo());
+						Cookie cookieConnection	= new Cookie ("userPseudo", utilisateur);
 						cookieConnection.setMaxAge(7*24*3600);
 						response.addCookie(cookieConnection);
 						System.out.println(cookieConnection.getName() + " " + cookieConnection.getValue());
 						
 					}
 					
-					RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+					RequestDispatcher rd  = request.getRequestDispatcher("Accueil");
 					rd.forward(request, response);
+					System.out.println("je suis passé par la");
 				}
 
 				
