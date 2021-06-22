@@ -43,11 +43,11 @@
 		
 	<!-- Affichage du formulaire.  -->
 	
-	<h3>Filtre:</h3>	
+	<h3>Filtres:</h3>	
 	
 	<form action="" method="post">
 		<p>
-			<input type="text" placeholder="Le nom de l'article contient" class="form-control">
+			<input type="text" placeholder="Le nom de l'article contient" class="col-4">
 		</p>
 		<p>
 			<label for="categorie">Catégories</label>
@@ -58,8 +58,37 @@
 				<option value="Sport&Loisirs">Sport&Loisirs </option>
 			</select>
 		</p>
-		
-		
+		<div class="row">
+			<div class="col-4">
+					<input type="radio" name="status" value="Achats" id="Achats" checked="checked">
+					<label for="Achats">Achats</label> <br>
+						<div class="ms-4">	
+						
+							<input type="checkbox" name="ouvertes" checked="checked">
+							<label for="ouvertes">enchères ouvertes</label> <br>
+							<input type="checkbox" name="encours">
+							<label for="encours">mes enchères en cours</label> <br>
+							<input type="checkbox" name="remportees">
+							<label for="remportees">mes enchères remportées</label> <br>
+						</div>
+			</div>
+			<div class="col-4">
+					<input type="radio" name="status" value="Ventes" id="Ventes">
+					<label for="Ventes">Mes Ventes</label><br>	
+					<div class="ms-4">
+						<input type="checkbox" name="ventesEnCours">
+						<label for="ventesEnCours">enchères ouvertes</label> <br>
+						<input type="checkbox" name="ventesNonDebutees">
+						<label for="ventesNonDebutees">mes enchères en cours</label> <br>
+						<input type="checkbox" name="ventesTerminées">
+						<label for="ventesTerminées">mes enchères remportées</label> <br>	
+					</div>
+			</div>
+			<div class="col-4">
+					<input type="submit" value="Rechercher" class="btn btn-primary btn-lg">
+			</div>	
+		</div>
+
 	</form>
 	
 
@@ -93,33 +122,6 @@
 				</div>		
 		</c:forEach>
 	</div>	
-<!--  
-		<div class = "row">
-			<div class = "col-6" >
-				<div class = "card flex-row">
-					<img alt="image article" src="#">
-					<div class="card-body">
-					 PC Gamer pour travailler <br>
-					 prix : 210 points <br>
-					 Fin d'enchère: 30/06/2021 <br>
-					 Vendeur : <a href="#">jojo44</a>
-					 
-					</div>
-				</div>
-			</div>
-			<div class = "col-6">
-				<div class = "card flex-row">
-					<img alt="image article" src="#">
-					<div class="card-body">
-					 PC Gamer pour travailler <br>
-					 prix : 210 points <br>
-					 Fin d'enchère: 30/06/2021 <br>
-					 Vendeur : <a href="#">jojo44</a>
-					</div>
-				</div>	
-			</div>
-		</div>	
-		-->
 	</div>	
 </body>
 

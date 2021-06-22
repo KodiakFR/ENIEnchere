@@ -73,6 +73,9 @@ public class ServletAccueil extends HttpServlet {
 			request.setAttribute("listeEnchereEnCours", listeEnchereEnCours);
 						
 			//afficher la page accueil
+			
+			
+			
 			RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
 			rd.forward(request, response);	
 		
