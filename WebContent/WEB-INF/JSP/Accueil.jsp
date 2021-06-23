@@ -82,15 +82,15 @@
 	<div class="row flex-row">
 		<div class="col-8">
 			<p>
-				<input type="text" placeholder="Le nom de l'article contient" class="col-4">
+				<input type="text" name="motcle" placeholder="Le nom de l'article contient" class="col-4">
 			</p>
 			<p>
 				<label for="categorie">Catégories</label>
 				<select name="categorie" id="categorie">
-					<option value="Informatique">Informatique </option>
-					<option value="Ameublement">Ameublement </option>
-					<option value="Vêtement">Vêtement </option>
-					<option value="Sport&Loisirs">Sport&Loisirs </option>
+					<option value="1">Informatique </option>
+					<option value="2">Ameublement </option>
+					<option value="3">Vêtement </option>
+					<option value="4">Sport&Loisirs </option>
 				</select>
 			</p>
 				<div class="row">
@@ -99,11 +99,11 @@
 								<label for="Achats">Achats</label> <br>
 									<div class="ms-4">	
 									
-										<input type="checkbox" name="ouvertes" id="ouvertes" checked="checked">
+										<input type="checkbox" name="ouvertes" id="ouvertes" value="1" checked="checked">
 										<label for="ouvertes">enchères ouvertes</label> <br>
-										<input type="checkbox" name="encours" id="encours">
+										<input type="checkbox" name="encours" id="encours" value="2" >
 										<label for="encours">mes enchères en cours</label> <br>
-										<input type="checkbox" name="remportees" id="remportees">
+										<input type="checkbox" name="remportees" id="remportees" value="3" >
 										<label for="remportees">mes enchères remportées</label> <br>
 										
 									</div>
@@ -113,11 +113,11 @@
 								<label for="Ventes">Mes Ventes</label><br>	
 								<div class="ms-4">
 								
-									<input type="checkbox" name="ventesEnCours" id="ventesEnCours" disabled="disabled">
-									<label for="ventesEnCours">mes ventes en cours</label> <br>
-									<input type="checkbox" name="ventesNonDebutees" id="ventesNonDebutees" disabled="disabled">
+									<input type="checkbox" name="ventesEnCours" id="ventesEnCours" value="2" disabled="disabled">
+									<label for="ventesEnCours">mes ventes en cours</label > <br>
+									<input type="checkbox" name="ventesNonDebutees" id="ventesNonDebutees" value="1" disabled="disabled">
 									<label for="ventesNonDebutees">ventes non débutées</label> <br>
-									<input type="checkbox" name="ventesTerminées" id="ventesTerminées" disabled="disabled">
+									<input type="checkbox" name="ventesTerminées" id="ventesTerminées" value="3" disabled="disabled">
 									<label for="ventesTerminées">ventes terminées</label> <br>	
 								</div>
 						</div>
