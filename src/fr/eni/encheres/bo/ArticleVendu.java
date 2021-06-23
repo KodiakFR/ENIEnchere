@@ -79,6 +79,15 @@ public class ArticleVendu {
 
 
 
+	public ArticleVendu(String nomArticle, LocalDate dateFinEncheres, int prixVente, String pseudoUtilisateur) {
+		
+		this.nomArticle = nomArticle;
+		this.dateFinEncheres = dateFinEncheres;
+		this.prixVente = prixVente;
+		this.pseudoUtilisateur = pseudoUtilisateur;
+	}
+
+
 	public Integer getNoArticle() {
 		return noArticle;
 	}

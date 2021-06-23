@@ -66,14 +66,18 @@ public class ServletAccueil extends HttpServlet {
 			
 			//récupérer la liste des articles en status en cours .
 			
-			String etatVente = "En cours";
 			
-			List<ArticleVendu> listeEnchereEnCours = manager.getListeEtatVente(etatVente);
+			String motcle = "%%";
+			int etatVente = 2;
+			int categorie = 1;
+			
+			
+			List<ArticleVendu> listeEnchereEnCours = manager.getListeEtatVente(motcle, etatVente, null, null, categorie);
 			System.out.println(listeEnchereEnCours.toString());
 			request.setAttribute("listeEnchereEnCours", listeEnchereEnCours);
 						
 			//afficher la page accueil
-			
+
 			
 			
 			RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
@@ -89,7 +93,59 @@ public class ServletAccueil extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		
+		try {
+			ArticleVenduManager manager = ArticleVenduManager.getInstance();
+			
+			//récupere mes infos
+			
+			String motcle = "%"+request.getParameter("motcle")+"%";
+			
+			int categories = Integer.parseInt(request.getParameter("categorie"));
+			
+			Integer ouvertes;
+			Integer encours;
+			Integer terminees;
+			if ((request.getParameter("ouvertes")) != null) {
+				
+				ouvertes = Integer.parseInt(request.getParameter("ouvertes"));
+			}
+			else {
+				ouvertes = null;
+			}
+			if ((request.getParameter("encours")) != null) {
+				
+				 encours = Integer.parseInt(request.getParameter("encours"));
+			}
+			else {
+				 encours = null;
+			}
+			
+			if ((request.getParameter("remportees")) != null) {
+				
+				terminees = Integer.parseInt(request.getParameter("remportees"));
+			}
+			else {
+				terminees = null;
+			}
+			
+			System.out.println(motcle + " " + ouvertes + " " + encours + " " + terminees + " " + categories);
+			
+			//application de la méthode pour retourner la liste des articles
+			
+			List<ArticleVendu> listeEnchereEnCours = manager.getListeEtatVente(motcle, ouvertes, encours, terminees, categories);
+			request.setAttribute("listeEnchereEnCours", listeEnchereEnCours);
+			
+		} catch (NumberFormatException | BusinessException e) {
+			e.printStackTrace();
+		}
+
+		
+		// afficher la page
+		
+		RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+		rd.forward(request, response);	
+		
 	}
 
 }

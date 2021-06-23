@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,10 +32,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	
 	private final String FIND_ALL_CATEGORIES=			"SELECT no_categorie,libelle FROM CATEGORIES;";
 	
-	private final String FIND_ARTICLE_PAR_ETAT_VENTE=	"SELECT no_article,nom_article,description,date_debut_encheres,date_fin_encheres," 
-														+ "prix_initial,prix_vente,u.no_utilisateur,no_categorie,pseudo " 
+	private final String FIND_ARTICLE_PAR_FILTRE_ACCUEIL=	"SELECT nom_article,date_fin_encheres,prix_vente,pseudo " 
 														+ "FROM ARTICLES_VENDUS av INNER JOIN UTILISATEURS u ON av.no_utilisateur = u.no_utilisateur " 
-														+"WHERE etat_vente=?;";
+														+"WHERE nom_article LIKE (?) AND (etat_vente=? OR etat_vente=? OR etat_vente=?) AND no_categorie =?;";
 	
 	private final String FIND_ARTICLE_BY_ID=			"SELECT nom_article,description,date_debut_encheres,date_fin_encheres,"
 														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente, pseudo_utilisateur FROM ARTICLES_VENDUS WHERE "
@@ -198,28 +198,41 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
 
 
-	@Override
-	public List<ArticleVendu> recupListeArticleParEtatVente(int etatVente) throws BusinessException {
+	public List<ArticleVendu> recupListeArticleSelonFiltreAccueil(String motcle ,Integer ouvertes , Integer encours, Integer terminees, int numCategorie) throws BusinessException {
 		List<ArticleVendu> lstArticle = new ArrayList<ArticleVendu>();
-		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ARTICLE_PAR_ETAT_VENTE))
+		try(Connection con = ConnectionProvider.getConnection(); 
+				PreparedStatement stmt = con.prepareStatement(FIND_ARTICLE_PAR_FILTRE_ACCUEIL))
 		{
-			stmt.setInt(1, etatVente);
+			stmt.setString(1, motcle);
+			if (ouvertes == null) {
+				stmt.setNull(2, Types.INTEGER);
+			}
+			else {
+				stmt.setInt(2, ouvertes);
+			}
+			if (encours == null) {
+				stmt.setNull(3, Types.INTEGER);
+			}
+			else {
+				stmt.setInt(3, encours);
+			}
+			if (terminees == null) {
+				stmt.setNull(4, Types.INTEGER);
+			}
+			else {
+				stmt.setInt(4, terminees);
+			}
+			stmt.setInt(5, numCategorie);
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) 
 				{
-					int noArticle = 			rs.getInt("no_article");
 					String nomArticle =				rs.getString("nom_article");
-					String description = 			rs.getString("description");
-					LocalDate dateDebutEncheres = 	rs.getDate("date_debut_encheres").toLocalDate();
 					LocalDate dateFinEncheres = 	rs.getDate("date_fin_encheres").toLocalDate();
-					int miseAPrix = 				rs.getInt("prix_initial");
 					int prixVente = 				rs.getInt("prix_vente");
-					int noUtilisateur = 		rs.getInt("no_utilisateur");
-					int noCategorie = 			rs.getInt("no_categorie");
 					String pseudoUtilisateur=		rs.getString("pseudo");
 					
-					ArticleVendu art = new ArticleVendu(noArticle,nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente,noUtilisateur, noCategorie, etatVente,pseudoUtilisateur);
+					ArticleVendu art = new ArticleVendu(nomArticle, dateFinEncheres, prixVente, pseudoUtilisateur);
 					lstArticle.add(art);
 				}
 			

@@ -39,7 +39,7 @@ public interface ArticleVenduDAO {
 	
 	//Récupère une liste d'article par son état de vente
 	
-	public List<ArticleVendu> recupListeArticleParEtatVente(int etatVente) throws BusinessException;
+	public List<ArticleVendu> recupListeArticleSelonFiltreAccueil(String motcle ,Integer ouvertes , Integer encours, Integer terminees, int numCategorie) throws BusinessException;
 	
 	//Récupère un article par son id (utilisation pour les enchères principalement)
 	
