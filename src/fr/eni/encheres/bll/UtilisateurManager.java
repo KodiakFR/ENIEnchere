@@ -177,8 +177,8 @@ public class UtilisateurManager {
 	
 	
 	//Méthode modification profil
-	public void modificationProfil(Utilisateur utilisateur) throws BusinessException {
-		this.utilisateurDAO.updateProfil(utilisateur);
+	public void modificationProfil(Utilisateur utilisateur, String pseudo) throws BusinessException {
+		this.utilisateurDAO.updateProfil(utilisateur, pseudo);
 	}
 	
 	//Methode de suppression du profil

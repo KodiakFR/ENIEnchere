@@ -138,11 +138,11 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 
 		
 	// Méthode modification du profil de l'utilisateur 
-	public void updateProfil(Utilisateur utilisateur) throws BusinessException {
+	public void updateProfil(Utilisateur utilisateur, String pseudo) throws BusinessException {
 		try (Connection cnx = ConnectionProvider.getConnection();
 				PreparedStatement stmt= cnx.prepareStatement(UPDATE_PROFIL);){
 		setParameter(stmt, utilisateur);
-		stmt.setString(10, utilisateur.getPseudo());
+		stmt.setString(10, pseudo);
 		stmt.executeUpdate();
 			
 		} catch (Exception e) {
