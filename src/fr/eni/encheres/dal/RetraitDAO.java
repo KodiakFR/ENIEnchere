@@ -13,4 +13,7 @@ public interface RetraitDAO {
 		
 	//Supprimer un retrait
 		public void deleteRetrait(int noArticle) throws BusinessException;
+		
+	//Retrouver un retrait par l'id de l'article
+		public Retrait getRetraitByID(int idArticle) throws BusinessException;
 }

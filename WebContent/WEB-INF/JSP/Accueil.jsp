@@ -1,3 +1,4 @@
+<%@page import="java.util.Set"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -8,8 +9,42 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 <link href="${pageContext.request.contextPath}/CSS/style.css" rel = "stylesheet">
 <title>ENI - Encheres</title>
+
+<script>
+	function func(){
+		var type = document.getElementsByName("status");
+		if (type[0].checked) {
+			document.getElementById("ventesEnCours").disabled = true;
+			document.getElementById("ventesNonDebutees").disabled = true;
+		 	document.getElementById("ventesTerminées").disabled = true;
+		 	document.getElementById("ouvertes").disabled = false;
+		 	document.getElementById("encours").disabled = false;
+			document.getElementById("remportees").disabled = false;
+			document.getElementById("ventesEnCours").checked = false;
+			document.getElementById("ventesNonDebutees").checked = false;
+		 	document.getElementById("ventesTerminées").checked = false;
+			
+		}
+		else if (type[1].checked) {
+			document.getElementById("ouvertes").disabled = true;
+		 	document.getElementById("encours").disabled = true;
+			document.getElementById("remportees").disabled = true;
+			document.getElementById("ventesEnCours").disabled = false;
+			document.getElementById("ventesNonDebutees").disabled = false;
+		 	document.getElementById("ventesTerminées").disabled = false;
+			document.getElementById("ouvertes").checked = false;
+		 	document.getElementById("encours").checked = false;
+			document.getElementById("remportees").checked = false;
+		}
+			
+		
+	}
+</script>
 </head>
 
+
+
+<body>
 <header>
 	<div class = "container">	
 	
@@ -35,8 +70,6 @@
 		
 	</div>
 </header>
-
-<body>
 	<div class = "container">	
 	
 		<h1 class = "text-center">Liste des enchères</h1>
@@ -45,47 +78,53 @@
 	
 	<h3>Filtres:</h3>	
 	
-	<form action="" method="post">
-		<p>
-			<input type="text" placeholder="Le nom de l'article contient" class="col-4">
-		</p>
-		<p>
-			<label for="categorie">Catégories</label>
-			<select name="categorie" id="categorie">
-				<option value="Informatique">Informatique </option>
-				<option value="Ameublement">Ameublement </option>
-				<option value="Vêtement">Vêtement </option>
-				<option value="Sport&Loisirs">Sport&Loisirs </option>
-			</select>
-		</p>
-		<div class="row">
-			<div class="col-4">
-					<input type="radio" name="status" value="Achats" id="Achats" checked="checked">
-					<label for="Achats">Achats</label> <br>
-						<div class="ms-4">	
-						
-							<input type="checkbox" name="ouvertes" checked="checked">
-							<label for="ouvertes">enchères ouvertes</label> <br>
-							<input type="checkbox" name="encours">
-							<label for="encours">mes enchères en cours</label> <br>
-							<input type="checkbox" name="remportees">
-							<label for="remportees">mes enchères remportées</label> <br>
+	<form action="" method="post" class="">
+	<div class="row flex-row">
+		<div class="col-8">
+			<p>
+				<input type="text" placeholder="Le nom de l'article contient" class="col-4">
+			</p>
+			<p>
+				<label for="categorie">Catégories</label>
+				<select name="categorie" id="categorie">
+					<option value="Informatique">Informatique </option>
+					<option value="Ameublement">Ameublement </option>
+					<option value="Vêtement">Vêtement </option>
+					<option value="Sport&Loisirs">Sport&Loisirs </option>
+				</select>
+			</p>
+				<div class="row">
+						<div class="col-4 <c:if test='${empty Utilisateur}'> visually-hidden</c:if>">
+								<input type="radio" name="status" value="Achats" id="Achats" checked="checked" onchange="func();" >
+								<label for="Achats">Achats</label> <br>
+									<div class="ms-4">	
+									
+										<input type="checkbox" name="ouvertes" id="ouvertes" checked="checked">
+										<label for="ouvertes">enchères ouvertes</label> <br>
+										<input type="checkbox" name="encours" id="encours">
+										<label for="encours">mes enchères en cours</label> <br>
+										<input type="checkbox" name="remportees" id="remportees">
+										<label for="remportees">mes enchères remportées</label> <br>
+										
+									</div>
 						</div>
-			</div>
-			<div class="col-4">
-					<input type="radio" name="status" value="Ventes" id="Ventes">
-					<label for="Ventes">Mes Ventes</label><br>	
-					<div class="ms-4">
-						<input type="checkbox" name="ventesEnCours">
-						<label for="ventesEnCours">enchères ouvertes</label> <br>
-						<input type="checkbox" name="ventesNonDebutees">
-						<label for="ventesNonDebutees">mes enchères en cours</label> <br>
-						<input type="checkbox" name="ventesTerminées">
-						<label for="ventesTerminées">mes enchères remportées</label> <br>	
+						<div class="col-4 <c:if test='${empty Utilisateur}'> visually-hidden</c:if>">
+								<input type="radio" name="status" value="Ventes" id="Ventes" onchange="func();">
+								<label for="Ventes">Mes Ventes</label><br>	
+								<div class="ms-4">
+								
+									<input type="checkbox" name="ventesEnCours" id="ventesEnCours" disabled="disabled">
+									<label for="ventesEnCours">enchères ouvertes</label> <br>
+									<input type="checkbox" name="ventesNonDebutees" id="ventesNonDebutees" disabled="disabled">
+									<label for="ventesNonDebutees">mes enchères en cours</label> <br>
+									<input type="checkbox" name="ventesTerminées" id="ventesTerminées" disabled="disabled">
+									<label for="ventesTerminées">mes enchères remportées</label> <br>	
+								</div>
+						</div>
 					</div>
-			</div>
-			<div class="col-4">
-					<input type="submit" value="Rechercher" class="btn btn-primary btn-lg">
+				</div>
+			<div class="col-4 d-flex d-flex align-items-center" >
+				<input type="submit" value="Rechercher" class="btn btn-primary btn-lg">
 			</div>	
 		</div>
 
@@ -125,6 +164,6 @@
 	</div>	
 </body>
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
 </html>

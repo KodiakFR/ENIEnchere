@@ -25,11 +25,11 @@ public class EnchereManager {
 	}
 	
 	//Debut d'une enchère
-	public void startEnchere(ArticleVendu article) throws BusinessException{
+	public void startEnchere(ArticleVendu article,int idEncherisseur,int montantEnchere) throws BusinessException{
 		
 		if(LocalDate.now().compareTo(article.getDateDebutEncheres()) >=0)
 			{
-				enchereDAO.ajouterEnchereEnCours(article);
+				enchereDAO.ajouterEnchereEnCours(article,idEncherisseur, montantEnchere);
 				
 				ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
 					articleManager.updateEtatVenteArticle(article.getNoArticle(), "En cours");	
@@ -37,16 +37,57 @@ public class EnchereManager {
 		}
 	
 	//UPDATE enchere
-	public void doNouvelleEnchere(int idArticle, Utilisateur encherisseur, int nouvelleEnchere) throws BusinessException{
+	public String doNouvelleEnchere(int idArticle, Utilisateur encherisseur, int nouvelleEnchere) throws BusinessException{
+		String resultatEnchere = null;
+		
 		Enchere enchereEnCours = enchereDAO.getEnchereByIDArticle(idArticle);
 		int creditAcheteur = encherisseur.getCredit();
 		int montantEnchere = enchereEnCours.getMontantEnchere();
 		int noUtilisateur = encherisseur.getNoUtilisateur();
-		if(creditAcheteur-nouvelleEnchere>=0 && nouvelleEnchere > montantEnchere && LocalDate.now().compareTo(enchereEnCours.getDateEnchere())<0)
+		if(LocalDate.now().compareTo(enchereEnCours.getDateEnchere())<0)
 			{
-				enchereDAO.updateEnchere(idArticle, noUtilisateur, nouvelleEnchere);
+				if(creditAcheteur-nouvelleEnchere>=0)
+					{
+						if(nouvelleEnchere > montantEnchere )
+							{
+								enchereDAO.updateEnchere(idArticle, noUtilisateur, nouvelleEnchere);
+								resultatEnchere = "Bravo, vous êtes le meilleur enchérisseur";
+							}
+						else
+							{
+								resultatEnchere = "Le montant de l'enchère doit être supérieur à l'enchère en cours";
+							}
+					}
+				else
+					{
+						resultatEnchere = "Vous n'avez pas assez de crédit pour faire cette enchère";
+					}
 			}
+		else
+			{
+				resultatEnchere = "l'enchère est terminée";
+			}
+		
+		return resultatEnchere;
 	}
 	
+	//Récupérer une enchère âr l'article
 	
+	public Enchere recuperationEnchereByArticle(ArticleVendu article) throws BusinessException{
+		Enchere enchere = null;
+		int idArticle = article.getNoArticle();
+		int etatVente = article.getEtatVente();
+			if(etatVente <3)
+			{
+				enchereDAO.getEnchereByIDArticle(idArticle);
+			}
+			
+		return enchere;
+	}
+	
+	//Récupérer montant de l'enchère
+	public int recupMontantEnchere(int idArticle) throws BusinessException{
+		int montantEnchere = enchereDAO.getMontantEnchereByIDArticle(idArticle);
+		return montantEnchere;
+	}
 }

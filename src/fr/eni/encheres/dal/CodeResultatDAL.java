@@ -131,6 +131,12 @@ public abstract class CodeResultatDAL {
 	
 	public static final int RECUP_ARTICLE_BY_NOM_ECHEC=15012;
 	
+	/**
+	 * Echec récupération id de l'article
+	 */
+	
+	public static final int RECUP_ID_ARTICLE_ECHEC=15013;
+	
 	
 	//Erreurs Encheres
 
@@ -146,10 +152,21 @@ public abstract class CodeResultatDAL {
 	
 	public static final int SELECT_ENCHERE_ECHEC=15101;
 	
+	/**
+	 * Echec RECUPERATION enchere par id
+	 */
+	
+	public static final int SELECT_MONTANT_ENCHERE_ECHEC=15102;
+	
+	/**
+	 * Echec update enchere 
+	 */
+	
+	public static final int UPDATE_ENCHERE_ECHEC=15103;
 	
 
 	
-	//Erreurs Encheres
+	//Erreurs retraits
 
 
 	/**
@@ -170,7 +187,13 @@ public abstract class CodeResultatDAL {
 	 * Echec insertion de du moyen de retrait dans la base de données
 	 */
 	
-	public static final int DELETE_RETRAIT_ECHEC=15203;
+	public static final int DELETE_RETRAIT_ECHEC=15202;
+	
+	/**
+	 * Echec récupération du lieu de retrait en bdd
+	 */
+	
+	public static final int RECUP_RETRAIT_ECHEC=15203;
 	
 
 	

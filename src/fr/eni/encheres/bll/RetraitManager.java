@@ -34,4 +34,12 @@ public class RetraitManager {
 				retraitDAO.addRetrait(retrait, idArticle);
 			}
 	}
+	
+	//Récupérer un point de retrait pour un article
+	
+	public Retrait recupererRetraitByID(int idArticle) throws BusinessException{
+		Retrait retrait = null;
+		retrait = retraitDAO.getRetraitByID(idArticle);
+		return retrait;
+	}
 }

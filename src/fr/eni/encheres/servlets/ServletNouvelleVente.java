@@ -44,7 +44,6 @@ public class ServletNouvelleVente extends HttpServlet {
 			catch (BusinessException e1) 
 				{
 					e1.ajouterErreur(40001);
-					e1.printStackTrace();
 				}
 			
 			//Récupération des catégories existantes pour les afficher dans un eliste déroulante
@@ -104,7 +103,7 @@ public class ServletNouvelleVente extends HttpServlet {
 	//Construction de l'article pour sa manipulation en dal ou pré remplissage en cas d'erreur
 		
 		ArticleVendu newArticle = new ArticleVendu(nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix);
-	System.out.println(newArticle.getDescription());
+		
 	//Construction du retrait pour la manipulation en dal pré remplissage en cas d'erreur
 		
 		Retrait retrait = new Retrait(rue,cp,ville);

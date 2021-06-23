@@ -41,4 +41,9 @@ public abstract class CodeResultatBLL {
 	 */
 	public static final int UPDATE_OR_ADD_RETRAIT_ERREUR = 40003;
 	
+	/*
+	 * Echec ajout ou MAJ lieu de retrait
+	 */
+	public static final int ENCHERE_ERREUR = 40004;
+	
 }
