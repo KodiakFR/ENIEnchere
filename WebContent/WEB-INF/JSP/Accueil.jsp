@@ -1,3 +1,4 @@
+<%@page import="java.util.Set"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -60,7 +61,7 @@
 		</p>
 		<div class="row">
 			<div class="col-4">
-					<input type="radio" name="status" value="Achats" id="Achats" checked="checked">
+					<input type="radio" name="status" value="Achats" id="Achats" checked="checked" >
 					<label for="Achats">Achats</label> <br>
 						<div class="ms-4">	
 						
@@ -70,12 +71,18 @@
 							<label for="encours">mes enchères en cours</label> <br>
 							<input type="checkbox" name="remportees">
 							<label for="remportees">mes enchères remportées</label> <br>
+							
 						</div>
 			</div>
 			<div class="col-4">
 					<input type="radio" name="status" value="Ventes" id="Ventes">
 					<label for="Ventes">Mes Ventes</label><br>	
 					<div class="ms-4">
+					
+					<%
+					
+					%>
+					
 						<input type="checkbox" name="ventesEnCours">
 						<label for="ventesEnCours">enchères ouvertes</label> <br>
 						<input type="checkbox" name="ventesNonDebutees">
