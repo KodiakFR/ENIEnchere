@@ -63,7 +63,7 @@ public class ServletInscription extends HttpServlet {
 			if(mdpConfirm.equals(mdp)) {				
 				// Utilisation de la méthode validation
 				validationMandP = utilisateurManager.AjouterInscription(utilisateurU);
-				if(validationMandP == false) {				
+				if(validationMandP == false) {		
 					request.setAttribute("validationMandP", validationMandP);
 					request.setAttribute("utilisateurU", utilisateurU);
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Inscription.jsp");
@@ -75,13 +75,13 @@ public class ServletInscription extends HttpServlet {
 				validationMDP = true;
 				request.setAttribute("validationMDP", validationMDP);
 				request.setAttribute("utilisateurU", utilisateurU);
-				
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Inscription.jsp") ;
 				rd.forward(request, response);
 			}
 			
-			
-			// A modifier la clé une fois le programme terminé pou garder la session active
+		
+			HttpSession session = request.getSession(true);
+			session.setAttribute("Utilisateur", utilisateurU.getPseudo());
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp") ;
 			rd.forward(request, response);
 			

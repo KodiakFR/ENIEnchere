@@ -111,7 +111,7 @@ public class ServletProfil extends HttpServlet {
 		boolean validationMdp = false;
 		boolean validationMdpAc = false;
 		boolean verifMdp = false;
-		
+		boolean erreurvide = false;
 		boolean verifPseudo = false;
 		boolean verifMail = false;
 		
@@ -135,6 +135,16 @@ public class ServletProfil extends HttpServlet {
 			String newMdp = request.getParameter("newmdp");
 			String confirmMdp = request.getParameter("confirm");
 			
+			if(pseudo.length()==0 || prenom.length()==0  || tel.length()==0  || cp.length()==0  || 
+					nom.length()==0  || email.length()==0  || rue.length()==0  || ville.length()==0 ) {
+				erreurvide = true;
+				request.setAttribute("erreurvide", erreurvide);
+				request.setAttribute("utilisateurProfil", utilisateurProfil);
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
+				rd.forward(request, response);
+			}
+			
+			
 			// Vérification du mot de passe : résultat en boolean
 			verifMdp = utilisateurManager.validerMDP(mdpAc);
 			System.out.println(verifMdp + " reponse");
@@ -146,7 +156,8 @@ public class ServletProfil extends HttpServlet {
 				verifMail = utilisateurManager.validerMail(email);
 				verifPseudo = utilisateurManager.validerPseudo(pseudo);
 				
-				if(verifMail == false || email.equals(mailUtil) && verifPseudo == false || pseudo.equals(utilisateurGener)) {
+				if(verifMail == false || email.equals(mailUtil)) {
+					if(verifPseudo == false || pseudo.equals(utilisateurGener)) {
 				System.out.println("le mail verifié retourne = " +verifMail);
 				System.out.println("le pseudo verifié retourne = " +verifPseudo);
 				System.out.println("le mail utilisateur est " + mailUtil);
@@ -154,22 +165,29 @@ public class ServletProfil extends HttpServlet {
 				System.out.println(email);
 				System.out.println(pseudo);
 				
-				// Methode verifie que mail et pseudo ne sont pas dÃ©jÃ  existant
-				//if(verifMail == false && verifPseudo == false) {
+
 					
 					//mÃ©thode verifie si le nouveau mdp ne sont pas : null
 					//methode verifie si les deux nouveaux mdp sont egaux
  					if(newMdp.length()>0 && confirmMdp.length()>0 && newMdp.equals(confirmMdp)) {
- 					
+ 							
  							Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, newMdp);
- 							utilisateurManager.modificationProfil(utilisateur);
+ 							utilisateurManager.modificationProfil(utilisateur, utilisateurGener);
+ 							HttpSession session = request.getSession(true);
+ 	 						session.setAttribute("Utilisateur", utilisateur.getPseudo());
+ 	 						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp") ;
+ 	 						rd.forward(request, response);
  							System.out.println("je passe 1");
  						
  					}
 					// VÃ©rifie si les deux new mdps sont : null
  					if(newMdp.length()==0 && confirmMdp.length()==0) {
- 						Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, mdpAc);
- 						utilisateurManager.modificationProfil(utilisateur);	
+ 						Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, mdpAc);			
+ 						utilisateurManager.modificationProfil(utilisateur, utilisateurGener);
+ 						HttpSession session = request.getSession(true);
+ 						session.setAttribute("Utilisateur", utilisateur.getPseudo());
+ 						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp") ;
+	 					rd.forward(request, response);
  						System.out.println("je passe 2");
  					}
 					// si mdp les deux mdp ne sont pas egaux
@@ -183,13 +201,19 @@ public class ServletProfil extends HttpServlet {
  					}
 	
 				}
+				}
 				//si mail et pseudo existe dÃ©jÃ  renvoie message
-				else if(verifMail == true || verifPseudo == true) {
+				if(verifMail == true || verifPseudo == true) {
 					verifMail = true;
 					request.setAttribute("verifMail", verifMail);
 					request.setAttribute("utilisateurProfil", utilisateurProfil);
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
 					rd.forward(request, response);
+				}
+				else {
+					request.setAttribute("verifMail", verifMail);
+					request.setAttribute("utilisateurProfil", utilisateurProfil);
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
 				}
  			}
  			
@@ -203,9 +227,8 @@ public class ServletProfil extends HttpServlet {
 				rd.forward(request, response);
 				System.out.println("je passe 4");	
  			 }
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp") ;
-			rd.forward(request, response);
-			
+ 			 
+		
 		} catch (NumberFormatException | BusinessException e) {
 			e.printStackTrace();
 		}

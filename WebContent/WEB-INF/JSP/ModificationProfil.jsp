@@ -45,6 +45,12 @@
 					</div>
 			</c:if>
 			
+			<c:if test="${erreurvide == true}">
+					<div 	class="alert alert-danger" role="alert">
+						Attention une case du formulaire était vide (hors nouveau mot de passe).
+					</div>
+			</c:if>
+			
 				<div class="InscriptionContenu justify-content-center d-flex flex-row">
 					<div class="InscritpionDivGauche d-flex flex-column">
 					

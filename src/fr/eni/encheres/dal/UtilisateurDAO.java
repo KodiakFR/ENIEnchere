@@ -23,7 +23,7 @@ public interface UtilisateurDAO {
 	public void updatePassword(String password, String userEmail) throws BusinessException;
 	
 	// Méthode de modification du profil de l'utilisateur / Dimitri
-	public void updateProfil(Utilisateur utilisateur) throws BusinessException;
+	public void updateProfil(Utilisateur utilisateur, String pseudo) throws BusinessException;
 	
 	// Methode de suppression du profil de l'utilisateur / Dimitri
 	public void deleteProfil(String pseudo) throws BusinessException;
