@@ -111,7 +111,7 @@ public class ServletProfil extends HttpServlet {
 		boolean validationMdp = false;
 		boolean validationMdpAc = false;
 		boolean verifMdp = false;
-		
+		boolean erreurvide = false;
 		boolean verifPseudo = false;
 		boolean verifMail = false;
 		
@@ -134,6 +134,16 @@ public class ServletProfil extends HttpServlet {
 			String mdpAc = request.getParameter("mdp");
 			String newMdp = request.getParameter("newmdp");
 			String confirmMdp = request.getParameter("confirm");
+			
+			if(pseudo.length()==0 || prenom.length()==0  || tel.length()==0  || cp.length()==0  || 
+					nom.length()==0  || email.length()==0  || rue.length()==0  || ville.length()==0 ) {
+				erreurvide = true;
+				request.setAttribute("erreurvide", erreurvide);
+				request.setAttribute("utilisateurProfil", utilisateurProfil);
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
+				rd.forward(request, response);
+			}
+			
 			
 			// Vérification du mot de passe : résultat en boolean
 			verifMdp = utilisateurManager.validerMDP(mdpAc);
@@ -165,6 +175,8 @@ public class ServletProfil extends HttpServlet {
  							utilisateurManager.modificationProfil(utilisateur, utilisateurGener);
  							HttpSession session = request.getSession(true);
  	 						session.setAttribute("Utilisateur", utilisateur.getPseudo());
+ 	 						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp") ;
+ 	 						rd.forward(request, response);
  							System.out.println("je passe 1");
  						
  					}
@@ -174,6 +186,8 @@ public class ServletProfil extends HttpServlet {
  						utilisateurManager.modificationProfil(utilisateur, utilisateurGener);
  						HttpSession session = request.getSession(true);
  						session.setAttribute("Utilisateur", utilisateur.getPseudo());
+ 						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp") ;
+	 					rd.forward(request, response);
  						System.out.println("je passe 2");
  					}
 					// si mdp les deux mdp ne sont pas egaux
@@ -189,14 +203,18 @@ public class ServletProfil extends HttpServlet {
 				}
 				}
 				//si mail et pseudo existe dÃ©jÃ  renvoie message
-				else if(verifMail == true || verifPseudo == true) {
+				if(verifMail == true || verifPseudo == true) {
 					verifMail = true;
 					request.setAttribute("verifMail", verifMail);
 					request.setAttribute("utilisateurProfil", utilisateurProfil);
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
 					rd.forward(request, response);
-				
-				}	
+				}
+				else {
+					request.setAttribute("verifMail", verifMail);
+					request.setAttribute("utilisateurProfil", utilisateurProfil);
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
+				}
  			}
  			
 			// methode verif si les deux nouveaux mdp saisie sont egaux
@@ -210,9 +228,7 @@ public class ServletProfil extends HttpServlet {
 				System.out.println("je passe 4");	
  			 }
  			 
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp") ;
-			rd.forward(request, response);
-			
+		
 		} catch (NumberFormatException | BusinessException e) {
 			e.printStackTrace();
 		}
