@@ -72,6 +72,9 @@ public class ServletDetailVente extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		
+		//Gere l'enchère submit par l'utilisateur
+		
 		request.setCharacterEncoding("UTF-8");
 		String nomArticle = request.getParameter("nomArticle");
 		String pseudoVendeur = request.getParameter("pseudoVendeur");

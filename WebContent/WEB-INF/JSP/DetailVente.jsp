@@ -66,15 +66,22 @@
 		              <input type="text" name="pseudoVendeur" value="${vendeur}"/>
 		             </div>
 		        </div>
-	
+	<c:if test="${vendeur != Utilisateur}">
 	        <div class="form-group row">
-	            <label for="map" class="col-sm-4 col-form-label">Ma proposotion</label>
+	            <label for="map" class="col-sm-4 col-form-label">Ma Proposotion</label>
 	           	<div class="col-sm-6">
 	                     <input type="number" <c:if test="${empty montantEnchere }"> min="${articleAAfficher.miseAPrix+10}" value="${articleAAfficher.miseAPrix+10}"</c:if><c:if test="${!empty montantEnchere }"> min="${montantEnchere.getMontantEnchere()+10}" value="${montantEnchere.getMontantEnchere()+10}"</c:if> name="enchere"/>
 	                     <input type="submit" value="Enchérir" class="btn btn-primary mb-2"/>
 	                
 	            </div>
 	        </div>
+	 </c:if>
+	 
+	 <c:if test="${vendeur == Utilisateur }">
+	 	<a href="ModifEnchere?nomArticle=${articleAAfficher.nomArticle}&pseudoVendeur=${vendeur}" class="btn btn-primary mb-2"></a>
+	 	<a href="Delete?nomArticle=${articleAAfficher.nomArticle}&pseudoVendeur=${vendeur}" class="btn btn-primary mb-2"></a>
+	 </c:if>
+	 
 			</form>
 	    </div>
 	</c:if>

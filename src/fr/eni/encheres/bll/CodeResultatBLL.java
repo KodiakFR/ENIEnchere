@@ -46,4 +46,9 @@ public abstract class CodeResultatBLL {
 	 */
 	public static final int ENCHERE_ERREUR = 40004;
 	
+	/*
+	 * Echec modif ou suppression enchere
+	 */
+	public static final int MODIF_ENCHERE_ERREUR = 40005;
+	
 }
