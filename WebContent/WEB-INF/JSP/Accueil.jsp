@@ -114,11 +114,11 @@
 								<div class="ms-4">
 								
 									<input type="checkbox" name="ventesEnCours" id="ventesEnCours" disabled="disabled">
-									<label for="ventesEnCours">enchères ouvertes</label> <br>
+									<label for="ventesEnCours">mes ventes en cours</label> <br>
 									<input type="checkbox" name="ventesNonDebutees" id="ventesNonDebutees" disabled="disabled">
-									<label for="ventesNonDebutees">mes enchères en cours</label> <br>
+									<label for="ventesNonDebutees">ventes non débutées</label> <br>
 									<input type="checkbox" name="ventesTerminées" id="ventesTerminées" disabled="disabled">
-									<label for="ventesTerminées">mes enchères remportées</label> <br>	
+									<label for="ventesTerminées">ventes terminées</label> <br>	
 								</div>
 						</div>
 					</div>
