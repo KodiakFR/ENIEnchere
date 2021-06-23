@@ -54,4 +54,8 @@ public interface ArticleVenduDAO {
 	
 	public void updatePrixVente(int idArticle, int prixVente) throws BusinessException;
 	
+	//Récupération de l'id de l'article par son nom et le pseudo du vendeur
+	
+	public int getIdArticleByNomEtPseudo(String nomArticle, String pseudoVendeur) throws BusinessException;
+	
 }

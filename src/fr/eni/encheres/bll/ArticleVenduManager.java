@@ -44,7 +44,7 @@ public class ArticleVenduManager {
 		ArticleVendu art = articleVenduDAO.recupArticleBYNomEtPseudoVendeur(nomArticle, pseudoUtilisateur);
 		Integer idArticleVendu = art.getNoArticle();
 		
-		if(LocalDate.now().compareTo(art.getDateFinEncheres())<0) {
+		if(LocalDate.now().compareTo(art.getDateDebutEncheres())<0) {
 			articleVenduDAO.removeArticleVendu(idArticleVendu);
 		}
 	}
@@ -90,6 +90,15 @@ public class ArticleVenduManager {
 		int idEtatVente = transcriptEtatVenteToID(etatVente);
 		
 			articleVenduDAO.updateEtatVente(idArticle, idEtatVente);
+	}
+	
+	//Récupération de l'id de l'article avec nom de l'article et pseudo du vendeur
+	
+	public int recuperationIdArticle(String nomArticle, String pseudoVendeur) throws BusinessException{
+		int idArticle = 0;
+		idArticle = articleVenduDAO.getIdArticleByNomEtPseudo(nomArticle, pseudoVendeur);
+		
+		return idArticle;
 	}
 	
 	//Permet de transformer l'etat de vente en ID pour l'utiliser en base Créée= 1/En Cours = 2/Enchère Terminée = 3/ Retrait Effectué = 4

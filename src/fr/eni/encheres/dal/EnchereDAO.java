@@ -12,7 +12,7 @@ public interface EnchereDAO {
 	//par d�faut et jusqu'� la prmi�re ench�re
 	//Le propri�taire reste le vendeur
 	//Le montant de l'ench�re prend la mise � prix
-	public void ajouterEnchereEnCours(ArticleVendu article) throws BusinessException;
+	public void ajouterEnchereEnCours(ArticleVendu article, int idEncherisseur,int montantEnchere) throws BusinessException;
 	
 	//Mise � jour de l'ench�re
 	public void updateEnchere(int idArticle, int idEncherisseur, int nouvelleEnchere) throws BusinessException;

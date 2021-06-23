@@ -24,17 +24,18 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 													+ "WHERE no_article=?;";
 	private final String SELECT_MONTANT_BY_ID=		"SELECT montant_enchere FROM ENCHERES WHERE no_article=?;";
 	
+	//update
+	
+	private final String UPDATE_ENCHERE=			"UPDATE ENCHERES SET no_utilisateur=?, montant_enchere=? WHERE no_article=?;";
+	
 	@Override
-	public void ajouterEnchereEnCours(ArticleVendu article) throws BusinessException {
+	public void ajouterEnchereEnCours(ArticleVendu article,int idEncherisseur, int montantEnchere) throws BusinessException {
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(INSERT_ENCHERE_EN_COURS))
 			{
-			//Mapping
-				Integer noUtilisateur = article.getNoUtilisateur();
 				Integer noArticle = article.getNoArticle();
 				Date dateFinEnchere = Date.valueOf(article.getDateFinEncheres());
-				int montantEnchere = article.getMiseAPrix();
 				
-					stmt.setInt(1, noUtilisateur);
+					stmt.setInt(1, idEncherisseur);
 					stmt.setInt(2, noArticle);
 					stmt.setDate(3, dateFinEnchere);
 					stmt.setInt(4, montantEnchere);
@@ -52,7 +53,20 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 
 	@Override
 	public void updateEnchere(int idArticle, int idEncherisseur, int nouvelleEnchere) throws BusinessException {
-		// TODO Auto-generated method stub
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(UPDATE_ENCHERE))
+			{
+				stmt.setInt(1, idEncherisseur);
+				stmt.setInt(2, nouvelleEnchere);
+				stmt.setInt(3, idArticle);
+				
+				stmt.executeUpdate();
+			} 
+		catch (SQLException e) 
+			{
+				BusinessException be = new BusinessException();
+				be.ajouterErreur(15103);
+				e.printStackTrace();
+			}
 		
 	}
 

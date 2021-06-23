@@ -20,63 +20,62 @@
 	<c:if test="${!empty articleAAfficher}">
 	    <div class="container">
 	 
-	        
-	        <div class="form-group row">
-	            <label for="map" class="col-sm-4 col-form-label">Nom de l'article</label>
-				   				 <div class="col-sm-6">
-				     				 <p>${articleAAfficher.nomArticle}</p>
-				    			</div>
-	        </div>
+	        <form method="POST" action="DetailVente">
+		        <div class="form-group row">
+		            <label for="map" class="col-sm-4 col-form-label">Nom de l'article</label>
+					   				 <div class="col-sm-6">
+					     				 <input type="text" name="nomArticle" value="${articleAAfficher.nomArticle}" readonly="readonly"/>
+					    			</div>
+		        </div>
 	
-	        <div class="form-group row">
-	            <label for="map" class="col-sm-4 col-form-label">Description</label>
-				   				 <div class="col-sm-6">
-				     				 <p>${articleAAfficher.description}</p>
-				    			</div>
-	        </div>
+		        <div class="form-group row">
+		            <label for="map" class="col-sm-4 col-form-label">Description</label>
+					   				 <div class="col-sm-6">
+					     				 <p>${articleAAfficher.description}</p>
+					    			</div>
+		        </div>
 	
 	
-	        <div class="form-group row">
-	            <label for="map" class="col-sm-4 col-form-label">Meilleure offre</label>
-				   				 <div class="col-sm-6">
-				     				 <c:if test="${empty montantEnchere }"><p>${articleAAfficher.miseAPrix} pts</p></c:if>
-				     				 <c:if test="${!empty montantEnchere }"><p>${montantEnchere} pts</p></c:if>
-				    			</div>
-	        </div>
+		        <div class="form-group row">
+		            <label for="map" class="col-sm-4 col-form-label">Meilleure offre</label>
+					   				 <div class="col-sm-6">
+					     				 <c:if test="${empty montantEnchere }"><p>${articleAAfficher.miseAPrix} pts</p></c:if>
+					     				 <c:if test="${!empty montantEnchere }"><p>${(montantEnchere.montantEnchere)+10} pts</p></c:if>
+					    			</div>
+		        </div>
+		
+		        <div class="form-group row">
+		            <label for="map" class="col-sm-4 col-form-label">Mise à prix</label>
+					   				 <div class="col-sm-6">
+					     				 <p>${articleAAfficher.miseAPrix} pts</p>
+					    			</div>
+		        </div>
 	
-	        <div class="form-group row">
-	            <label for="map" class="col-sm-4 col-form-label">Mise à prix</label>
-				   				 <div class="col-sm-6">
-				     				 <p>${articleAAfficher.miseAPrix} pts</p>
-				    			</div>
-	        </div>
+		        <div class="form-group row">
+		            <label for="map" class="col-sm-4 col-form-label">Retrait</label>
+					   				 <div class="col-sm-6">
+					     				 <p>Rue 		: ${retraitArticleSelected.rue }</p>
+					     				 <p>Code Postal :${retraitArticleSelected.codePostal }</p>
+					     				 <p>Ville		:${retraitArticleSelected.ville }</p>
+					    			</div>
+		        </div>
 	
-	        <div class="form-group row">
-	            <label for="map" class="col-sm-4 col-form-label">Retrait</label>
-				   				 <div class="col-sm-6">
-				     				 <p>Rue 		: ${retraitArticleSelected.rue }</p>
-				     				 <p>Code Postal :${retraitArticleSelected.codePostal }</p>
-				     				 <p>Ville		:${retraitArticleSelected.ville }</p>
-				    			</div>
-	        </div>
-	
-	        <div class="form-group row">
-	            <label for="map" class="col-sm-4 col-form-label">Vendeur</label>
-	            <div class="col-sm-6">
-	              <p>${vendeur}</p>
-	             </div>
-	        </div>
+		        <div class="form-group row">
+		            <label for="map" class="col-sm-4 col-form-label">Vendeur</label>
+		            <div class="col-sm-6">
+		              <input type="text" name="pseudoVendeur" value="${vendeur}"/>
+		             </div>
+		        </div>
 	
 	        <div class="form-group row">
 	            <label for="map" class="col-sm-4 col-form-label">Ma proposotion</label>
-	            <div class="col-sm-6">
-	                 <form method="POST" action="DetailVente">
-	                     <input type="number" <c:if test="${empty montantEnchere }">min="${articleAAfficher.miseAPrix+10}" value="${articleAAfficher.miseAPrix+10}"</c:if><c:if test="${!empty montantEnchere }">min="${montantEnchere+10}" value="${montantEnchere+10}"</c:if> name="enchere"/>
-	                     <input type="button" value="Enchérir" class="btn btn-primary mb-2"/>
-	                </form>
-	             </div>
+	           	<div class="col-sm-6">
+	                     <input type="number" <c:if test="${empty montantEnchere }">min="${articleAAfficher.miseAPrix+10}" value="${articleAAfficher.miseAPrix+10}"</c:if><c:if test="${!empty montantEnchere }">min="${(montantEnchere.montantEnchere)+10}"</c:if> name="enchere"/>
+	                     <input type="submit" value="Enchérir" class="btn btn-primary mb-2"/>
+	                
+	            </div>
 	        </div>
-	
+			</form>
 	    </div>
 	</c:if>
 </body>

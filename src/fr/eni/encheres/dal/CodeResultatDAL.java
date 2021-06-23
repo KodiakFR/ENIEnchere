@@ -158,6 +158,12 @@ public abstract class CodeResultatDAL {
 	
 	public static final int SELECT_MONTANT_ENCHERE_ECHEC=15102;
 	
+	/**
+	 * Echec update enchere 
+	 */
+	
+	public static final int UPDATE_ENCHERE_ECHEC=15103;
+	
 
 	
 	//Erreurs retraits

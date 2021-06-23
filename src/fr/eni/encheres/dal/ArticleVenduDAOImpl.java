@@ -42,11 +42,15 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	
 	private final String FIND_ID_CATEGORIE=				"SELECT no_categorie FROM CATEGORIES WHERE libelle=?;";
 	
+	private final String FIND_ID_ARTICLE=				"SELECT no_article FROM ARTICLES_VENDUS av INNER JOIN UTILISATEURS u ON av.no_utilisateur = u.no_utilisateur"
+														+ "  AND nom_article=? AND u.pseudo=?;";
+	
+	//insert
 	private final String INSERT_ARTICLE = 				"INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?);";
 
-	//UPDATE
-	private final String UPDATE_ETAT_VENTE=				"UPDATE ARTICLES_VENDUS SET etat_vente='?' WHERE no_article=?;";
-	private final String UPDATE_PRIX_VENTE=				"UPDATE ARTICLES_VENDUS SET prix_vente='?' WHERE no_article=?;";
+	//UPDATe
+	private final String UPDATE_ETAT_VENTE=				"UPDATE ARTICLES_VENDUS SET etat_vente=? WHERE no_article=?;";
+	private final String UPDATE_PRIX_VENTE=				"UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?;";
 	
 	@Override
 	public void removeArticleVendu(int idArticle) {
@@ -297,7 +301,28 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	}
 
 	
-
+	@Override
+	public int getIdArticleByNomEtPseudo(String nomArticle, String pseudoVendeur) throws BusinessException {
+		int idArticle = 0;
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ID_ARTICLE))
+			{
+				stmt.setString(1, nomArticle);
+				stmt.setString(2, pseudoVendeur);
+				
+				ResultSet rs = stmt.executeQuery();
+					if(rs.next())
+						{
+							idArticle = rs.getInt(1);
+						}
+			} 
+		catch (SQLException e) 
+			{
+				BusinessException be = new BusinessException();
+				be.ajouterErreur(15013);
+				e.printStackTrace();
+			}
+		return idArticle;
+	}
 	
 	
 	
@@ -339,6 +364,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		
 		return idCategorie;
 	}
+
+
 
 
 }
