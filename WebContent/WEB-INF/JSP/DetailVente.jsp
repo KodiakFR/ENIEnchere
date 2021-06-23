@@ -40,7 +40,7 @@
 		            <label for="map" class="col-sm-4 col-form-label">Meilleure offre</label>
 					   				 <div class="col-sm-6">
 					     				 <c:if test="${empty montantEnchere }"><p>${articleAAfficher.miseAPrix} pts</p></c:if>
-					     				 <c:if test="${!empty montantEnchere }"><p>${(montantEnchere.montantEnchere)+10} pts</p></c:if>
+					     				 <c:if test="${!empty montantEnchere }"><p>${montantEnchere.getMontantEnchere()+10} pts</p></c:if>
 					    			</div>
 		        </div>
 		
@@ -70,7 +70,7 @@
 	        <div class="form-group row">
 	            <label for="map" class="col-sm-4 col-form-label">Ma proposotion</label>
 	           	<div class="col-sm-6">
-	                     <input type="number" <c:if test="${empty montantEnchere }">min="${articleAAfficher.miseAPrix+10}" value="${articleAAfficher.miseAPrix+10}"</c:if><c:if test="${!empty montantEnchere }">min="${(montantEnchere.montantEnchere)+10}"</c:if> name="enchere"/>
+	                     <input type="number" <c:if test="${empty montantEnchere }"> min="${articleAAfficher.miseAPrix+10}" value="${articleAAfficher.miseAPrix+10}"</c:if><c:if test="${!empty montantEnchere }"> min="${montantEnchere.getMontantEnchere()+10}" value="${montantEnchere.getMontantEnchere()+10}"</c:if> name="enchere"/>
 	                     <input type="submit" value="Enchérir" class="btn btn-primary mb-2"/>
 	                
 	            </div>

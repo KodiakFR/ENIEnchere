@@ -90,7 +90,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 			{
 				stmt.setInt(1, idArticle);
 				ResultSet rs = stmt.executeQuery();
-					while(rs.next())
+					if(rs.next())
 						{
 							int noUtilisateur = rs.getInt("no_utilisateur");
 							LocalDate dateEnchere = rs.getDate("date_enchere").toLocalDate();

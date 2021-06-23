@@ -31,11 +31,8 @@ public class ServletDetailVente extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-//		String nomArticle = request.getParameter("nomArticle");
-//		String pseudoVendeur = request.getParameter("pseudoVendeur");
-		
-		String nomArticle = "aprilia";
-		String pseudoVendeur= "Kodiak";
+		String nomArticle = request.getParameter("nomArticle");
+		String pseudoVendeur = request.getParameter("pseudoVendeur");
 
 		
 		ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
@@ -52,12 +49,10 @@ public class ServletDetailVente extends HttpServlet {
 				
 				request.setAttribute("retraitArticleSelected", retraitArticleSelected);
 				
-				if(articleAAfficher.getEtatVente()>1)
+				if(articleAAfficher.getEtatVente() > 1)
 					{
-					System.out.println("Etat de vente supérieur à un");
 						EnchereManager enchereManager = EnchereManager.getInstance();
 						Enchere montantEnchere = enchereManager.recuperationEnchereByArticle(articleAAfficher);
-						System.out.println(montantEnchere);
 						request.setAttribute("montantEnchere", montantEnchere);
 					}
 				
@@ -65,7 +60,6 @@ public class ServletDetailVente extends HttpServlet {
 		catch (BusinessException e) 
 			{
 				e.ajouterErreur(40002);
-				e.printStackTrace();
 			}
 		
 		
@@ -81,9 +75,7 @@ public class ServletDetailVente extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String nomArticle = request.getParameter("nomArticle");
 		String pseudoVendeur = request.getParameter("pseudoVendeur");
-//		String pseudoEncherisseur = (String) request.getSession().getAttribute("Utilisateur");
-		
-		String pseudoEncherisseur = "Kodiak";
+		String pseudoEncherisseur = (String) request.getSession().getAttribute("Utilisateur");
 		
 		int montantEnchere = Integer.parseInt(request.getParameter("enchere"));
 		String resultatEnchere = "nullitude";
@@ -94,44 +86,48 @@ public class ServletDetailVente extends HttpServlet {
 				ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
 				ArticleVendu articleAEncherir = articleManager.recupererArticleParNomArticleEtNomVendeur(nomArticle, pseudoVendeur);
 				
-				System.out.println(articleAEncherir);
-				
 				//Récupération des informations de l'enchérisseur
 				UtilisateurManager userManager = UtilisateurManager.getInstance();
 				Utilisateur encherisseur = userManager.recuperationUtilisateur(pseudoEncherisseur);
 				
-				System.out.println(encherisseur);
-				
 				int idEncherisseur = encherisseur.getNoUtilisateur();
 				
-				System.out.println(idEncherisseur);
-				
 				EnchereManager enchereManager = EnchereManager.getInstance();
-					if(articleAEncherir.getEtatVente() == 1)
-						{
-							System.out.println("inexistant");
-							enchereManager.startEnchere(articleAEncherir,idEncherisseur,montantEnchere);
-							 resultatEnchere = "Bravo vous êtes le premier et le meilleur enchérisseur";
-							request.setAttribute("resultatEnchere", resultatEnchere);
-						}
-					else if(articleAEncherir.getEtatVente() == 2)
-						{
-						System.out.println("Encours");
-							 resultatEnchere = enchereManager.doNouvelleEnchere(articleAEncherir.getNoArticle(), encherisseur, montantEnchere);
-							request.setAttribute("resultatEnchere", resultatEnchere);
-						}
+				int etatVenteEnchere = articleAEncherir.getEtatVente();
+					switch (etatVenteEnchere) {
+					case 1:	
+						System.out.println("inexistant");
+						boolean execute = enchereManager.startEnchere(articleAEncherir,idEncherisseur,montantEnchere);
+					if(execute==true)
+						 {
+							String resultat = "Bravo vous êtes le premier et le meilleur enchérisseur";
+							request.setAttribute("resultatEnchere", resultat);
+						 }
 					else
-						{
+						 {
+								String resultat = "L'enchère n'a pas encore commencée";
+						 		request.setAttribute("resultatEnchereError", resultat);
+						 }
+						
+						break;
+					case 2:	
+						System.out.println("Encours");
+						 resultatEnchere = enchereManager.doNouvelleEnchere(articleAEncherir.getNoArticle(), encherisseur, montantEnchere);
+						request.setAttribute("resultatEnchere", resultatEnchere);
+						
+						
+						break;
+
+					default:
+
 						System.out.println("missed");
 						 resultatEnchere = "Désolé cette enchère n'est pas accessible ou est terminée";
 						request.setAttribute("resultatEnchereError", resultatEnchere);
-						}
-					
-				System.out.println(resultatEnchere);	
+						break;
+					}	
 			}
 		catch (BusinessException e)
 			{
-				e.printStackTrace();
 				e.ajouterErreur(40004);
 			}
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");

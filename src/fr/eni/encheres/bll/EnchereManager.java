@@ -25,8 +25,8 @@ public class EnchereManager {
 	}
 	
 	//Debut d'une enchère
-	public void startEnchere(ArticleVendu article,int idEncherisseur,int montantEnchere) throws BusinessException{
-		
+	public boolean startEnchere(ArticleVendu article,int idEncherisseur,int montantEnchere) throws BusinessException{
+		boolean execute = true;
 		if(LocalDate.now().compareTo(article.getDateDebutEncheres()) >=0)
 			{
 				enchereDAO.ajouterEnchereEnCours(article,idEncherisseur, montantEnchere);
@@ -34,6 +34,11 @@ public class EnchereManager {
 				ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
 					articleManager.updateEtatVenteArticle(article.getNoArticle(), "En cours");	
 			}
+		else
+			{
+				execute = false;
+			}
+		return execute;
 		}
 	
 	//UPDATE enchere
@@ -79,7 +84,7 @@ public class EnchereManager {
 		int etatVente = article.getEtatVente();
 			if(etatVente <3)
 			{
-				enchereDAO.getEnchereByIDArticle(idArticle);
+				enchere = enchereDAO.getEnchereByIDArticle(idArticle);
 			}
 			
 		return enchere;

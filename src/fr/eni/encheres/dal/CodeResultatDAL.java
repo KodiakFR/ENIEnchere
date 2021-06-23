@@ -40,6 +40,11 @@ public abstract class CodeResultatDAL {
 	 */
 	public static final int UPDATE_PASSWORD_ECHEC = 10103;
 	
+	/**
+	 * Echec modification mot de passe
+	 */
+	public static final int UPDATE_CREDIT_ECHEC = 10104;
+	
 	
 	
 	

@@ -1,7 +1,5 @@
 package fr.eni.encheres.dal;
 
-import java.util.List;
-
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.Utilisateur;
 
@@ -29,5 +27,7 @@ public interface UtilisateurDAO {
 	
 	// Methode de suppression du profil de l'utilisateur / Dimitri
 	public void deleteProfil(String pseudo) throws BusinessException;
-	
+
+	//Méthode qui modifie le porte monnaie de l'utilisateur suite à une vente retourne son porte monnaie pour affichage éventuel
+	public int updateCreditUtilisateur(String pseudoUtilisateur, int nouveauCredit) throws BusinessException;
 }

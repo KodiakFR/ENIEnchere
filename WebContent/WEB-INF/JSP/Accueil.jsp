@@ -136,7 +136,27 @@
 			<c:if test="${validerAjout == true}">
 				<div class="container">
 					<div class="alert alert-success alert-dismissible fade show" role="alert">
-					  <strong>Holy guacamole!</strong> L'article a bien été ajouté à votre liste d'enchères.
+					  <strong>Holy Molly!</strong> L'article a bien été ajouté à votre liste d'enchères, BRAVO!.
+					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				</div>
+			</c:if>	
+			
+	<!-- 		Affichage bandeau vert ajout enchere SUCCESSED  \\ depuis servlet DetailVente -->
+			<c:if test="${!empty resultatEnchere}">
+				<div class="container">
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
+					  <strong>Hey!</strong> ${resultatEnchere}
+					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				</div>
+			</c:if>	
+	
+		<!-- 		Affichage bandeau jaune  ajout enchere FAILED  \\ depuis servlet DetailVente -->
+			<c:if test="${!empty resultatEnchereError}">
+				<div class="container">
+					<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					  <strong>Oopsie!</strong> ${resultatEnchereError}
 					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 					</div>
 				</div>
@@ -152,7 +172,7 @@
 					<div class = "card flex-row">
 						<img alt="image article" src="#">
 						<div class="card-body">
-						 ${A.getNomArticle()} <br>
+						<a href="DetailVente?nomArticle=${A.getNomArticle()}&pseudoVendeur=${A.getPseudoUtilisateur()}"> ${A.getNomArticle()} </a><br>
 						 prix : ${A.getPrixVente()} points <br>
 						 Fin d'enchère: ${A.getDateFinEncheres()} <br>
 						 Vendeur : <a href="Profil?pseudo=${A.getPseudoUtilisateur()}">${A.getPseudoUtilisateur()}</a>

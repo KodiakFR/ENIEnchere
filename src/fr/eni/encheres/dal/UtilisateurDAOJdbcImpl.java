@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
+
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.Utilisateur;
 
@@ -31,6 +31,9 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 	
 	// Requete Update formulaire modification profil
 	private static final String UPDATE_PROFIL = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? WHERE pseudo=? ";
+	
+	//Requete Update credit utilisateur
+	private final String UPDATE_CREDIT =	"UPDATE UTILISATEURS SET credit=? WHERE pseudo=?;";
 	
 	// Requete suppression du compte 
 	private static final String DELETE_PROFIl = "DELETE FROM UTILISATEURS WHERE pseudo=?";
@@ -249,6 +252,30 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			throw businessException;
 		}
 		
+	}
+
+
+
+
+	@Override
+	public int updateCreditUtilisateur(String pseudoUtilisateur, int nouveauCredit) throws BusinessException {
+		int creditFinal = 0;
+		
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(UPDATE_CREDIT))
+			{
+				stmt.setInt(1, nouveauCredit);
+				stmt.setString(2, pseudoUtilisateur);
+				
+				stmt.executeUpdate();
+			} 
+		catch (SQLException e) 
+			{
+				BusinessException be = new BusinessException();
+				be.ajouterErreur(10104);
+				e.printStackTrace();
+			}
+		
+		return creditFinal;
 	}
 
 	
