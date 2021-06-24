@@ -34,7 +34,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	
 	private final String FIND_ARTICLE_PAR_FILTRE_ACCUEIL=	"SELECT nom_article,date_fin_encheres,prix_vente,pseudo " 
 														+ "FROM ARTICLES_VENDUS av INNER JOIN UTILISATEURS u ON av.no_utilisateur = u.no_utilisateur " 
-														+"WHERE nom_article LIKE (?) AND (etat_vente=? OR etat_vente=? OR etat_vente=?) AND no_categorie =?;";
+														+"WHERE nom_article LIKE (?) AND (etat_vente=? OR etat_vente=? OR etat_vente=?) "
+														+"AND (no_categorie>=? AND no_categorie<=?) AND (pseudo !=? or pseudo =?);";
 	
 	private final String FIND_ARTICLE_BY_ID=			"SELECT nom_article,description,date_debut_encheres,date_fin_encheres,"
 														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente, pseudo_utilisateur FROM ARTICLES_VENDUS WHERE "
@@ -198,7 +199,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
 
 
-	public List<ArticleVendu> recupListeArticleSelonFiltreAccueil(String motcle ,Integer ouvertes , Integer encours, Integer terminees, int numCategorie) throws BusinessException {
+	public List<ArticleVendu> recupListeArticleSelonFiltreAccueil(String motcle ,Integer ouvertes , Integer encours, Integer terminees, int numCategorie, int categorieMax, String pseudoAchat, String pseudoVente) throws BusinessException {
 		List<ArticleVendu> lstArticle = new ArrayList<ArticleVendu>();
 		try(Connection con = ConnectionProvider.getConnection(); 
 				PreparedStatement stmt = con.prepareStatement(FIND_ARTICLE_PAR_FILTRE_ACCUEIL))
@@ -223,6 +224,10 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 				stmt.setInt(4, terminees);
 			}
 			stmt.setInt(5, numCategorie);
+			stmt.setInt(6, categorieMax);
+			stmt.setString(8, pseudoAchat);
+			stmt.setString(7, pseudoVente);
+			
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) 
