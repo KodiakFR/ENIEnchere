@@ -38,78 +38,81 @@ public class ServletProfil extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String utilisateurGeneral = (String) request.getSession().getAttribute("Utilisateur");		
-		
-		if (request.getServletPath().equals("/Profil")) {
+		if (request.getSession() != null)
+		{
+			if (request.getServletPath().equals("/Profil")) {
+				
+					try {
+						boolean valideP = false;
+						UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
 			
-			try {
-				boolean valideP = false;
-				UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
-	
-				
-				// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.	
-				String pseudoRecup = request.getParameter("pseudo");
-				
-				if(pseudoRecup.equals(utilisateurGeneral)) {
-					// Récupération du pseudo de l'utilisateur pour traiter par la suite	
-					Utilisateur utilisateurInconnu = utilisateurManager.recuperationUtilisateur(utilisateurGeneral);
-					request.setAttribute("utilisateurInconnu", utilisateurInconnu);
-				}
-				if(!pseudoRecup.equals(utilisateurGeneral)) {
-					Utilisateur utilisateurInconnu = utilisateurManager.recuperationUtilisateur(pseudoRecup);
-					request.setAttribute("utilisateurInconnu", utilisateurInconnu);
-				}
-
-				// Si le pseudo récupérer est le meme que celui de la session : le bouton modif profil est activé
-				if(pseudoRecup.equals(utilisateurGeneral)) {
-				valideP = true;	
-				request.setAttribute("valideP", valideP);
-				}
-				request.setAttribute("valideP", valideP);
-				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Profil.jsp");
-				rd.forward(request, response);
-				
-			
-
-				
-			} catch ( BusinessException e) {
-				e.printStackTrace();
-				request.setAttribute("listeCodeErreur", e.getListeCodesErreur());
-			}
-
-		}
-		
-
-		if (request.getServletPath().equals("/ModifProfil")) {
-			// Permettant de récupérer les informations de l'utilisateur lorqu'on clique sur le bouton modif
-			try {
-				UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
-				Utilisateur utilisateurProfil = utilisateurManager.recuperationUtilisateur(utilisateurGeneral);
-
-				request.setAttribute("utilisateurProfil", utilisateurProfil);
-				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp");
-				rd.forward(request, response);
-			} catch (BusinessException e) {
-				e.printStackTrace();
-				request.setAttribute("listeCodeErreur", e.getListeCodesErreur());
-			}
 						
-		}
+						// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.	
+						String pseudoRecup = request.getParameter("pseudo");
+						
+						if(pseudoRecup.equals(utilisateurGeneral)) {
+							// Récupération du pseudo de l'utilisateur pour traiter par la suite	
+							Utilisateur utilisateurInconnu = utilisateurManager.recuperationUtilisateur(utilisateurGeneral);
+							request.setAttribute("utilisateurInconnu", utilisateurInconnu);
+						}
+						if(!pseudoRecup.equals(utilisateurGeneral)) {
+							Utilisateur utilisateurInconnu = utilisateurManager.recuperationUtilisateur(pseudoRecup);
+							request.setAttribute("utilisateurInconnu", utilisateurInconnu);
+						}
 		
-		if (request.getServletPath().equals("/Suppression")) {
-						// Méthode pour supprimer le compte et de le déconnecter.
+						// Si le pseudo récupérer est le meme que celui de la session : le bouton modif profil est activé
+						if(pseudoRecup.equals(utilisateurGeneral)) {
+						valideP = true;	
+						request.setAttribute("valideP", valideP);
+						}
+						request.setAttribute("valideP", valideP);
+						RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Profil.jsp");
+						rd.forward(request, response);
+						
+					
+		
+						
+					} catch ( BusinessException e) {
+						request.setAttribute("listeCodeErreur", e.getListeCodesErreur());
+					}
+		
+				}
+			
+	
+			if (request.getServletPath().equals("/ModifProfil")) {
+				// Permettant de récupérer les informations de l'utilisateur lorqu'on clique sur le bouton modif
 				try {
 					UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
-					utilisateurManager.suppressionProfil(utilisateurGeneral);
-					request.getSession().invalidate();
-					RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+					Utilisateur utilisateurProfil = utilisateurManager.recuperationUtilisateur(utilisateurGeneral);
+	
+					request.setAttribute("utilisateurProfil", utilisateurProfil);
+					RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp");
 					rd.forward(request, response);
-					
 				} catch (BusinessException e) {
-					e.printStackTrace();
 					request.setAttribute("listeCodeErreur", e.getListeCodesErreur());
-				}	
+				}
+							
+			}
+			
+			if (request.getServletPath().equals("/Suppression")) {
+							// Méthode pour supprimer le compte et de le déconnecter.
+					try {
+						UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
+						utilisateurManager.suppressionProfil(utilisateurGeneral);
+						request.getSession().invalidate();
+						RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+						rd.forward(request, response);
+						
+					} catch (BusinessException e) {
+						request.setAttribute("listeCodeErreur", e.getListeCodesErreur());
+					}	
+			}
+			
 		}
-		
+		else {
+			RequestDispatcher rd = request.getRequestDispatcher("Accueil") ;
+			rd.forward(request, response);
+		}
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -181,9 +184,7 @@ public class ServletProfil extends HttpServlet {
 	 							HttpSession session = request.getSession(true);
 	 	 						session.setAttribute("Utilisateur", utilisateur.getPseudo());
 	 	 						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp") ;
-	 	 						rd.forward(request, response);
-	 							System.out.println("je passe 1");
-	 						
+	 	 						rd.forward(request, response);	 						
 	 					}
 						// VÃ©rifie si les deux new mdps sont : null alors ok 
 	 					if(newMdp.length()==0 && confirmMdp.length()==0) {
@@ -193,7 +194,6 @@ public class ServletProfil extends HttpServlet {
 	 						session.setAttribute("Utilisateur", utilisateur.getPseudo());
 	 						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp") ;
 		 					rd.forward(request, response);
-	 						System.out.println("je passe 2");
 	 					}
 						// si mdp les deux mdp ne sont pas egaux : message erreur
 	 					else if(!newMdp.equals(confirmMdp)) {
@@ -202,7 +202,6 @@ public class ServletProfil extends HttpServlet {
 							request.setAttribute("utilisateurProfil", utilisateurProfil);
 	 						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
 	 						rd.forward(request, response);
-	 						System.out.println("je passe 3");
 	 					}
 	
 				}
@@ -229,13 +228,11 @@ public class ServletProfil extends HttpServlet {
 				request.setAttribute("validationMdpAc", validationMdpAc);
 				request.setAttribute("utilisateurProfil", utilisateurProfil);
 				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
-				rd.forward(request, response);
-				System.out.println("je passe 4");	
+				rd.forward(request, response);	
  			 }
  			 
 		
 		} catch (BusinessException e) {
-			e.printStackTrace();
 			request.setAttribute("listeCodeErreur", e.getListeCodesErreur());
 		}
 		

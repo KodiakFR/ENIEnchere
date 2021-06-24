@@ -47,7 +47,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 														+ "  AND nom_article=? AND u.pseudo=?;";
 	
 	//insert
-	private final String INSERT_ARTICLE = 				"INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?);";
+	private final String INSERT_ARTICLE = 				"INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?,?);";
 
 	//UPDATe
 	private final String UPDATE_ETAT_VENTE=				"UPDATE ARTICLES_VENDUS SET etat_vente=? WHERE no_article=?;";
@@ -81,6 +81,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		Date dateFinEncheresSql = Date.valueOf(article.getDateFinEncheres());
 		int miseAPrix = article.getMiseAPrix();
 		int etatVente = article.getEtatVente();
+		byte[] imageArticle = article.getImageArticle();
 		
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(INSERT_ARTICLE,PreparedStatement.RETURN_GENERATED_KEYS))
 			{
@@ -93,6 +94,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 				stmt.setInt(7, idVendeur);
 				stmt.setInt(8, idCategorie);
 				stmt.setInt(9, etatVente);
+				stmt.setBytes(10, imageArticle);
 				int nbRows = stmt.executeUpdate();
 				if(nbRows == 1)
 					{
