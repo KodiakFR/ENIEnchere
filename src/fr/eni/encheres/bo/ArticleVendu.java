@@ -14,15 +14,15 @@ public class ArticleVendu {
 	private Integer noCategorie;
 	private String pseudoUtilisateur;
 	private int noUtilisateur;
-	
+	private byte[] imageArticle;
 	
 	public ArticleVendu() {
 		super();
 	}
 
-
+	// Mise en place de l'insertion image
 	public ArticleVendu(String nomArticle, String description, LocalDate dateDebutEncheres, LocalDate dateFinEncheres,
-			int miseAPrix) {
+			int miseAPrix, byte[] imageArticle) {
 		super();
 		this.nomArticle = nomArticle;
 		this.description = description;
@@ -31,6 +31,7 @@ public class ArticleVendu {
 		this.miseAPrix = miseAPrix;
 		this.prixVente = 0;
 		this.etatVente = 1;
+		this.imageArticle = imageArticle;
 	}
 
 
@@ -86,7 +87,22 @@ public class ArticleVendu {
 		this.prixVente = prixVente;
 		this.pseudoUtilisateur = pseudoUtilisateur;
 	}
+	
+	
 
+	/**
+	 * @return the imageArticle
+	 */
+	public byte[] getImageArticle() {
+		return imageArticle;
+	}
+
+	/**
+	 * @param imageArticle the imageArticle to set
+	 */
+	public void setImageArticle(byte[] imageArticle) {
+		this.imageArticle = imageArticle;
+	}
 
 	public Integer getNoArticle() {
 		return noArticle;

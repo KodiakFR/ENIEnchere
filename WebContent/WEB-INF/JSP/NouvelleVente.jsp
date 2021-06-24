@@ -65,11 +65,11 @@
 		  			</div>
 		  			
 		  			<div class="form-group row">
-		   				 <label for="image" class="col-sm-2 col-form-label">Photo de l'article</label>
-			   				 <div class="col-sm-10">
-								<button id="image" type="button" class="btn btn-dark">UPLOADER</button>
-			    			</div>
-		  			</div>
+		   	 			<label for="image" class="col-sm-2 col-form-label">Photo de l'article</label>
+			    		<div class="col-sm-10">
+							 <input type="file" name="image" class="btn btn-primary mb-2"/>
+			    		</div>
+					 </div>
 		  			
 		  			<div class="form-group row">
 		   				 <label for="map" class="col-sm-2 col-form-label">Mise à prix</label>

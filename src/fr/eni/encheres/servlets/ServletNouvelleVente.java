@@ -1,5 +1,8 @@
 package fr.eni.encheres.servlets;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -11,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.BusinessException;
@@ -62,6 +66,8 @@ public class ServletNouvelleVente extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/NouvelleVente.jsp");
 		rd.forward(request, response);
 	}
+	
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -99,10 +105,12 @@ public class ServletNouvelleVente extends HttpServlet {
 		String rue = request.getParameter("nomRue").trim();
 		String cp = request.getParameter("codePostal").trim();
 		String ville = request.getParameter("ville").trim();
-	
+		byte[] images = request.getParameter("image").getBytes();
+		
+		
 	//Construction de l'article pour sa manipulation en dal ou pré remplissage en cas d'erreur
 		
-		ArticleVendu newArticle = new ArticleVendu(nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix);
+		ArticleVendu newArticle = new ArticleVendu(nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, images );
 		
 	//Construction du retrait pour la manipulation en dal pré remplissage en cas d'erreur
 		
