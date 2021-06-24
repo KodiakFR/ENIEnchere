@@ -59,7 +59,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
 			businessException.ajouterErreur(CodeResultatDAL.INSERT_OBJET_ECHEC);
 			throw businessException;
@@ -83,7 +82,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 					
 				
 			} catch (Exception e) {
-				e.printStackTrace();
 				BusinessException businessException = new BusinessException();
 				businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_PSEUDO_ECHEC);
 				throw businessException;
@@ -108,7 +106,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 					System.out.println(emailUtil + "traitement du selectEmail valide ?");
 					
 			} catch (Exception e) {
-				e.printStackTrace();
 				BusinessException businessException = new BusinessException();
 				businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_EMAIL_ECHEC);
 				throw businessException;
@@ -129,7 +126,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 					
 					
 			} catch (Exception e) {
-				e.printStackTrace();
 				BusinessException businessException = new BusinessException();
 				businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_EMAIL_ECHEC);
 				throw businessException;
@@ -149,10 +145,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 		stmt.executeUpdate();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
-			// A FAIRE
-			//businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_PSEUDO_ECHEC);
+			businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_UPDATE_ECHEC);
 			throw businessException;
 		
 		}
@@ -166,10 +160,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			stmt.setString(1, pseudo);
 			stmt.executeUpdate();
 		} catch (Exception e) {
-			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
-			// A FAIRE
-			//businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_PSEUDO_ECHEC);
+			businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_DELETE_ECHEC);
 			throw businessException;
 		}
 	}
@@ -210,7 +202,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 		stmt.setString(7, utilisateur.getCodePostale());
 		stmt.setString(8, utilisateur.getVille());
 		stmt.setString(9, utilisateur.getMotDePasse());
-		//stmt.setBoolean(10, utilisateur.getAdministrateur());
+
 		
 	}
 	
@@ -226,7 +218,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			System.out.println(U);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
 			businessException.ajouterErreur(CodeResultatDAL.SELECT_USER_ECHEC);
 			throw businessException;
@@ -246,7 +237,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			stmt.executeUpdate();
 		}
 		catch (Exception e) {
-			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
 			businessException.ajouterErreur(CodeResultatDAL.UPDATE_PASSWORD_ECHEC);
 			throw businessException;

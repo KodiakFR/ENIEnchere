@@ -21,6 +21,14 @@ public abstract class CodeResultatBLL {
 	 */
 	public static final int REGLE_MAIL_DEJA_UTIL_ERREUR = 20003;
 	
+	
+	/*
+	 * Echec le mot de passe n'est pas correct
+	 */
+	public static final int CHECK_VALIDATIONMDP_ECHEC = 20004;
+	
+
+	
 	/*
 	 * Echec récupération de la liste des catégories
 	 */

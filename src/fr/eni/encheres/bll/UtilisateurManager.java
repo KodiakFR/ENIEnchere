@@ -13,6 +13,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.dal.CodeResultatDAL;
 import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.UtilisateurDAO;
 
@@ -75,34 +76,36 @@ public class UtilisateurManager {
 							statusValidation = false;
 						}
 					} catch (BusinessException e) {
-						e.printStackTrace();
+						BusinessException businessException = new BusinessException();
+						businessException.ajouterErreur(CodeResultatBLL.REGLE_PSEUDO_DEJA_UTIL_ERREUR);
+						throw businessException;
 		 			}
 					System.out.println(statusValidation);
 					return statusValidation;
 			}
 	//
 	// Méthode qui vérifie que le pseudo ne soit pas déjà existant
-		public boolean validerPseudoModifProfil(String nomPseudo) throws BusinessException {
-					boolean statusValidation = false;
-					if(nomPseudo == null | nomPseudo.length() > 30) {
-						statusValidation = true;
-					}
-						int pseudoValide = 0;
-						try {
-							pseudoValide = this.utilisateurDAO.selectPseudo(nomPseudo);
-							System.out.println(pseudoValide);
-							if(pseudoValide >= 2) {
-								statusValidation = true;
-							}			
-							else  {
-								statusValidation = false;
-							}
-						} catch (BusinessException e) {
-							e.printStackTrace();
-			 			}
-						System.out.println(statusValidation);
-						return statusValidation;
-				}
+//		public boolean validerPseudoModifProfil(String nomPseudo) throws BusinessException {
+//					boolean statusValidation = false;
+//					if(nomPseudo == null | nomPseudo.length() > 30) {
+//						statusValidation = true;
+//					}
+//						int pseudoValide = 0;
+//						try {
+//							pseudoValide = this.utilisateurDAO.selectPseudo(nomPseudo);
+//							System.out.println(pseudoValide);
+//							if(pseudoValide >= 2) {
+//								statusValidation = true;
+//							}			
+//							else  {
+//								statusValidation = false;
+//							}
+//						} catch (BusinessException e) {
+//							e.printStackTrace();
+//			 			}
+//						System.out.println(statusValidation);
+//						return statusValidation;
+//				}
 	
 	// Méthode qui vérifie si le mail ne soit pas déjà existant
 	public boolean validerMail(String nomMail) throws BusinessException {
@@ -122,8 +125,9 @@ public class UtilisateurManager {
 						}
 					
 				} catch (BusinessException e) {
-					e.printStackTrace();
-								
+					BusinessException businessException = new BusinessException();
+					businessException.ajouterErreur(CodeResultatBLL.REGLE_MAIL_DEJA_UTIL_ERREUR);
+					throw businessException;
 		 		}
 					return statusValidation;
 			}
@@ -131,28 +135,28 @@ public class UtilisateurManager {
 	
 	//
 	// Méthode qui vérifie si le mail est deja existant lors de la modification du profil
-	public boolean validerMailModifProfil(String nomMail) throws BusinessException {
-					boolean statusValidation = false;
-					if(nomMail == null | nomMail.length() > 60) {
-						statusValidation = true;
-					}
-					int emailValide =0;
-					try {
-						emailValide = this.utilisateurDAO.selectEmail(nomMail);
-						System.out.println(emailValide);
-						if(emailValide >= 2) {
-							statusValidation = true;
-						}
-						else  {
-							statusValidation = false;
-						}
-					
-				} catch (BusinessException e) {
-					e.printStackTrace();
-								
-		 		}
-					return statusValidation;
-			}
+//	public boolean validerMailModifProfil(String nomMail) throws BusinessException {
+//					boolean statusValidation = false;
+//					if(nomMail == null | nomMail.length() > 60) {
+//						statusValidation = true;
+//					}
+//					int emailValide =0;
+//					try {
+//						emailValide = this.utilisateurDAO.selectEmail(nomMail);
+//						System.out.println(emailValide);
+//						if(emailValide >= 2) {
+//							statusValidation = true;
+//						}
+//						else  {
+//							statusValidation = false;
+//						}
+//					
+//				} catch (BusinessException e) {
+//					e.printStackTrace();
+//								
+//		 		}
+//					return statusValidation;
+//			}
 	
 	
 	// Méthode de verif MPD :
@@ -168,7 +172,9 @@ public class UtilisateurManager {
 					statusValidation = false;
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				BusinessException businessException = new BusinessException();
+				businessException.ajouterErreur(CodeResultatBLL.CHECK_VALIDATIONMDP_ECHEC);
+				throw businessException;
 			}
 			
 		return statusValidation;

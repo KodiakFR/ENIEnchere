@@ -54,14 +54,14 @@ public class ServletInscription extends HttpServlet {
 			String rue = request.getParameter("rue");
 			String ville = request.getParameter("ville");
 			String mdpConfirm = request.getParameter("confirm");
-			
+				
 			// Construction utilisateur
 			Utilisateur utilisateurU = new Utilisateur(pseudo, nom, prenom, email, tel, rue, cp, ville, mdp);
 			System.out.println(utilisateurU.toString());	
 						
 			// If permettant de savoir si les deux mdps du formulaire sont identiques
 			if(mdpConfirm.equals(mdp)) {				
-				// Utilisation de la méthode validation
+				// Ajoute les données dans la bdd si pseudo et mail retourne : false
 				validationMandP = utilisateurManager.AjouterInscription(utilisateurU);
 				if(validationMandP == false) {		
 					request.setAttribute("validationMandP", validationMandP);
@@ -70,7 +70,7 @@ public class ServletInscription extends HttpServlet {
 					rd.forward(request, response);
 				}
 			} 
-			// Si mdp pas identiques renvoie d'erreur pas de création d'objet
+			// Si mdp pas identiques : renvoie d'erreur pas de création d'objet et renvoie message erreur sur la jsp
 			if(!mdpConfirm.contentEquals(mdp)) {
 				validationMDP = true;
 				request.setAttribute("validationMDP", validationMDP);
@@ -86,8 +86,9 @@ public class ServletInscription extends HttpServlet {
 			rd.forward(request, response);
 			
 			
-		} catch (NumberFormatException | BusinessException e) {
+		} catch (BusinessException e) {
 			e.printStackTrace();
+			request.setAttribute("listeCodeErreur", e.getListeCodesErreur());
 		}
 		
 

@@ -45,8 +45,15 @@ public abstract class CodeResultatDAL {
 	 */
 	public static final int UPDATE_CREDIT_ECHEC = 10104;
 	
+	/**
+	 * Echec de la modification profil
+	 */
+	public static final int CHECK_LISTE_UPDATE_ECHEC = 10105;
 	
-	
+	/**
+	 * Echec de la suppression profil
+	 */
+	public static final int CHECK_LISTE_DELETE_ECHEC = 10106;
 	
 	//Erreurs ArticleVendu
 	
