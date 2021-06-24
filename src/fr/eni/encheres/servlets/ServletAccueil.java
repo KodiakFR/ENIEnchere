@@ -69,10 +69,16 @@ public class ServletAccueil extends HttpServlet {
 			
 			String motcle = "%%";
 			int etatVente = 2;
-			int categorie = 1;
+			int categorie = 0;
+			int categorieMax = 1000;
+			String pseudoAchat = null;
+			String pseudoVente ="visiteur";
+			if (request.getSession().getAttribute("Utilisateur")!=null)
+			{
+				pseudoVente = (String) request.getSession().getAttribute("Utilisateur");
+			}
 			
-			
-			List<ArticleVendu> listeEnchereEnCours = manager.getListeEtatVente(motcle, etatVente, null, null, categorie);
+			List<ArticleVendu> listeEnchereEnCours = manager.getListeEtatVente(motcle, etatVente, null, null, categorie, categorieMax, pseudoAchat, pseudoVente);
 			System.out.println(listeEnchereEnCours.toString());
 			request.setAttribute("listeEnchereEnCours", listeEnchereEnCours);
 						
@@ -99,9 +105,46 @@ public class ServletAccueil extends HttpServlet {
 			
 			//récupere mes infos
 			
+			//recup du mot clé
 			String motcle = "%"+request.getParameter("motcle")+"%";
 			
+			//récup des catégories
 			int categories = Integer.parseInt(request.getParameter("categorie"));
+			int categoriesMax;
+			if (categories == 0) {
+				categoriesMax = 1000;
+			}
+			else 
+			{
+				categoriesMax = categories;
+			}
+			
+			//récup des boutons radio
+			String pseudoAchat=null;
+			String pseudoVente=null;
+			
+			if (request.getParameter("Achats")!= null) {
+				if (request.getSession().getAttribute("Utilisateur")!=null) {
+					pseudoAchat = (String) request.getSession().getAttribute("Utilisateur");
+				}
+				else
+				{
+					pseudoAchat= "visiteur";
+				}
+				
+				pseudoVente = null;
+			}
+			
+			if (request.getParameter("Ventes")!= null) {
+				pseudoAchat = null;
+				if (request.getSession().getAttribute("Utilisateur")!=null) {
+					pseudoVente = (String) request.getSession().getAttribute("Utilisateur");
+				}
+				else {
+					pseudoVente = "visiteur";
+				}
+				
+			}
 			
 			Integer ouvertes;
 			Integer encours;
@@ -133,7 +176,7 @@ public class ServletAccueil extends HttpServlet {
 			
 			//application de la méthode pour retourner la liste des articles
 			
-			List<ArticleVendu> listeEnchereEnCours = manager.getListeEtatVente(motcle, ouvertes, encours, terminees, categories);
+			List<ArticleVendu> listeEnchereEnCours = manager.getListeEtatVente(motcle, ouvertes, encours, terminees, categories, categoriesMax, pseudoAchat,pseudoVente);
 			request.setAttribute("listeEnchereEnCours", listeEnchereEnCours);
 			
 		} catch (NumberFormatException | BusinessException e) {

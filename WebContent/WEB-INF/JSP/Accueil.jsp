@@ -87,6 +87,7 @@
 			<p>
 				<label for="categorie">Catégories</label>
 				<select name="categorie" id="categorie">
+					<option value="0">Toutes</option>
 					<option value="1">Informatique </option>
 					<option value="2">Ameublement </option>
 					<option value="3">Vêtement </option>
@@ -99,7 +100,7 @@
 								<label for="Achats">Achats</label> <br>
 									<div class="ms-4">	
 									
-										<input type="checkbox" name="ouvertes" id="ouvertes" value="1" checked="checked">
+										<input type="checkbox" name="ouvertes" id="ouvertes" value="2" checked="checked">
 										<label for="ouvertes">enchères ouvertes</label> <br>
 										<input type="checkbox" name="encours" id="encours" value="2" >
 										<label for="encours">mes enchères en cours</label> <br>
