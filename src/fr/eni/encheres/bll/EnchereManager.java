@@ -27,12 +27,10 @@ public class EnchereManager {
 	//Debut d'une enchère
 	public boolean startEnchere(ArticleVendu article,int idEncherisseur,int montantEnchere) throws BusinessException{
 		boolean execute = true;
-		if(LocalDate.now().compareTo(article.getDateDebutEncheres()) >=0)
+		if(article.getEtatVente() == 2)
 			{
 				enchereDAO.ajouterEnchereEnCours(article,idEncherisseur, montantEnchere);
 				
-				ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
-					articleManager.updateEtatVenteArticle(article.getNoArticle(), "En cours");	
 			}
 		else
 			{
@@ -42,31 +40,25 @@ public class EnchereManager {
 		}
 	
 	//UPDATE enchere
-	public String doNouvelleEnchere(int idArticle, Utilisateur encherisseur, int nouvelleEnchere) throws BusinessException{
+	public String doNouvelleEnchere(ArticleVendu article, Utilisateur encherisseur, int nouvelleEnchere) throws BusinessException{
 		String resultatEnchere = null;
-		
+		int idArticle = article.getNoArticle();
 		Enchere enchereEnCours = enchereDAO.getEnchereByIDArticle(idArticle);
-		int creditAcheteur = encherisseur.getCredit();
 		int montantEnchere = enchereEnCours.getMontantEnchere();
-		int noUtilisateur = encherisseur.getNoUtilisateur();
 		if(LocalDate.now().compareTo(enchereEnCours.getDateEnchere())<0)
 			{
-				if(creditAcheteur-nouvelleEnchere>=0)
+				
+				if(nouvelleEnchere > montantEnchere )
 					{
-						if(nouvelleEnchere > montantEnchere )
-							{
-								enchereDAO.updateEnchere(idArticle, noUtilisateur, nouvelleEnchere);
-								resultatEnchere = "Bravo, vous êtes le meilleur enchérisseur";
-							}
-						else
-							{
-								resultatEnchere = "Le montant de l'enchère doit être supérieur à l'enchère en cours";
-							}
+					int idEncherisseur = encherisseur.getNoUtilisateur();
+						enchereDAO.ajouterEnchereEnCours(article, idEncherisseur, montantEnchere);;
+						resultatEnchere = "Bravo, vous êtes le meilleur enchérisseur";
 					}
 				else
 					{
-						resultatEnchere = "Vous n'avez pas assez de crédit pour faire cette enchère";
+						resultatEnchere = "Le montant de l'enchère doit être supérieur à l'enchère en cours";
 					}
+	
 			}
 		else
 			{

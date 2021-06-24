@@ -34,16 +34,17 @@ public class ServletModifEnchere extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		if(request.getSession().getAttribute("Utilisateur") == null)
-//		{
-//			response.sendRedirect(request.getContextPath()+"/Accueil");
-//		}
-//	else
+		if(request.getSession().getAttribute("Utilisateur") == null)
 		{
-		
-		request.setCharacterEncoding("UTF-8");
+			response.sendRedirect(request.getContextPath()+"/Accueil");
+		}
+	else
+		{
 		switch (request.getServletPath()) {
 		case "/ModifEnchere":
+			//Gestion de l'affichage du message selon les dates 
+			request.setCharacterEncoding("UTF-8");
+			
 				String pseudoVendeur = request.getParameter("pseudoVendeur");
 				String nomArticleAModifier = request.getParameter("nomArticle");
 				
@@ -52,13 +53,13 @@ public class ServletModifEnchere extends HttpServlet {
 					ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
 					ArticleVendu articleAModifier = articleManager.recupererArticleParNomArticleEtNomVendeur(nomArticleAModifier, pseudoVendeur);
 					System.out.println(articleAModifier);
-					System.out.println(request.getSession().getAttribute("Utilisateur"));
+					String pseudoUtilisateur = (String) request.getSession().getAttribute("Utilisateur");
+					System.out.println(pseudoUtilisateur);
 					System.out.println(pseudoVendeur);
-					System.out.println(articleAModifier.getEtatVente());
 					int etatVente = articleAModifier.getEtatVente();
-					
+					System.out.println(etatVente);
 					//Verification du droit à la modification selon la date du jour et vérification que c'est bien l'article de l'utilisateur
-					if(etatVente >1 && pseudoVendeur == request.getSession().getAttribute("Utilisateur"))
+					if(etatVente ==1 && pseudoVendeur.equals(pseudoUtilisateur))
 						{
 						System.out.println("j'ai le droit");
 						UtilisateurManager userManager = UtilisateurManager.getInstance();
@@ -76,6 +77,18 @@ public class ServletModifEnchere extends HttpServlet {
 								Set<Categorie> listeDeCategories = articleManager.getListCategories();
 								request.setAttribute("listeDeCategories", listeDeCategories);
 								System.out.println(listeDeCategories);
+								
+								String categorieArticleSelected = null;
+								
+								for (Categorie categorie : listeDeCategories) 
+									{
+										if(categorie.getNoCategorie() == articleAModifier.getNoCategorie())
+											{
+												categorieArticleSelected = categorie.getLibelle();
+											}
+									}
+								System.out.println(categorieArticleSelected);
+								request.setAttribute("categorieArticleSelected", categorieArticleSelected);
 							} 
 						catch (BusinessException e) 
 							{
@@ -97,7 +110,7 @@ public class ServletModifEnchere extends HttpServlet {
 					//Si pas le droit redirection accueil avec bandeau signalant la raison
 					else
 						{
-							String nonDroitModif = "Désolé, l'enchère ayant débutée vous ne pouvez plus modifier ou supprimer l'article";
+							String nonDroitModif = "Désolé, vous ne pouvez pas modifier ou supprimer l'article, soit l'enchère est déjà en cours, soit vous n'avez pas les droits sur cet article";
 							request.setAttribute("nonDroitModif", nonDroitModif);
 							
 							RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
@@ -122,10 +135,10 @@ public class ServletModifEnchere extends HttpServlet {
 				{
 					ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
 					ArticleVendu articleAModifier = articleManager.recupererArticleParNomArticleEtNomVendeur(nomArticleAModifier1, pseudoVendeur1);
-					LocalDate debutEnchere = articleAModifier.getDateDebutEncheres();
+					int etatVente = articleAModifier.getEtatVente();
 					
 					//Verification du droit à la Suppression selon la date du jour
-					if(LocalDate.now().compareTo(debutEnchere)<0)
+					if(etatVente<1)
 						{
 						boolean articleSuppressed = articleManager.cancelArticleVendu(articleAModifier);	
 							if(articleSuppressed == true)
@@ -182,15 +195,21 @@ public class ServletModifEnchere extends HttpServlet {
 			{
 				request.setCharacterEncoding("UTF-8");
 				
-				String pseudoVendeur = (String) request.getSession().getAttribute("pseudoVendeur");
+				String pseudoVendeur = (String) request.getSession().getAttribute("Utilisateur");
 				String nomArticle = request.getParameter("nomArticle");
-				
+				System.out.println(pseudoVendeur);
+				System.out.println(nomArticle);
 				
 				// Récupération des dates et validation avant insertion de l'article
 				
 				LocalDate dateDebutEncheres = ((Date.valueOf(request.getParameter("dateDebutEnchere"))).toLocalDate());
+				System.out.println(dateDebutEncheres);
 				LocalDate dateFinEncheres = ((Date.valueOf(request.getParameter("dateFinEnchere"))).toLocalDate());
-				Boolean validateDateDebut = validationDate(dateDebutEncheres, dateFinEncheres);
+				System.out.println(dateFinEncheres);
+				boolean validateDateDebut = validationDate(dateDebutEncheres, dateFinEncheres);
+				System.out.println(validateDateDebut);
+				System.out.println(LocalDate.now());
+				
 				
 				//Récupération des entrées utilisateurs de l'article
 				
@@ -216,15 +235,15 @@ public class ServletModifEnchere extends HttpServlet {
 				
 				if(validateDateDebut == false)
 					{
+					request.setAttribute("validateDateDebut", validateDateDebut);
 					
 						if(images != null)
 							{
 								request.setAttribute("image", images);
 							}
-					request.setAttribute("newArticle", newArticle);
+					request.setAttribute("articleAModifier", newArticle);
 					request.setAttribute("retrait", retrait);
-					request.setAttribute("validateDateDebut", validateDateDebut);
-					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/NouvelleVente.jsp");
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModifEnchere.jsp");
 					rd.forward(request, response);
 					}
 
@@ -267,6 +286,14 @@ public class ServletModifEnchere extends HttpServlet {
 					articleARenvoyer.setDateFinEncheres(dateFinEncheres);
 					if(images != null)
 						articleARenvoyer.setImageArticle(images);
+					
+					System.out.println(articleARenvoyer);
+					try {
+						articleManager.updateArticle(articleARenvoyer);
+					} catch (BusinessException e1) {
+						e1.ajouterErreur(40002);
+						e1.printStackTrace();
+					}
 					//Ajout du point de retrait de cette article nouvellement créé
 						
 						
@@ -294,7 +321,7 @@ public class ServletModifEnchere extends HttpServlet {
 	
 	private boolean validationDate(LocalDate datedebut, LocalDate dateFin) {
 		boolean validationDate = false;
-			if(datedebut.compareTo(LocalDate.now()) <1 || dateFin.compareTo(datedebut)<1)
+			if(datedebut.compareTo(LocalDate.now()) >=0 || dateFin.compareTo(datedebut)<0)
 				validationDate = false;
 			else
 				validationDate = true;

@@ -101,7 +101,16 @@ public class ArticleVenduManager {
 		idArticle = articleVenduDAO.getIdArticleByNomEtPseudo(nomArticle, pseudoVendeur);
 		
 		return idArticle;
-	}
+		
+	}		
+	
+		//Permet la modification de l'article s'il est encore temps
+		
+		public void updateArticle(ArticleVendu article) throws BusinessException{
+			if(article.getEtatVente() == 1)
+				articleVenduDAO.updateArticleVendu(article);
+		}
+	
 	
 	//Permet de transformer l'etat de vente en ID pour l'utiliser en base Créée= 1 /En Cours = 2 /Enchère Terminée = 3 / Retrait Effectué = 4 / Vente Annulée=5
 	private int transcriptEtatVenteToID(String etatVente) {

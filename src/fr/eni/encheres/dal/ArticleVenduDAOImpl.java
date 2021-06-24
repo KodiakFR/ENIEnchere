@@ -21,18 +21,18 @@ import fr.eni.encheres.bo.Categorie;
 public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
 	// DELETE
-	private final String DELETE_ARTICLE =				"DELETE FROM ARTICLES_VENDUS where no_article=?;";
+	private final static  String DELETE_ARTICLE =				"DELETE FROM ARTICLES_VENDUS where no_article=?;";
 	
 	//SELECT
-	private final String FIND_ARTICLE_FROM_USER =		"Select nom_article from ARTICLES_VENDUS Inner join UTILISATEURS ON Articles_vendus.no_utilisateur = UTILISATEURS.no_utilisateur AND UTILISATEURS.pseudo=?;";
+	private final static  String FIND_ARTICLE_FROM_USER =		"Select nom_article from ARTICLES_VENDUS Inner join UTILISATEURS ON Articles_vendus.no_utilisateur = UTILISATEURS.no_utilisateur AND UTILISATEURS.pseudo=?;";
 	
-	private final String CREATE_ARTICLE_FROM_USER = 	"SELECT no_article, description, date_debut_encheres, date_fin_encheres, "
+	private final static  String CREATE_ARTICLE_FROM_USER = 	"SELECT no_article, description, date_debut_encheres, date_fin_encheres, "
 														+ "prix_initial, prix_vente,ARTICLES_VENDUS.no_utilisateur,no_categorie,etat_vente,images FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS "
 														+ "ON ARTICLES_VENDUS.nom_article=? AND UTILISATEURS.pseudo=? AND Articles_vendus.no_utilisateur = UTILISATEURS.no_utilisateur;";
 	
-	private final String FIND_ALL_CATEGORIES=			"SELECT no_categorie,libelle FROM CATEGORIES;";
+	private final static  String FIND_ALL_CATEGORIES=			"SELECT no_categorie,libelle FROM CATEGORIES;";
 	
-	private final String FIND_ARTICLE_PAR_FILTRE_ACCUEIL= "SELECT av.no_article,nom_article,description,date_debut_encheres,date_fin_encheres,"+
+	private final static  String FIND_ARTICLE_PAR_FILTRE_ACCUEIL= "SELECT av.no_article,nom_article,description,date_debut_encheres,date_fin_encheres,"+
 															" prix_initial,prix_vente,u.no_utilisateur,no_categorie,u.pseudo"+
 															" , e.no_utilisateur, u2.pseudo as 'pseudo encherisseur'"+
 															" FROM ARTICLES_VENDUS av INNER JOIN UTILISATEURS u  ON av.no_utilisateur = u.no_utilisateur "+
@@ -41,21 +41,23 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 															" WHERE nom_article LIKE (?) AND (etat_vente=? OR etat_vente=? OR etat_vente=?) AND (no_categorie>=? AND no_categorie<=?)"+
 															" AND (u.pseudo =?  OR u.pseudo !=? ) AND u2.pseudo = ?;";
 	
-	private final String FIND_ARTICLE_BY_ID=			"SELECT nom_article,description,date_debut_encheres,date_fin_encheres,"
+	private final static  String FIND_ARTICLE_BY_ID=			"SELECT nom_article,description,date_debut_encheres,date_fin_encheres,"
 														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente,images FROM ARTICLES_VENDUS WHERE "
 														+ "no_article=?;";
 	
-	private final String FIND_ID_CATEGORIE=				"SELECT no_categorie FROM CATEGORIES WHERE libelle=?;";
+	private final static  String FIND_ID_CATEGORIE=				"SELECT no_categorie FROM CATEGORIES WHERE libelle=?;";
 	
-	private final String FIND_ID_ARTICLE=				"SELECT no_article FROM ARTICLES_VENDUS av INNER JOIN UTILISATEURS u ON av.no_utilisateur = u.no_utilisateur"
+	private final static  String FIND_ID_ARTICLE=				"SELECT no_article FROM ARTICLES_VENDUS av INNER JOIN UTILISATEURS u ON av.no_utilisateur = u.no_utilisateur"
 														+ "  AND nom_article=? AND u.pseudo=?;";
 	
 	//insert
-	private final String INSERT_ARTICLE = 				"INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?,?);";
+	private final static  String INSERT_ARTICLE = 				"INSERT INTO ARTICLES_VENDUS VALUES(?,?,?,?,?,?,?,?,?,?);";
 
 	//UPDATe
-	private final String UPDATE_ETAT_VENTE=				"UPDATE ARTICLES_VENDUS SET etat_vente=? WHERE no_article=?;";
-	private final String UPDATE_PRIX_VENTE=				"UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?;";
+	private final static  String UPDATE_ETAT_VENTE=				"UPDATE ARTICLES_VENDUS SET etat_vente=? WHERE no_article=?;";
+	private final static  String UPDATE_PRIX_VENTE=				"UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?;";
+	private final static String UPDATE_ARTICLE=			"UPDATE ENCHERES.dbo.ARTICLES_VENDUS SET description=?, date_debut_encheres=?, date_fin_encheres=?, prix_initial=?, "
+														+ "no_categorie=?, Images=? WHERE no_article=;?";
 	
 	@Override
 	public boolean removeArticleVendu(int idArticle) {
@@ -392,6 +394,31 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			}
 		
 		return idCategorie;
+	}
+
+	@Override
+	public void updateArticleVendu(ArticleVendu article) {
+		int idArticle = article.getNoArticle();
+		
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(UPDATE_ARTICLE))
+			{
+				stmt.setString(1, article.getDescription());
+				stmt.setDate(2, Date.valueOf(article.getDateDebutEncheres()));
+				stmt.setDate(3, Date.valueOf(article.getDateFinEncheres()));
+				stmt.setInt(4, article.getMiseAPrix());
+				stmt.setInt(5, article.getNoCategorie());
+				stmt.setBytes(6, article.getImageArticle());
+				stmt.setInt(7, idArticle);
+				
+				stmt.executeUpdate();
+			} 
+		catch (SQLException e) 
+			{
+				BusinessException be = new BusinessException();
+				be.ajouterErreur(15014);
+				e.printStackTrace();
+			}
+		
 	}
 
 

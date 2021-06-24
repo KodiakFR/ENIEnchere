@@ -1,6 +1,5 @@
 package fr.eni.encheres.bll;
 
-import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -13,7 +12,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.dal.CodeResultatDAL;
 import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.UtilisateurDAO;
 
@@ -268,10 +266,36 @@ public class UtilisateurManager {
 			this.utilisateurDAO.updatePassword(password, userEmail);
 		
 	}
+
+
 		
-
-
-	
+		//Méthode pour modifier le crédit de l'utilisateur au moment d'une enchère
+		
+			public boolean effectuerEnchere(Utilisateur encherisseur, int montantEnchere) throws BusinessException {
+				boolean creditSuffisant = false;
+				int creditEncherisseur = encherisseur.getCredit();
+					if(creditEncherisseur-montantEnchere >= 0)
+						{
+							String pseudoEncherisseur = encherisseur.getPseudo();
+							int nouveauCredit = creditEncherisseur-montantEnchere;
+							
+								try 
+									{
+										utilisateurDAO.updateCreditUtilisateur(pseudoEncherisseur, nouveauCredit);
+									}
+								catch(BusinessException e)
+									{
+										e.ajouterErreur(20005);
+										creditSuffisant = false;
+									}
+							creditSuffisant = true;
+						}
+					else
+						{
+						creditSuffisant = false;
+						}
+			return creditSuffisant;
+		}
 }
 
 	

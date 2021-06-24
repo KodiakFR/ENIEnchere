@@ -30,18 +30,18 @@ public class ServletDetailVente extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		
-//		if(request.getSession().getAttribute("Utilisateur") == null)
-//			{
-//				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
-//				rd.forward(request, response);
-//			}
-//		else
+		
+		if(request.getSession().getAttribute("Utilisateur") == null)
+			{
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+				rd.forward(request, response);
+			}
+		else
 			{
 				request.setCharacterEncoding("UTF-8");
 //				String nomArticle = request.getParameter("nomArticle");
 //				String pseudoVendeur = request.getParameter("pseudoVendeur");
-				String nomArticle = "aprilia";
+				String nomArticle = "le test du";
 				String pseudoVendeur = "Kodiak";
 				
 				ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
@@ -53,7 +53,11 @@ public class ServletDetailVente extends HttpServlet {
 					int idArticle = articleAAfficher.getNoArticle();
 						request.setAttribute("articleAAfficher", articleAAfficher);
 						request.setAttribute("vendeur", pseudoVendeur);
-						request.setAttribute("image", articleAAfficher.getImageArticle());
+						
+						byte[] image = articleAAfficher.getImageArticle();
+							if(image != null)
+									request.setAttribute("image", articleAAfficher.getImageArticle());
+							
 						Retrait retraitArticleSelected = retraitManager.recupererRetraitByID(idArticle);
 						
 						request.setAttribute("retraitArticleSelected", retraitArticleSelected);
@@ -62,7 +66,8 @@ public class ServletDetailVente extends HttpServlet {
 							{
 								EnchereManager enchereManager = EnchereManager.getInstance();
 								Enchere enchere = enchereManager.recuperationEnchereByArticle(articleAAfficher);
-								request.setAttribute("enchere", enchere);
+								if(enchere != null)
+									request.setAttribute("enchere", enchere);
 							}
 						
 					} 
@@ -83,68 +88,79 @@ public class ServletDetailVente extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		
-		//Gere l'enchère submit par l'utilisateur
-		
-		request.setCharacterEncoding("UTF-8");
-		String nomArticle = request.getParameter("nomArticle");
-		String pseudoVendeur = request.getParameter("pseudoVendeur");
-		String pseudoEncherisseur = (String) request.getSession().getAttribute("Utilisateur");
-		
-		int montantEnchere = Integer.parseInt(request.getParameter("enchere"));
-		try
+		if(request.getSession().getAttribute("Utilisateur") == null)
 			{
-				//Récupération des informations de l'article pour traitement de l'enchère
-			
-				ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
-				ArticleVendu articleAEncherir = articleManager.recupererArticleParNomArticleEtNomVendeur(nomArticle, pseudoVendeur);
-				
-				//Récupération des informations de l'enchérisseur
-				UtilisateurManager userManager = UtilisateurManager.getInstance();
-				Utilisateur encherisseur = userManager.recuperationUtilisateur(pseudoEncherisseur);
-				
-				int idEncherisseur = encherisseur.getNoUtilisateur();
-				
-				EnchereManager enchereManager = EnchereManager.getInstance();
-				boolean enchereExist = enchereManager.verificationEnchereExist(articleAEncherir);
-					if (enchereExist == false) 
-						{
-							
-								System.out.println("inexistant");
-								boolean execute = enchereManager.startEnchere(articleAEncherir,idEncherisseur,montantEnchere);
-							if(execute==true)
-								 {
-									String resultat = "Bravo vous êtes le premier et le meilleur enchérisseur";
-									request.setAttribute("resultatEnchere", resultat);
-								 }
-							else
-								 {
-										String resultat = "L'enchère n'a pas encore commencée";
-								 		request.setAttribute("resultatEnchereError", resultat);
-								 }
-						}
-					else
-						{
-						
-							System.out.println("Encours");
-							 String resultatEnchere = enchereManager.doNouvelleEnchere(articleAEncherir.getNoArticle(), encherisseur, montantEnchere);
-							request.setAttribute("resultatEnchere", resultatEnchere);
-							
-						}
-						
-
-						System.out.println("missed");
-						 String resultatEnchere = "Désolé cette enchère n'est pas accessible ou est terminée";
-						request.setAttribute("resultatEnchereError", resultatEnchere);
-						
-						
+				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+				rd.forward(request, response);
 			}
-		catch (BusinessException e)
+		else
 			{
-				e.ajouterErreur(40004);
-			}
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
-		rd.forward(request, response);
-	}
+					//Gere l'enchère submit par l'utilisateur
 					
+					request.setCharacterEncoding("UTF-8");
+					String nomArticle = request.getParameter("nomArticle");
+					String pseudoVendeur = request.getParameter("pseudoVendeur");
+					String pseudoEncherisseur = (String) request.getSession().getAttribute("Utilisateur");
+					if(!pseudoVendeur.equals(pseudoEncherisseur))
+					{
+					
+					int montantEnchere = Integer.parseInt(request.getParameter("enchere"));
+					try
+						{
+							//Récupération des informations de l'article pour traitement de l'enchère
+						
+							ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
+							ArticleVendu articleAEncherir = articleManager.recupererArticleParNomArticleEtNomVendeur(nomArticle, pseudoVendeur);
+							
+							//Récupération des informations de l'enchérisseur
+							UtilisateurManager userManager = UtilisateurManager.getInstance();
+							Utilisateur encherisseur = userManager.recuperationUtilisateur(pseudoEncherisseur);
+							boolean creditSuffisant = userManager.effectuerEnchere(encherisseur, montantEnchere);
+							int idEncherisseur = encherisseur.getNoUtilisateur();
+						if(creditSuffisant == true) 
+						{
+							EnchereManager enchereManager = EnchereManager.getInstance();
+							boolean enchereExist = enchereManager.verificationEnchereExist(articleAEncherir);
+								if (enchereExist == false) 
+									{
+										
+											System.out.println("inexistant");
+											boolean execute = enchereManager.startEnchere(articleAEncherir,idEncherisseur,montantEnchere);
+										if(execute==true)
+											 {
+												String resultat = "Bravo vous êtes le premier et le meilleur enchérisseur";
+												request.setAttribute("resultatEnchere", resultat);
+											 }
+										else
+											 {
+													String resultat = "L'enchère n'a pas encore commencée";
+											 		request.setAttribute("resultatEnchereError", resultat);
+											 }
+									}
+								else
+									{
+									
+										System.out.println("Encours");
+										 String resultatEnchere = enchereManager.doNouvelleEnchere(articleAEncherir, encherisseur, montantEnchere);
+										request.setAttribute("resultatEnchere", resultatEnchere);
+										
+									}
+									
+			
+						}	
+						else
+							{
+								String resultat = "Crédit non suffisant";
+						 		request.setAttribute("resultatEnchereError", resultat);
+							}
+									
+						}
+					catch (BusinessException e)
+						{
+							e.ajouterErreur(40004);
+						}
+					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+					rd.forward(request, response);
+			}}
+			}				
 }

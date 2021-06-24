@@ -27,7 +27,12 @@ public abstract class CodeResultatBLL {
 	 */
 	public static final int CHECK_VALIDATIONMDP_ECHEC = 20004;
 	
-
+	
+	/*
+	 * Echec le mot de passe n'est pas correct
+	 */
+	public static final int UPDATE_CREDIT_ECHEC = 20005;
+	
 	
 	/*
 	 * Echec récupération de la liste des catégories

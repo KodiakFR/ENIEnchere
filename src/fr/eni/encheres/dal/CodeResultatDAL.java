@@ -148,7 +148,12 @@ public abstract class CodeResultatDAL {
 	 */
 	
 	public static final int RECUP_ID_ARTICLE_ECHEC=15013;
+
+	/**
+	 * Echec update de l'article
+	 */
 	
+	public static final int UPDATE_ARTICLE_ECHEC=15014;
 	
 	//Erreurs Encheres
 
