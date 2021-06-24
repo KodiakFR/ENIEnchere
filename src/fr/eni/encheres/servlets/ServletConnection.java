@@ -49,8 +49,7 @@ public class ServletConnection extends HttpServlet {
 				
 				request.getSession().invalidate();
 				
-				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
-				rd.forward(request, response);
+				response.sendRedirect(request.getContextPath()+"/Accueil");
 			}
 			
 		}
@@ -110,9 +109,8 @@ public class ServletConnection extends HttpServlet {
 						
 					}
 					
-					RequestDispatcher rd  = request.getRequestDispatcher("Accueil");
-					rd.forward(request, response);
-					System.out.println("je suis passé par la");
+					response.sendRedirect(request.getContextPath()+"/Accueil");
+	
 				}
 
 				

@@ -32,10 +32,14 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	
 	private final String FIND_ALL_CATEGORIES=			"SELECT no_categorie,libelle FROM CATEGORIES;";
 	
-	private final String FIND_ARTICLE_PAR_FILTRE_ACCUEIL=	"SELECT nom_article,date_fin_encheres,prix_vente,pseudo " 
-														+ "FROM ARTICLES_VENDUS av INNER JOIN UTILISATEURS u ON av.no_utilisateur = u.no_utilisateur " 
-														+"WHERE nom_article LIKE (?) AND (etat_vente=? OR etat_vente=? OR etat_vente=?) "
-														+"AND (no_categorie>=? AND no_categorie<=?) AND (pseudo !=? or pseudo =?);";
+	private final String FIND_ARTICLE_PAR_FILTRE_ACCUEIL= "SELECT av.no_article,nom_article,description,date_debut_encheres,date_fin_encheres,"+
+															" prix_initial,prix_vente,u.no_utilisateur,no_categorie,u.pseudo"+
+															" , e.no_utilisateur, u2.pseudo as 'pseudo encherisseur'"+
+															" FROM ARTICLES_VENDUS av INNER JOIN UTILISATEURS u  ON av.no_utilisateur = u.no_utilisateur "+
+															" FULL OUTER JOIN ENCHERES e ON av.no_article = e.no_article "+
+															" FULL OUTER JOIN UTILISATEURS u2 ON u2.no_utilisateur =e.no_utilisateur "+
+															" WHERE nom_article LIKE (?) AND (etat_vente=? OR etat_vente=? OR etat_vente=?) AND (no_categorie>=? AND no_categorie<=?)"+
+															" AND (u.pseudo =?  OR u.pseudo !=? ) AND u2.pseudo = ?;";
 	
 	private final String FIND_ARTICLE_BY_ID=			"SELECT nom_article,description,date_debut_encheres,date_fin_encheres,"
 														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente, pseudo_utilisateur FROM ARTICLES_VENDUS WHERE "
@@ -201,7 +205,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
 
 
-	public List<ArticleVendu> recupListeArticleSelonFiltreAccueil(String motcle ,Integer ouvertes , Integer encours, Integer terminees, int numCategorie, int categorieMax, String pseudoAchat, String pseudoVente) throws BusinessException {
+	public List<ArticleVendu> recupListeArticleSelonFiltreAccueil(String motcle ,Integer ouvertes , Integer encours, Integer terminees, int numCategorie, int categorieMax, String pseudoAchat, String pseudoVente, String pseudoEnchereur) throws BusinessException {
 		List<ArticleVendu> lstArticle = new ArrayList<ArticleVendu>();
 		try(Connection con = ConnectionProvider.getConnection(); 
 				PreparedStatement stmt = con.prepareStatement(FIND_ARTICLE_PAR_FILTRE_ACCUEIL))
@@ -227,8 +231,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			}
 			stmt.setInt(5, numCategorie);
 			stmt.setInt(6, categorieMax);
-			stmt.setString(8, pseudoAchat);
-			stmt.setString(7, pseudoVente);
+			stmt.setString(7, pseudoAchat);
+			stmt.setString(8, pseudoVente);
+			stmt.setString(9, pseudoEnchereur);
 			
 			ResultSet rs = stmt.executeQuery();
 			

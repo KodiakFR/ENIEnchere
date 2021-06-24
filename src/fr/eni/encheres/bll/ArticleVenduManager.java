@@ -58,11 +58,11 @@ public class ArticleVenduManager {
 	}
 	
 	//Récupération de tous les articles selon le filtre de l'accueil
-	public List<ArticleVendu> getListeEtatVente(String motcle ,Integer ouvertes , Integer encours, Integer terminees, int numCategorie, int categoriesMax, String pseudoAchat, String pseudoVente) throws BusinessException{
+	public List<ArticleVendu> getListeEtatVente(String motcle ,Integer ouvertes , Integer encours, Integer terminees, int numCategorie, int categoriesMax, String pseudoAchat, String pseudoVente,String pseudoEnchereur) throws BusinessException{
 		List<ArticleVendu> lstArticle = new ArrayList<ArticleVendu>();
 		//int idEtatVente= transcriptEtatVenteToID(etatVente);
 
-		lstArticle = articleVenduDAO.recupListeArticleSelonFiltreAccueil(motcle, ouvertes, encours, terminees, numCategorie, categoriesMax, pseudoAchat,pseudoVente);
+		lstArticle = articleVenduDAO.recupListeArticleSelonFiltreAccueil(motcle, ouvertes, encours, terminees, numCategorie, categoriesMax, pseudoAchat,pseudoVente,pseudoEnchereur);
 		
 		return lstArticle;
 		
