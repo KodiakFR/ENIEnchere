@@ -27,7 +27,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	private final String FIND_ARTICLE_FROM_USER =		"Select nom_article from ARTICLES_VENDUS Inner join UTILISATEURS ON Articles_vendus.no_utilisateur = UTILISATEURS.no_utilisateur AND UTILISATEURS.pseudo=?;";
 	
 	private final String CREATE_ARTICLE_FROM_USER = 	"SELECT no_article, description, date_debut_encheres, date_fin_encheres, "
-														+ "prix_initial, prix_vente,ARTICLES_VENDUS.no_utilisateur,no_categorie,etat_vente FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS "
+														+ "prix_initial, prix_vente,ARTICLES_VENDUS.no_utilisateur,no_categorie,etat_vente,images FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS "
 														+ "ON ARTICLES_VENDUS.nom_article=? AND UTILISATEURS.pseudo=? AND Articles_vendus.no_utilisateur = UTILISATEURS.no_utilisateur;";
 	
 	private final String FIND_ALL_CATEGORIES=			"SELECT no_categorie,libelle FROM CATEGORIES;";
@@ -42,7 +42,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 															" AND (u.pseudo =?  OR u.pseudo !=? ) AND u2.pseudo = ?;";
 	
 	private final String FIND_ARTICLE_BY_ID=			"SELECT nom_article,description,date_debut_encheres,date_fin_encheres,"
-														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente, pseudo_utilisateur FROM ARTICLES_VENDUS WHERE "
+														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente,images FROM ARTICLES_VENDUS WHERE "
 														+ "no_article=?;";
 	
 	private final String FIND_ID_CATEGORIE=				"SELECT no_categorie FROM CATEGORIES WHERE libelle=?;";
@@ -58,11 +58,14 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	private final String UPDATE_PRIX_VENTE=				"UPDATE ARTICLES_VENDUS SET prix_vente=? WHERE no_article=?;";
 	
 	@Override
-	public void removeArticleVendu(int idArticle) {
+	public boolean removeArticleVendu(int idArticle) {
+		boolean articleSupprime = false;
+		
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(DELETE_ARTICLE))
 				{
 				stmt.setInt(1, idArticle);	
 				stmt.executeUpdate();
+				articleSupprime = true;
 				}
 			catch (SQLException e) 
 				{
@@ -70,7 +73,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 					be.ajouterErreur(15000);
 					e.printStackTrace();
 				}
-		
+		return articleSupprime;
 	}
 
 	@Override
@@ -164,6 +167,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 				while(rs.next())
 					{
 						articleComplet = mappingArticleVendu(rs);
+						articleComplet.setImageArticle(rs.getBytes("images"));
 						articleComplet.setNomArticle(nomArticle);
 						articleComplet.setPseudoUtilisateur(pseudoUtilisateur);
 					}
@@ -280,9 +284,9 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 								int noUtilisateur = 			rs.getInt("no_utilisateur");
 								int noCategorie = 				rs.getInt("no_categorie");
 								int etatVente=					rs.getInt("etat_vente");
-								String pseudoUsilisateur=		rs.getString("pseudo_utilisateur");
+								byte[] image =					rs.getBytes("images");
 								
-								article = new ArticleVendu(idArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente, noUtilisateur, noCategorie, etatVente,pseudoUsilisateur);
+								article = new ArticleVendu(idArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente, noUtilisateur, noCategorie, etatVente,image);
 							
 							}
 				} 

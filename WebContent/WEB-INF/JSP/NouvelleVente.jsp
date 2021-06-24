@@ -64,6 +64,14 @@
 			    			</div>
 		  			</div>
 		  			
+		  			
+<!-- 		  			Affichage de l'image si il y en a une -->
+		  			<c:if test="${!empty image}">
+		  				<div>
+		  					<img alt="image de l'article" src="${image}">
+		  				</div>
+		  			</c:if>
+		  			
 		  			<div class="form-group row">
 		   	 			<label for="image" class="col-sm-2 col-form-label">Photo de l'article</label>
 			    		<div class="col-sm-10">

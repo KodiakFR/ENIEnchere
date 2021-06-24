@@ -42,4 +42,16 @@ public class RetraitManager {
 		retrait = retraitDAO.getRetraitByID(idArticle);
 		return retrait;
 	}
+
+	//Supprimer le retrait par l'id d'un article
+	public void supprimerRetrait(int noArticle) throws BusinessException{
+		
+		retraitDAO.deleteRetrait(noArticle);
+		
+	}
+
+	public void updateRetrait(Retrait retrait, int idArticleAModifier) throws BusinessException {
+		retraitDAO.updateRetrait(retrait, idArticleAModifier);
+		
+	}
 }

@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.List;
 
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
@@ -16,17 +15,21 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 
 	//insert
 	
-	private final String INSERT_ENCHERE_EN_COURS= 	"INSERT INTO ENCHERES VALUES (?,?,?,?);";
+	private final static String  INSERT_ENCHERE_EN_COURS= 	"INSERT INTO ENCHERES VALUES (?,?,?,?);";
 	
 	//select
 	
-	private final String SELECT_BY_ID=				"SELECT no_utilisateur,date_enchere,montant_enchere FROM ENCHERES "
+	private final static String SELECT_BY_ID=				"SELECT no_utilisateur,date_enchere,montant_enchere FROM ENCHERES "
 													+ "WHERE no_article=?;";
-	private final String SELECT_MONTANT_BY_ID=		"SELECT montant_enchere FROM ENCHERES WHERE no_article=?;";
+	private final static String SELECT_MONTANT_BY_ID=		"SELECT montant_enchere FROM ENCHERES WHERE no_article=?;";
 	
 	//update
 	
-	private final String UPDATE_ENCHERE=			"UPDATE ENCHERES SET no_utilisateur=?, montant_enchere=? WHERE no_article=?;";
+	private final static String UPDATE_ENCHERE=			"UPDATE ENCHERES SET no_utilisateur=?, montant_enchere=? WHERE no_article=?;";
+	
+	//COUNT
+	
+	private final static String COUNT_ENCHERE_BY_ID=	"SELECT COUNT (*) as cnt FROM ENCHERES WHERE no_article=?;";
 	
 	@Override
 	public void ajouterEnchereEnCours(ArticleVendu article,int idEncherisseur, int montantEnchere) throws BusinessException {
@@ -70,17 +73,6 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 		
 	}
 
-	@Override
-	public List<Enchere> getListeEncheresEnCours() throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Enchere deleteEnchere(int idArticle) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Enchere getEnchereByIDArticle(int idArticle) throws BusinessException {
@@ -127,6 +119,27 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 				e.printStackTrace();
 			}
 		return montantEnchere;
+	}
+	
+	
+	@Override
+	public int checkEnchereExist(int idArticle) throws BusinessException {
+		int count = 0;
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(COUNT_ENCHERE_BY_ID))
+			{
+				stmt.setInt(1, idArticle);
+				
+				ResultSet rs = stmt.executeQuery();
+				
+					if(rs.next())
+						{
+							count=rs.getInt("cnt");
+						}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		return count;
 	}
 
 }

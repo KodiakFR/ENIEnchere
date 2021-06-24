@@ -40,13 +40,15 @@ public class ArticleVenduManager {
 
 
 	//Suppression de l'article avant la date de fin  de l'enchère n'est pas terminée
-	public  void cancelArticleVendu(String nomArticle, String pseudoUtilisateur) throws BusinessException {
-		ArticleVendu art = articleVenduDAO.recupArticleBYNomEtPseudoVendeur(nomArticle, pseudoUtilisateur);
-		Integer idArticleVendu = art.getNoArticle();
+	public  boolean cancelArticleVendu(ArticleVendu article) throws BusinessException {
+		boolean articleSupprime = false;
+		int idarticle = article.getNoArticle();
 		
-		if(LocalDate.now().compareTo(art.getDateDebutEncheres())<0) {
-			articleVenduDAO.removeArticleVendu(idArticleVendu);
+		if(LocalDate.now().compareTo(article.getDateDebutEncheres())<0) {
+			articleSupprime = articleVenduDAO.removeArticleVendu(idarticle);
+			
 		}
+		return articleSupprime;
 	}
 	
 	//Récupération des catégories

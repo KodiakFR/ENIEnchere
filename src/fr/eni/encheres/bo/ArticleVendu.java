@@ -49,7 +49,7 @@ public class ArticleVendu {
 	}
 	
 	public ArticleVendu(int noArticle,String nomArticle, String description, LocalDate dateDebutEncheres,
-			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int noUtilisateur, int noCategorie, int etatVente, String pseudoUtilisateur) {
+			LocalDate dateFinEncheres, int miseAPrix, int prixVente, int noUtilisateur, int noCategorie, int etatVente, byte[] image) {
 		super();
 		this.noArticle = noArticle;
 		this.nomArticle= nomArticle;
@@ -61,7 +61,7 @@ public class ArticleVendu {
 		this.noUtilisateur = noUtilisateur;
 		this.etatVente = etatVente;
 		this.noCategorie = noCategorie;
-		this.pseudoUtilisateur = pseudoUtilisateur;
+		this.imageArticle = image;
 	}
 	
 	public ArticleVendu(int noArticle, String description, LocalDate dateDebutEncheres,

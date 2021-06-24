@@ -1,8 +1,5 @@
 package fr.eni.encheres.servlets;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -14,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 import fr.eni.encheres.bll.ArticleVenduManager;
 import fr.eni.encheres.bll.BusinessException;
@@ -36,35 +32,41 @@ public class ServletNouvelleVente extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
-			//Récupération des données utilisateur
-			try 
+			if(request.getSession().getAttribute("Uilisateur") == null)
 				{
-				String pseudoUtilisateur = (String) request.getSession().getAttribute("Utilisateur");
-					UtilisateurManager userManager = UtilisateurManager.getInstance();
-					Utilisateur user = userManager.recuperationUtilisateur(pseudoUtilisateur);
-					request.setAttribute("user", user);
-				} 
-			catch (BusinessException e1) 
-				{
-					e1.ajouterErreur(40001);
+				response.sendRedirect(request.getContextPath()+"/Accueil");
 				}
-			
-			//Récupération des catégories existantes pour les afficher dans un eliste déroulante
-			try 
-				{
-					ArticleVenduManager manager = ArticleVenduManager.getInstance();
-					Set<Categorie> listeDeCategories = manager.getListCategories();
-					request.setAttribute("listeDeCategories", listeDeCategories);
-				} 
-			catch (BusinessException e) 
-				{
-					e.ajouterErreur(40000);
-				}
-			
-		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/NouvelleVente.jsp");
-		rd.forward(request, response);
+			else
+			{
+					//Récupération des données utilisateur
+					try 
+						{
+						String pseudoUtilisateur = (String) request.getSession().getAttribute("Utilisateur");
+							UtilisateurManager userManager = UtilisateurManager.getInstance();
+							Utilisateur user = userManager.recuperationUtilisateur(pseudoUtilisateur);
+							request.setAttribute("user", user);
+						} 
+					catch (BusinessException e1) 
+						{
+							e1.ajouterErreur(40001);
+						}
+					
+					//Récupération des catégories existantes pour les afficher dans un eliste déroulante
+					try 
+						{
+							ArticleVenduManager manager = ArticleVenduManager.getInstance();
+							Set<Categorie> listeDeCategories = manager.getListCategories();
+							request.setAttribute("listeDeCategories", listeDeCategories);
+						} 
+					catch (BusinessException e) 
+						{
+							e.ajouterErreur(40000);
+						}
+					
+				
+						RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/NouvelleVente.jsp");
+						rd.forward(request, response);
+			}
 	}
 	
 	

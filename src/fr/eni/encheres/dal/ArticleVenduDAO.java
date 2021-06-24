@@ -13,7 +13,7 @@ public interface ArticleVenduDAO {
 	//Permet de supprimer l'article de la plateforme
 	//vendu ou supprimer par le vendeur ou l'admin
 	
-	public void removeArticleVendu(int idArticle) throws BusinessException;
+	public boolean removeArticleVendu(int idArticle) throws BusinessException;
 	
 	
 	

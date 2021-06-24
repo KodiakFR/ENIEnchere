@@ -95,4 +95,16 @@ public class EnchereManager {
 		int montantEnchere = enchereDAO.getMontantEnchereByIDArticle(idArticle);
 		return montantEnchere;
 	}
+	
+	//Vérifie si une enchère existe pour l'article
+	public boolean verificationEnchereExist(ArticleVendu article) throws BusinessException{
+		boolean enchereExist = false;
+		int idArticle = article.getNoArticle();
+		
+		int resultatCount = enchereDAO.checkEnchereExist(idArticle);
+			if(resultatCount>0)
+				enchereExist = true;
+				
+				return enchereExist;
+	}
 }
