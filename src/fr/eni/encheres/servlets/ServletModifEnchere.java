@@ -34,11 +34,11 @@ public class ServletModifEnchere extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getSession().getAttribute("Utilisateur") == null)
-		{
-			response.sendRedirect(request.getContextPath()+"/Accueil");
-		}
-	else
+//		if(request.getSession().getAttribute("Utilisateur") == null)
+//		{
+//			response.sendRedirect(request.getContextPath()+"/Accueil");
+//		}
+//	else
 		{
 		
 		request.setCharacterEncoding("UTF-8");
@@ -51,24 +51,31 @@ public class ServletModifEnchere extends HttpServlet {
 				{
 					ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
 					ArticleVendu articleAModifier = articleManager.recupererArticleParNomArticleEtNomVendeur(nomArticleAModifier, pseudoVendeur);
-					LocalDate debutEnchere = articleAModifier.getDateDebutEncheres();
+					System.out.println(articleAModifier);
+					System.out.println(request.getSession().getAttribute("Utilisateur"));
+					System.out.println(pseudoVendeur);
+					System.out.println(articleAModifier.getEtatVente());
+					int etatVente = articleAModifier.getEtatVente();
 					
 					//Verification du droit à la modification selon la date du jour et vérification que c'est bien l'article de l'utilisateur
-					if(LocalDate.now().compareTo(debutEnchere)<0 && pseudoVendeur == request.getSession().getAttribute("Utilisateur"))
+					if(etatVente >1 && pseudoVendeur == request.getSession().getAttribute("Utilisateur"))
 						{
-
+						System.out.println("j'ai le droit");
 						UtilisateurManager userManager = UtilisateurManager.getInstance();
 						Utilisateur user = userManager.recuperationUtilisateur(pseudoVendeur);
+						System.out.println(user);
 						
 						RetraitManager retraitManager = RetraitManager.getInstance();
 						Retrait retrait = retraitManager.recupererRetraitByID(articleAModifier.getNoArticle());
+						System.out.println(retrait);
 						
 						//Récupération des catégories existantes pour les afficher dans un eliste déroulante
 						try 
 							{
-								ArticleVenduManager manager = ArticleVenduManager.getInstance();
-								Set<Categorie> listeDeCategories = manager.getListCategories();
+								
+								Set<Categorie> listeDeCategories = articleManager.getListCategories();
 								request.setAttribute("listeDeCategories", listeDeCategories);
+								System.out.println(listeDeCategories);
 							} 
 						catch (BusinessException e) 
 							{

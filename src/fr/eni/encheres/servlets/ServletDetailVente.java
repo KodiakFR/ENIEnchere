@@ -30,18 +30,19 @@ public class ServletDetailVente extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		if(request.getSession().getAttribute("Utilisateur") == null)
-			{
-				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
-				rd.forward(request, response);
-			}
-		else
+//		
+//		if(request.getSession().getAttribute("Utilisateur") == null)
+//			{
+//				RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+//				rd.forward(request, response);
+//			}
+//		else
 			{
 				request.setCharacterEncoding("UTF-8");
-				String nomArticle = request.getParameter("nomArticle");
-				String pseudoVendeur = request.getParameter("pseudoVendeur");
-		
+//				String nomArticle = request.getParameter("nomArticle");
+//				String pseudoVendeur = request.getParameter("pseudoVendeur");
+				String nomArticle = "aprilia";
+				String pseudoVendeur = "Kodiak";
 				
 				ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
 				RetraitManager retraitManager = RetraitManager.getInstance();
@@ -52,7 +53,7 @@ public class ServletDetailVente extends HttpServlet {
 					int idArticle = articleAAfficher.getNoArticle();
 						request.setAttribute("articleAAfficher", articleAAfficher);
 						request.setAttribute("vendeur", pseudoVendeur);
-						
+						request.setAttribute("image", articleAAfficher.getImageArticle());
 						Retrait retraitArticleSelected = retraitManager.recupererRetraitByID(idArticle);
 						
 						request.setAttribute("retraitArticleSelected", retraitArticleSelected);
@@ -60,8 +61,8 @@ public class ServletDetailVente extends HttpServlet {
 						if(articleAAfficher.getEtatVente() > 1)
 							{
 								EnchereManager enchereManager = EnchereManager.getInstance();
-								Enchere montantEnchere = enchereManager.recuperationEnchereByArticle(articleAAfficher);
-								request.setAttribute("montantEnchere", montantEnchere);
+								Enchere enchere = enchereManager.recuperationEnchereByArticle(articleAAfficher);
+								request.setAttribute("enchere", enchere);
 							}
 						
 					} 

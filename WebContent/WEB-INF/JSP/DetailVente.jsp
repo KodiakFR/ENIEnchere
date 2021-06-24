@@ -39,8 +39,8 @@
 		        <div class="form-group row">
 		            <label for="map" class="col-sm-4 col-form-label">Meilleure offre</label>
 					   				 <div class="col-sm-6">
-					     				 <c:if test="${empty montantEnchere }"><p>${articleAAfficher.miseAPrix} pts</p></c:if>
-					     				 <c:if test="${!empty montantEnchere }"><p>${montantEnchere.getMontantEnchere()+10} pts</p></c:if>
+					     				 <c:if test="${empty enchere}"><p>${articleAAfficher.miseAPrix} pts</p></c:if>
+					     				 <c:if test="${!empty enchere}"><p>${enchere.getMontantEnchere()+10} pts</p></c:if>
 					    			</div>
 		        </div>
 		
@@ -78,8 +78,8 @@
 	 </c:if>
 	 
 	 <c:if test="${vendeur == Utilisateur }">
-	 	<a href="ModifEnchere?nomArticle=${articleAAfficher.nomArticle}&pseudoVendeur=${vendeur}" class="btn btn-primary mb-2"></a>
-	 	<a href="Delete?nomArticle=${articleAAfficher.nomArticle}&pseudoVendeur=${vendeur}" class="btn btn-primary mb-2"></a>
+	 	<a href="ModifEnchere?nomArticle=${articleAAfficher.nomArticle}&pseudoVendeur=${vendeur}" class="btn btn-primary mb-6"></a>
+	 	<a href="Delete?nomArticle=${articleAAfficher.nomArticle}&pseudoVendeur=${vendeur}" class="btn btn-primary mb-6"></a>
 	 </c:if>
 	 
 			</form>
