@@ -49,10 +49,16 @@ public class ServletProfil extends HttpServlet {
 				// Récupération du pseudo lorsqu'on clique sur le nom du vendeur. A finir lorsque la page accueil sera présente.	
 				String pseudoRecup = request.getParameter("pseudo");
 				
-				// Récupération du pseudo de l'utilisateur pour traiter par la suite	
-				Utilisateur utilisateurInconnu = utilisateurManager.recuperationUtilisateur(utilisateurGeneral);
-				request.setAttribute("utilisateurInconnu", utilisateurInconnu);
-				
+				if(pseudoRecup.equals(utilisateurGeneral)) {
+					// Récupération du pseudo de l'utilisateur pour traiter par la suite	
+					Utilisateur utilisateurInconnu = utilisateurManager.recuperationUtilisateur(utilisateurGeneral);
+					request.setAttribute("utilisateurInconnu", utilisateurInconnu);
+				}
+				if(!pseudoRecup.equals(utilisateurGeneral)) {
+					Utilisateur utilisateurInconnu = utilisateurManager.recuperationUtilisateur(pseudoRecup);
+					request.setAttribute("utilisateurInconnu", utilisateurInconnu);
+				}
+
 				// Si le pseudo récupérer est le meme que celui de la session : le bouton modif profil est activé
 				if(pseudoRecup.equals(utilisateurGeneral)) {
 				valideP = true;	
