@@ -183,10 +183,12 @@
 					<div class = "card flex-row">
 						<img alt="image article" src="#">
 						<div class="card-body">
-						<a href="DetailVente?nomArticle=${A.getNomArticle()}&pseudoVendeur=${A.getPseudoUtilisateur()}"> ${A.getNomArticle()} </a><br>
+						<c:if test="${empty Utilisateur}">${A.getNomArticle()}<br></c:if>
+						<c:if test="${!empty Utilisateur}"><a href="DetailVente?nomArticle=${A.getNomArticle()}&pseudoVendeur=${A.getPseudoUtilisateur()}"> ${A.getNomArticle()} </a><br></c:if>
 						 prix : ${A.getPrixVente()} points <br>
 						 Fin d'enchère: ${A.getDateFinEncheres()} <br>
-						 Vendeur : <a href="Profil?pseudo=${A.getPseudoUtilisateur()}">${A.getPseudoUtilisateur()}</a>
+						 Vendeur : <c:if test="${empty Utilisateur}">${A.getPseudoUtilisateur()} </c:if> 
+						 			<c:if test="${!empty Utilisateur}"><a href="Profil?pseudo=${A.getPseudoUtilisateur()}">${A.getPseudoUtilisateur()}</a> </c:if>
 						</div>
 					</div>
 				</div>		

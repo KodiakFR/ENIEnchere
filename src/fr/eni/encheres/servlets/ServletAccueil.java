@@ -73,12 +73,13 @@ public class ServletAccueil extends HttpServlet {
 			int categorieMax = 1000;
 			String pseudoAchat = null;
 			String pseudoVente ="visiteur";
+			String pseudoEnchereur= null;
 			if (request.getSession().getAttribute("Utilisateur")!=null)
 			{
 				pseudoVente = (String) request.getSession().getAttribute("Utilisateur");
 			}
 			
-			List<ArticleVendu> listeEnchereEnCours = manager.getListeEtatVente(motcle, etatVente, null, null, categorie, categorieMax, pseudoAchat, pseudoVente);
+			List<ArticleVendu> listeEnchereEnCours = manager.getListeEtatVente(motcle, etatVente, null, null, categorie, categorieMax, pseudoAchat, pseudoVente,pseudoEnchereur);
 			System.out.println(listeEnchereEnCours.toString());
 			request.setAttribute("listeEnchereEnCours", listeEnchereEnCours);
 						
@@ -122,8 +123,11 @@ public class ServletAccueil extends HttpServlet {
 			//récup des boutons radio
 			String pseudoAchat=null;
 			String pseudoVente=null;
-			
-			if (request.getParameter("Achats")!= null) {
+			String pseudoEnchereur = null;
+			 
+		
+			System.out.println(request.getParameter("status"));
+			if (request.getParameter("status").equals("Achats")) {
 				if (request.getSession().getAttribute("Utilisateur")!=null) {
 					pseudoAchat = (String) request.getSession().getAttribute("Utilisateur");
 				}
@@ -135,7 +139,7 @@ public class ServletAccueil extends HttpServlet {
 				pseudoVente = null;
 			}
 			
-			if (request.getParameter("Ventes")!= null) {
+			if (request.getParameter("status").equals("Ventes")) {
 				pseudoAchat = null;
 				if (request.getSession().getAttribute("Utilisateur")!=null) {
 					pseudoVente = (String) request.getSession().getAttribute("Utilisateur");
@@ -144,7 +148,7 @@ public class ServletAccueil extends HttpServlet {
 					pseudoVente = "visiteur";
 				}
 				
-			}
+			}	
 			
 			Integer ouvertes;
 			Integer encours;
@@ -159,6 +163,7 @@ public class ServletAccueil extends HttpServlet {
 			if ((request.getParameter("encours")) != null) {
 				
 				 encours = Integer.parseInt(request.getParameter("encours"));
+				 pseudoEnchereur = (String) request.getSession().getAttribute("Utilisateur");
 			}
 			else {
 				 encours = null;
@@ -172,11 +177,12 @@ public class ServletAccueil extends HttpServlet {
 				terminees = null;
 			}
 			
-			System.out.println(motcle + " " + ouvertes + " " + encours + " " + terminees + " " + categories);
+			
+			System.out.println("mot cles : "+ motcle + " ouvertes: " + ouvertes + " encours: " + encours + " terminees : " + terminees + " categories : " + categories + " categoriesMax: " + categoriesMax + " pseudoAchat:  " + pseudoAchat + " pseudoVente: " + pseudoVente + "pseudo Enchereur: "+ pseudoEnchereur);
 			
 			//application de la méthode pour retourner la liste des articles
 			
-			List<ArticleVendu> listeEnchereEnCours = manager.getListeEtatVente(motcle, ouvertes, encours, terminees, categories, categoriesMax, pseudoAchat,pseudoVente);
+			List<ArticleVendu> listeEnchereEnCours = manager.getListeEtatVente(motcle, ouvertes, encours, terminees, categories, categoriesMax, pseudoAchat,pseudoVente, pseudoEnchereur);
 			request.setAttribute("listeEnchereEnCours", listeEnchereEnCours);
 			
 		} catch (NumberFormatException | BusinessException e) {
