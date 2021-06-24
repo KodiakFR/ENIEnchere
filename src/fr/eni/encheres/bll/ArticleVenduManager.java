@@ -101,7 +101,7 @@ public class ArticleVenduManager {
 		return idArticle;
 	}
 	
-	//Permet de transformer l'etat de vente en ID pour l'utiliser en base Créée= 1/En Cours = 2/Enchère Terminée = 3/ Retrait Effectué = 4
+	//Permet de transformer l'etat de vente en ID pour l'utiliser en base Créée= 1 /En Cours = 2 /Enchère Terminée = 3 / Retrait Effectué = 4 / Vente Annulée=5
 	private int transcriptEtatVenteToID(String etatVente) {
 		int idEtat = 0;
 		switch (etatVente) 
@@ -120,6 +120,10 @@ public class ArticleVenduManager {
 					
 				case "Retrait Effectué":
 					idEtat = 4;
+					break;
+					
+				case "Vente Annulée":
+					idEtat = 5;
 					break;
 	
 			}
