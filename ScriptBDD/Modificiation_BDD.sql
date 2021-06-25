@@ -16,3 +16,6 @@ CREATE PROCEDURE maj_etat_vente
 as
 	UPDATE ARTICLES_VENDUS SET etat_vente='2' WHERE date_debut_encheres<=GETDATE() AND etat_vente ='1'; 
 	UPDATE ARTICLES_VENDUS SET etat_vente='3' WHERE date_fin_encheres<GETDATE() AND etat_vente ='2';
+	
+	
+	ALTER TABLE  ARTCILES_VENDUS ADD images IMAGES NULL;

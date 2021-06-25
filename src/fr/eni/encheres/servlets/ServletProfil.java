@@ -37,8 +37,9 @@ public class ServletProfil extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+				
 		String utilisateurGeneral = (String) request.getSession().getAttribute("Utilisateur");		
-		if (request.getSession() != null)
+		if(request.getSession().getAttribute("Utilisateur") != null)
 		{
 			if (request.getServletPath().equals("/Profil")) {
 				
@@ -110,8 +111,7 @@ public class ServletProfil extends HttpServlet {
 			
 		}
 		else {
-			RequestDispatcher rd = request.getRequestDispatcher("Accueil") ;
-			rd.forward(request, response);
+			response.sendRedirect(request.getContextPath()+"/Accueil");
 		}
 	}
 	/**
