@@ -55,19 +55,19 @@
 					<div class="InscritpionDivGauche d-flex flex-column">
 					
 							<p> <label for="pseudo">Pseudo : </label>
-							<input type="text" name="pseudo" id="pseudo" value="${utilisateurProfil.getPseudo()}" autofocus ></p>
+							<input type="text" name="pseudo" id="pseudo" value="${utilisateurProfil.getPseudo()}" autofocus required="required"></p>
 							
 							<p> <label for="prenom">Prénom : </label> 
-							<input type="text" name="prenom" id="prenom" value="${utilisateurProfil.getPrenom()}" "> </p>
+							<input type="text" name="prenom" id="prenom" value="${utilisateurProfil.getPrenom()}" required="required"> </p>
 							
 							<p> <label for="tel">Téléphone : </label> 
-							<input type="text" name="tel" id="tel" value="${utilisateurProfil.getTelephone()}" > </p>
+							<input type="text" name="tel" id="tel" value="${utilisateurProfil.getTelephone()}" required="required"> </p>
 							
 							<p> <label for="cp">Code Postal : </label> 
-							<input type="text" name="cp" id="cp" value="${utilisateurProfil.getCodePostale()}" > </p>
+							<input type="text" name="cp" id="cp" value="${utilisateurProfil.getCodePostale()}" required="required"> </p>
 							
 							<p> <label for="mdp">Mot de passe actuel : </label> 
-							<input type="password" name="mdp" id="mdp" > </p>
+							<input type="password" name="mdp" id="mdp" required="required"> </p>
 							
 							<p> <label for="mdp"> Nouveau mot de passe : </label> 
 							<input type="password" name="newmdp" id="newmdp" > </p>
@@ -75,16 +75,16 @@
 						</div>
 						<div class="InscritpionDivDroite d-flex flex-column">
 							<p> <label for="nom">Nom : </label>
-							<input type="text" name="nom" id="nom" autofocus value="${utilisateurProfil.getNom()}" ></p>
+							<input type="text" name="nom" id="nom" autofocus value="${utilisateurProfil.getNom()}" required="required"></p>
 							
 							<p> <label for="email">Email : </label> 
-							<input type="email" name="email" id="email" required value="${utilisateurProfil.getEmail()}" > </p>
+							<input type="email" name="email" id="email" required value="${utilisateurProfil.getEmail()}" required="required"> </p>
 							
 							<p> <label for="rue">Rue : </label> 
-							<input type="text" name="rue" id="rue" value="${utilisateurProfil.getRue()}" > </p>
+							<input type="text" name="rue" id="rue" value="${utilisateurProfil.getRue()}" required="required"> </p>
 							
 							<p> <label for="ville">Ville : </label> 
-							<input type="text" name="ville" id="ville" value="${utilisateurProfil.getVille()}" > </p>
+							<input type="text" name="ville" id="ville" value="${utilisateurProfil.getVille()}" required="required"> </p>
 							
 							<p> <label for="ville"></label> 
 							
@@ -93,7 +93,7 @@
 						</div>
 						
 					</div>
-				</div>	
+				
 					<div class= "InscriptionBouttons">
 						<div class="Inscriptiondivbtna">				
 							<a href="<%=request.getContextPath()%>/Accueil">
