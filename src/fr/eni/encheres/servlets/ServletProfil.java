@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.eni.encheres.bll.BusinessException;
-import fr.eni.encheres.bll.CodeResultatBLL;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.Utilisateur;
 
@@ -219,6 +218,7 @@ public class ServletProfil extends HttpServlet {
 					request.setAttribute("verifMail", verifMail);
 					request.setAttribute("utilisateurProfil", utilisateurProfil);
 					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp") ;
+					rd.forward(request, response);
 				}
  			}
  			
