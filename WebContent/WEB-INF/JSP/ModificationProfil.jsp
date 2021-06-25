@@ -41,7 +41,7 @@
 			
 			<c:if test="${verifMail == true}">
 					<div 	class="alert alert-danger" role="alert">
-						pseudo ou mdp déjà existant, veuillez réssayer.
+						pseudo ou mail déjà existant, veuillez réssayer.
 					</div>
 			</c:if>
 			

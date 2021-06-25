@@ -122,7 +122,6 @@ public class ServletDetailVente extends HttpServlet {
 								if (enchereExist == false) 
 									{
 										
-											System.out.println("inexistant");
 											boolean execute = enchereManager.startEnchere(articleAEncherir,idEncherisseur,montantEnchere);
 										if(execute==true)
 											 {

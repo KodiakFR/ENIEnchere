@@ -159,7 +159,6 @@ public class ServletProfil extends HttpServlet {
 			
 			// Vérification du mot de passe : résultat en boolean
 			verifMdp = utilisateurManager.validerMDP(mdpAc);
-			System.out.println(verifMdp + " reponse");
 			
 			
 			//if verifie si mdp bon

@@ -122,6 +122,18 @@ public class ServletNouvelleVente extends HttpServlet {
 		
 		if(validateDateDebut == false)
 			{
+			
+			//Récupération des catégories existantes pour les afficher dans un eliste déroulante
+			try 
+				{
+					ArticleVenduManager manager = ArticleVenduManager.getInstance();
+					Set<Categorie> listeDeCategories = manager.getListCategories();
+					request.setAttribute("listeDeCategories", listeDeCategories);
+				} 
+			catch (BusinessException e) 
+				{
+					e.ajouterErreur(40000);
+				}
 			request.setAttribute("newArticle", newArticle);
 			request.setAttribute("retrait", retrait);
 			request.setAttribute("validateDateDebut", validateDateDebut);
@@ -175,7 +187,7 @@ public class ServletNouvelleVente extends HttpServlet {
 	
 	private boolean validationDate(LocalDate datedebut, LocalDate dateFin) {
 		boolean validationDate = false;
-			if(datedebut.compareTo(LocalDate.now()) >= 0 || dateFin.compareTo(datedebut)<=0)
+			if(datedebut.compareTo(LocalDate.now())<=0||dateFin.compareTo(datedebut)<=0)
 				validationDate = false;
 			else
 				validationDate = true;
