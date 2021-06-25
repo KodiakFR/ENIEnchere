@@ -74,7 +74,7 @@ public class ServletProfil extends HttpServlet {
 		
 						
 					} catch ( BusinessException e) {
-						request.setAttribute("listeCodeErreur", e.getListeCodesErreur());
+						throw new ServletException("Erreur de chargement de la page : Profil ");
 					}
 		
 				}
@@ -90,7 +90,7 @@ public class ServletProfil extends HttpServlet {
 					RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/ModificationProfil.jsp");
 					rd.forward(request, response);
 				} catch (BusinessException e) {
-					request.setAttribute("listeCodeErreur", e.getListeCodesErreur());
+					throw new ServletException("Erreur de chargement de la page : Modification profil ");
 				}
 							
 			}
@@ -105,7 +105,7 @@ public class ServletProfil extends HttpServlet {
 						rd.forward(request, response);
 						
 					} catch (BusinessException e) {
-						request.setAttribute("listeCodeErreur", e.getListeCodesErreur());
+						throw new ServletException("Erreur de chargement de la page : Suppression profil ");
 					}	
 			}
 			
@@ -233,7 +233,7 @@ public class ServletProfil extends HttpServlet {
  			 
 		
 		} catch (BusinessException e) {
-			request.setAttribute("listeCodeErreur", e.getListeCodesErreur());
+			throw new ServletException("Erreur de la modification de la page profil ");
 		}
 		
 		

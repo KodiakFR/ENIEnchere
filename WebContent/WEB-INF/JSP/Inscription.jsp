@@ -45,7 +45,7 @@
 			
 				<div class="InscriptionContenu justify-content-center d-flex flex-row ">
 				
-					<div class="InscritpionDivGauche d-flex flex-column ">
+					<div class="InscritpionDivGauche d-flex flex-column">
 						
 								<p> <label for="pseudo">Pseudo : </label>
 								<input type="text" name="pseudo" id="pseudo" autofocus required="required"></p></li>
@@ -63,7 +63,7 @@
 								<input type="password" name="mdp" id="mdp" required="required"> </p>	
 					</div>
 					
-					<div class="InscritpionDivDroite d-flex  flex-column">
+					<div class="InscritpionDivDroite d-flex  flex-column  ">
 
 						<p> <label for="nom">Nom : </label>
 						<input type="text" name="nom" id="nom" value="${utilisateurU.getNom()}" autofocus required="required"></p>

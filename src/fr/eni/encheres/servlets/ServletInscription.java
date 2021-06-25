@@ -87,8 +87,7 @@ public class ServletInscription extends HttpServlet {
 			
 			
 		} catch (BusinessException e) {
-			e.printStackTrace();
-			request.setAttribute("listeCodeErreur", e.getListeCodesErreur());
+			throw new ServletException("Erreur du chargement de la page : Inscription ");
 		}
 		
 
