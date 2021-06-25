@@ -6,12 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-<link href="../../CSS/style.css">
+<link href="${pageContext.request.contextPath}/CSS/style.css" rel = "stylesheet">
 <title>Detail Vente</title>
 </head>
 <body>
 <header>
-<h1><a href="<%=request.getContextPath()%>/Accueil">ENI-Enchères</a></h1>
+<div class="container header">
+	<a href="Accueil" class = "fs-2  text-reset text-decoration-none">ENI - ENCHERES</a>
+</div>
 <div style="text-align: center;">
 <h2 class="center">Nouvelle vente</h2>
 </div>

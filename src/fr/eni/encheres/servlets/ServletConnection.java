@@ -56,8 +56,14 @@ public class ServletConnection extends HttpServlet {
 		
 		if (request.getServletPath().equals("/Connection"))
 		{
-			RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Connection.jsp");
-			rd.forward(request, response);
+			if (request.getSession().getAttribute("Utilisateur") == null) {
+				RequestDispatcher rd  = request.getRequestDispatcher("/WEB-INF/JSP/Connection.jsp");
+				rd.forward(request, response);
+			}
+			else {
+				response.sendRedirect(request.getContextPath()+"/Accueil");
+			}
+		
 		}
 		
 		
@@ -78,13 +84,11 @@ public class ServletConnection extends HttpServlet {
 				String utilisateur = request.getParameter("Identifiant");
 				String password	= request.getParameter("Password");
 				String souvenirMoi = request.getParameter("souvenirMoi");
-				System.out.println("récupération des infos " + utilisateur + " " + password + " " + souvenirMoi );
 				
 				
 				//Appel de la méthode de connection
 				
 				testConnection = utilisateurManager.connection(utilisateur, password);
-				System.out.println("test connection = " +testConnection);
 				
 				if (testConnection == false)
 				{
@@ -105,7 +109,6 @@ public class ServletConnection extends HttpServlet {
 						Cookie cookieConnection	= new Cookie ("userPseudo", utilisateur);
 						cookieConnection.setMaxAge(7*24*3600);
 						response.addCookie(cookieConnection);
-						System.out.println(cookieConnection.getName() + " " + cookieConnection.getValue());
 						
 					}
 					
@@ -115,7 +118,7 @@ public class ServletConnection extends HttpServlet {
 
 				
 			} catch (NumberFormatException | BusinessException e) {
-				e.printStackTrace();
+				throw new ServletException("La connection à échouée");
 				} 
 		
 

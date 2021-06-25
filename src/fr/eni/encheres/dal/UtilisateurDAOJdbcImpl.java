@@ -86,7 +86,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				businessException.ajouterErreur(CodeResultatDAL.CHECK_LISTE_PSEUDO_ECHEC);
 				throw businessException;
 			}
-			System.out.println(pseudoUtil);
 			return pseudoUtil;	
 		}
 	
@@ -103,7 +102,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 				ResultSet rs = stmt.executeQuery();
 					rs.next();
 					emailUtil = rs.getInt("cnt");
-					System.out.println(emailUtil + "traitement du selectEmail valide ?");
 					
 			} catch (Exception e) {
 				BusinessException businessException = new BusinessException();
@@ -215,7 +213,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			ResultSet rs = stmt.executeQuery();
 			rs.next();
 			U = mappingUtilisateur(rs);
-			System.out.println(U);
 			
 		} catch (Exception e) {
 			BusinessException businessException = new BusinessException();
@@ -223,7 +220,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO {
 			throw businessException;
 		}
 		
-		System.out.println(U.toString());
 		return U;
 	}
 

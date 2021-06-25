@@ -66,7 +66,6 @@ public class UtilisateurManager {
 					int pseudoValide = 0;
 					try {
 						pseudoValide = this.utilisateurDAO.selectPseudo(nomPseudo);
-						System.out.println(pseudoValide);
 						if(pseudoValide >= 1) {
 							statusValidation = true;
 						}			
@@ -78,32 +77,8 @@ public class UtilisateurManager {
 						businessException.ajouterErreur(CodeResultatBLL.REGLE_PSEUDO_DEJA_UTIL_ERREUR);
 						throw businessException;
 		 			}
-					System.out.println(statusValidation);
 					return statusValidation;
 			}
-	//
-	// Méthode qui vérifie que le pseudo ne soit pas déjà existant
-//		public boolean validerPseudoModifProfil(String nomPseudo) throws BusinessException {
-//					boolean statusValidation = false;
-//					if(nomPseudo == null | nomPseudo.length() > 30) {
-//						statusValidation = true;
-//					}
-//						int pseudoValide = 0;
-//						try {
-//							pseudoValide = this.utilisateurDAO.selectPseudo(nomPseudo);
-//							System.out.println(pseudoValide);
-//							if(pseudoValide >= 2) {
-//								statusValidation = true;
-//							}			
-//							else  {
-//								statusValidation = false;
-//							}
-//						} catch (BusinessException e) {
-//							e.printStackTrace();
-//			 			}
-//						System.out.println(statusValidation);
-//						return statusValidation;
-//				}
 	
 	// Méthode qui vérifie si le mail ne soit pas déjà existant
 	public boolean validerMail(String nomMail) throws BusinessException {
@@ -114,7 +89,6 @@ public class UtilisateurManager {
 					int emailValide =0;
 					try {
 						emailValide = this.utilisateurDAO.selectEmail(nomMail);
-						System.out.println(emailValide);
 						if(emailValide >= 1) {
 							statusValidation = true;
 						}
@@ -131,30 +105,6 @@ public class UtilisateurManager {
 			}
 	
 	
-	//
-	// Méthode qui vérifie si le mail est deja existant lors de la modification du profil
-//	public boolean validerMailModifProfil(String nomMail) throws BusinessException {
-//					boolean statusValidation = false;
-//					if(nomMail == null | nomMail.length() > 60) {
-//						statusValidation = true;
-//					}
-//					int emailValide =0;
-//					try {
-//						emailValide = this.utilisateurDAO.selectEmail(nomMail);
-//						System.out.println(emailValide);
-//						if(emailValide >= 2) {
-//							statusValidation = true;
-//						}
-//						else  {
-//							statusValidation = false;
-//						}
-//					
-//				} catch (BusinessException e) {
-//					e.printStackTrace();
-//								
-//		 		}
-//					return statusValidation;
-//			}
 	
 	
 	// Méthode de verif MPD :
@@ -193,9 +143,7 @@ public class UtilisateurManager {
 	//Méthode de connection
 			public boolean connection(String identifiant, String password) throws BusinessException{
 				boolean testConnection = false;
-				System.out.println("je suis dans ma bll avant d'aller dans la DAL");
 				testConnection = validerPseudo(identifiant);
-				System.out.println(testConnection);
 				if (testConnection == true)
 				{
 					testConnection = validerMDP(password);
@@ -221,7 +169,6 @@ public class UtilisateurManager {
 	//méthode pour envoyer un mail oublie mot de passe
 		
 		public void sentmail(String userEmail) throws Exception{
-			System.out.println("message en cours d'envoie");
 			Properties properties = new Properties();
 
 			properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -252,9 +199,9 @@ public class UtilisateurManager {
 				
 				Transport.send(message);
 				
-				System.out.println("message envoyé");
 				
 			} catch (MessagingException e) {
+			//	throw  new Exception ("Mail non envoyé"+ e); 
 				e.printStackTrace();
 			}			
 		}

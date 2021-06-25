@@ -39,10 +39,8 @@ public class ServletDetailVente extends HttpServlet {
 		else
 			{
 				request.setCharacterEncoding("UTF-8");
-//				String nomArticle = request.getParameter("nomArticle");
-//				String pseudoVendeur = request.getParameter("pseudoVendeur");
-				String nomArticle = "le test du";
-				String pseudoVendeur = "Kodiak";
+				String nomArticle = request.getParameter("nomArticle");
+				String pseudoVendeur = request.getParameter("pseudoVendeur");
 				
 				ArticleVenduManager articleManager = ArticleVenduManager.getInstance();
 				RetraitManager retraitManager = RetraitManager.getInstance();

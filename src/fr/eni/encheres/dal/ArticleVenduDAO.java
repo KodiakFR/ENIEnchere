@@ -39,7 +39,7 @@ public interface ArticleVenduDAO {
 	
 	//Récupère une liste d'article par son état de vente
 	
-	public List<ArticleVendu> recupListeArticleSelonFiltreAccueil(String motcle ,Integer ouvertes , Integer encours, Integer terminees, int numCategorie, int categoriesMax, String pseudoAchat, String pseudoVente, String pseudoEnchereur) throws BusinessException;
+	public List<ArticleVendu> recupListeArticleSelonFiltreAccueil(String motcle ,Integer ouvertes , Integer encours, Integer terminees, int numCategorie, int categoriesMax, String pseudoAchat, String pseudoVente) throws BusinessException;
 	
 	//Récupère un article par son id (utilisation pour les enchères principalement)
 	
@@ -60,6 +60,6 @@ public interface ArticleVenduDAO {
 
 
 	//Met à jour l'article d'il est encore modifiable
-	public void updateArticleVendu(ArticleVendu article);
+	public void updateArticleVendu(ArticleVendu article) throws BusinessException;
 	
 }

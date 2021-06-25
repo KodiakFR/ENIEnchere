@@ -63,7 +63,6 @@ public class ServletMotPasseOublie extends HttpServlet {
 				//verification de l'existance du mail
 				
 				verifMail = utilisateurManager.verifmail(email);
-				System.out.println(verifMail);
 				
 				if (verifMail == false)
 				{
@@ -83,6 +82,7 @@ public class ServletMotPasseOublie extends HttpServlet {
 				}
 
 			} catch (Exception e) {
+				//throw new ServletException("echec de l'envoi de l'email");
 				e.printStackTrace();
 			}
 				
@@ -133,7 +133,7 @@ public class ServletMotPasseOublie extends HttpServlet {
 				
 				
 			} catch (BusinessException e) {
-				e.printStackTrace();
+				throw new ServletException("Echec de la modification du mot de passe");
 			}
 			
 		}

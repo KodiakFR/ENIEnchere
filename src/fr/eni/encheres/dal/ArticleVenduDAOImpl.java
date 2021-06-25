@@ -28,7 +28,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 	
 	private final static  String CREATE_ARTICLE_FROM_USER = 	"SELECT no_article, description, date_debut_encheres, date_fin_encheres, "
 														+ "prix_initial, prix_vente,ARTICLES_VENDUS.no_utilisateur,no_categorie,etat_vente,images FROM ARTICLES_VENDUS INNER JOIN UTILISATEURS "
-														+ "ON ARTICLES_VENDUS.nom_article=? AND UTILISATEURS.pseudo=? AND Articles_vendus.no_utilisateur = UTILISATEURS.no_utilisateur;";
+														+ "ON ARTICLES_VENDUS.nom_article=? AND UTILISATEURS.pseudo=? AND ARTICLES_VENDUS.no_utilisateur = UTILISATEURS.no_utilisateur;";
 	
 	private final static  String FIND_ALL_CATEGORIES=			"SELECT no_categorie,libelle FROM CATEGORIES;";
 	
@@ -39,7 +39,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 															" FULL OUTER JOIN ENCHERES e ON av.no_article = e.no_article "+
 															" FULL OUTER JOIN UTILISATEURS u2 ON u2.no_utilisateur =e.no_utilisateur "+
 															" WHERE nom_article LIKE (?) AND (etat_vente=? OR etat_vente=? OR etat_vente=?) AND (no_categorie>=? AND no_categorie<=?)"+
-															" AND (u.pseudo =?  OR u.pseudo !=? ) AND u2.pseudo = ?;";
+															" AND (u.pseudo =?  OR u.pseudo !=? );";
 	
 	private final static  String FIND_ARTICLE_BY_ID=			"SELECT nom_article,description,date_debut_encheres,date_fin_encheres,"
 														+ "prix_initial,prix_vente,no_utilisateur,no_categorie,etat_vente,images FROM ARTICLES_VENDUS WHERE "
@@ -60,7 +60,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 														+ "no_categorie=?, Images=? WHERE no_article=;?";
 	
 	@Override
-	public boolean removeArticleVendu(int idArticle) {
+	public boolean removeArticleVendu(int idArticle) throws BusinessException {
 		boolean articleSupprime = false;
 		
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(DELETE_ARTICLE))
@@ -72,8 +72,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			catch (SQLException e) 
 				{
 					BusinessException be = new BusinessException();
-					be.ajouterErreur(15000);
-					e.printStackTrace();
+					be.ajouterErreur(CodeResultatDAL.SUPPRESSION_ARTICLE_ECHEC);
+					throw be;
 				}
 		return articleSupprime;
 	}
@@ -118,8 +118,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		catch (SQLException e) 
 			{
 				BusinessException be = new BusinessException();
-				be.ajouterErreur(15002);
-				e.printStackTrace();
+				be.ajouterErreur(CodeResultatDAL.AJOUT_ARTICLE_ECHEC);
+				throw be;
 			}
 		return idNouvelleVente;
 	}
@@ -127,7 +127,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
 
 	@Override
-	public List<ArticleVendu> recupListArticleUtilisateur(String pseudoUtilisateur){
+	public List<ArticleVendu> recupListArticleUtilisateur(String pseudoUtilisateur) throws BusinessException{
 		List<ArticleVendu> listeArticle = new ArrayList<ArticleVendu>();
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ARTICLE_FROM_USER))
 			{
@@ -141,8 +141,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 							art = recupArticleBYNomEtPseudoVendeur(nomArticle, pseudoUtilisateur);
 							listeArticle.add(art);
 						} catch (BusinessException e) {
-							e.ajouterErreur(15005);
-							e.printStackTrace();
+							e.ajouterErreur(CodeResultatDAL.RECUP_ARTICLE_LISTE_ARTICLE_ECHEC);
+							throw e;
 						}
 					
 					}
@@ -150,8 +150,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		catch (SQLException e) 
 			{
 				BusinessException be = new BusinessException();
-				be.ajouterErreur(15004);
-				e.printStackTrace();
+				be.ajouterErreur(CodeResultatDAL.RECUP_LISTE_ARTICLE_ECHEC);
+				throw be;
 			}
 			
 		return listeArticle;
@@ -176,8 +176,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 				
 			} catch (SQLException e) {
 				BusinessException be = new BusinessException();
-				be.ajouterErreur(15003);
-				e.printStackTrace();
+				be.ajouterErreur(CodeResultatDAL.RECUPERATION_ARTICLE_ECHEC);
+				throw be;
 			}
 		
 		return articleComplet;
@@ -201,8 +201,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			catch (SQLException e) 
 				{
 					BusinessException be = new BusinessException();
-					be.ajouterErreur(15007);
-					e.printStackTrace();
+					be.ajouterErreur(CodeResultatDAL.RECUP_LISTE_CATEGORIE_ECHEC);
+					throw be;
 				}
 		
 		return listCategorie;
@@ -211,7 +211,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 
 
 
-	public List<ArticleVendu> recupListeArticleSelonFiltreAccueil(String motcle ,Integer ouvertes , Integer encours, Integer terminees, int numCategorie, int categorieMax, String pseudoAchat, String pseudoVente, String pseudoEnchereur) throws BusinessException {
+	public List<ArticleVendu> recupListeArticleSelonFiltreAccueil(String motcle ,Integer ouvertes , Integer encours, Integer terminees, int numCategorie, int categorieMax, String pseudoAchat, String pseudoVente) throws BusinessException {
 		List<ArticleVendu> lstArticle = new ArrayList<ArticleVendu>();
 		try(Connection con = ConnectionProvider.getConnection(); 
 				PreparedStatement stmt = con.prepareStatement(FIND_ARTICLE_PAR_FILTRE_ACCUEIL))
@@ -239,7 +239,6 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			stmt.setInt(6, categorieMax);
 			stmt.setString(7, pseudoAchat);
 			stmt.setString(8, pseudoVente);
-			stmt.setString(9, pseudoEnchereur);
 			
 			ResultSet rs = stmt.executeQuery();
 			
@@ -258,8 +257,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		catch (SQLException e) 
 			{
 				BusinessException be = new BusinessException();
-				be.ajouterErreur(15008);
-				e.printStackTrace();
+				be.ajouterErreur(CodeResultatDAL.RECUP_LISTE_ARTICLES_PAR_ETATVENTE_ECHEC);
+				throw be;
 			}
 		
 		return lstArticle;
@@ -295,8 +294,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			catch (SQLException e) 
 				{
 					BusinessException be = new BusinessException();
-					be.ajouterErreur(15009);
-					e.printStackTrace();
+					be.ajouterErreur(CodeResultatDAL.RECUP_ARTICLE_BY_ID_ECHEC);
+					throw be;
 				}
 		return article;
 	}
@@ -310,8 +309,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 				stmt.executeUpdate();
 			} catch (SQLException e) {
 				BusinessException be = new BusinessException();
-				be.ajouterErreur(15010);
-				e.printStackTrace();
+				be.ajouterErreur(CodeResultatDAL.UPDATE_ETAT_VENTE_ECHEC);
+				throw be;
 			}
 		
 	}
@@ -325,8 +324,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			BusinessException be = new BusinessException();
-			be.ajouterErreur(15011);
-			e.printStackTrace();
+			be.ajouterErreur(CodeResultatDAL.UPDATE_PRIX_DE_VENTE_ECHEC);
+			throw be;
 		}
 		
 	}
@@ -349,8 +348,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		catch (SQLException e) 
 			{
 				BusinessException be = new BusinessException();
-				be.ajouterErreur(15013);
-				e.printStackTrace();
+				be.ajouterErreur(CodeResultatDAL.RECUP_ID_ARTICLE_ECHEC);
+				throw be;
 			}
 		return idArticle;
 	}
@@ -375,7 +374,7 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		return u;
 	}
 	
-	private int getIdCategorie(String categorie) {
+	private int getIdCategorie(String categorie) throws BusinessException {
 		int idCategorie = 0;
 		try(Connection con=ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(FIND_ID_CATEGORIE))
 			{
@@ -389,15 +388,15 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		catch (SQLException e) 
 			{
 				BusinessException be = new BusinessException();
-				be.ajouterErreur(15006);
-				e.printStackTrace();
+				be.ajouterErreur(CodeResultatDAL.RECUP_ID_CATEGORIE_ECHEC);
+				throw be;
 			}
 		
 		return idCategorie;
 	}
 
 	@Override
-	public void updateArticleVendu(ArticleVendu article) {
+	public void updateArticleVendu(ArticleVendu article) throws BusinessException {
 		int idArticle = article.getNoArticle();
 		
 		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(UPDATE_ARTICLE))
@@ -415,8 +414,8 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 		catch (SQLException e) 
 			{
 				BusinessException be = new BusinessException();
-				be.ajouterErreur(15014);
-				e.printStackTrace();
+				be.ajouterErreur(CodeResultatDAL.UPDATE_ARTICLE_ECHEC);
+				throw be;
 			}
 		
 	}
