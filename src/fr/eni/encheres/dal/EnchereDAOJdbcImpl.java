@@ -125,7 +125,7 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 	@Override
 	public int checkEnchereExist(int idArticle) throws BusinessException {
 		int count = 0;
-		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(COUNT_ENCHERE_BY_ID))
+		try(Connection con = ConnectionProvider.getConnection(); PreparedStatement stmt = con.prepareStatement(COUNT_ENCHERE_BY_ID);)
 			{
 				stmt.setInt(1, idArticle);
 				

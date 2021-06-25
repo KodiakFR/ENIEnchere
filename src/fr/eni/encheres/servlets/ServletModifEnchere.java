@@ -321,12 +321,11 @@ public class ServletModifEnchere extends HttpServlet {
 	
 	private boolean validationDate(LocalDate datedebut, LocalDate dateFin) {
 		boolean validationDate = false;
-			if(datedebut.compareTo(LocalDate.now()) >=0 || dateFin.compareTo(datedebut)<0)
+			if(datedebut.compareTo(LocalDate.now()) >= 0 || dateFin.compareTo(datedebut)<=0)
 				validationDate = false;
 			else
 				validationDate = true;
 		return validationDate;
-		
 	}
 
 }

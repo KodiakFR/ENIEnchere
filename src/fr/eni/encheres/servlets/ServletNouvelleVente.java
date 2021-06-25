@@ -175,7 +175,7 @@ public class ServletNouvelleVente extends HttpServlet {
 	
 	private boolean validationDate(LocalDate datedebut, LocalDate dateFin) {
 		boolean validationDate = false;
-			if(datedebut.compareTo(LocalDate.now()) <1 || dateFin.compareTo(datedebut)<1)
+			if(datedebut.compareTo(LocalDate.now()) >= 0 || dateFin.compareTo(datedebut)<=0)
 				validationDate = false;
 			else
 				validationDate = true;

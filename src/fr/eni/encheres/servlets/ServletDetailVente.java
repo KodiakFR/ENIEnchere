@@ -128,11 +128,17 @@ public class ServletDetailVente extends HttpServlet {
 											 {
 												String resultat = "Bravo vous êtes le premier et le meilleur enchérisseur";
 												request.setAttribute("resultatEnchere", resultat);
+
+												RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+												rd.forward(request, response);
 											 }
 										else
 											 {
 													String resultat = "L'enchère n'a pas encore commencée";
 											 		request.setAttribute("resultatEnchereError", resultat);
+
+													RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+													rd.forward(request, response);
 											 }
 									}
 								else
@@ -142,6 +148,10 @@ public class ServletDetailVente extends HttpServlet {
 										 String resultatEnchere = enchereManager.doNouvelleEnchere(articleAEncherir, encherisseur, montantEnchere);
 										request.setAttribute("resultatEnchere", resultatEnchere);
 										
+
+										RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+										rd.forward(request, response);
+										
 									}
 									
 			
@@ -150,6 +160,9 @@ public class ServletDetailVente extends HttpServlet {
 							{
 								String resultat = "Crédit non suffisant";
 						 		request.setAttribute("resultatEnchereError", resultat);
+
+								RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
+								rd.forward(request, response);
 							}
 									
 						}
@@ -157,8 +170,6 @@ public class ServletDetailVente extends HttpServlet {
 						{
 							e.ajouterErreur(40004);
 						}
-					RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/Accueil.jsp");
-					rd.forward(request, response);
 			}}
 			}				
 }

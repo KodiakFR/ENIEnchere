@@ -15,7 +15,7 @@
 	<a href="Accueil" class = "fs-2  text-reset text-decoration-none">ENI - ENCHERES</a>
 </div>
 <div style="text-align: center;">
-<h2 class="center">Nouvelle vente</h2>
+<h2 class="center">Detail de la vente</h2>
 </div>
 </header>
 

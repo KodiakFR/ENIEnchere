@@ -51,7 +51,7 @@ public class EnchereManager {
 				if(nouvelleEnchere > montantEnchere )
 					{
 					int idEncherisseur = encherisseur.getNoUtilisateur();
-						enchereDAO.ajouterEnchereEnCours(article, idEncherisseur, montantEnchere);;
+						enchereDAO.updateEnchere(idArticle, idEncherisseur, nouvelleEnchere);;
 						resultatEnchere = "Bravo, vous êtes le meilleur enchérisseur";
 					}
 				else
@@ -99,4 +99,6 @@ public class EnchereManager {
 				
 				return enchereExist;
 	}
+	
+
 }
