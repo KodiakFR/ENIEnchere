@@ -15,6 +15,7 @@ public class ArticleVendu {
 	private String pseudoUtilisateur;
 	private int noUtilisateur;
 	private byte[] imageArticle;
+	private String image;
 	
 	public ArticleVendu() {
 		super();
@@ -88,7 +89,23 @@ public class ArticleVendu {
 		this.pseudoUtilisateur = pseudoUtilisateur;
 	}
 	
+	//Constructeur maximum
 	
+	public ArticleVendu(int noArticle,String nomArticle, String description,LocalDate dateDebut, LocalDate dateFin, int prixInit, int prixVente,
+			int noUtilisateur, int noCategorie, int etatVente, String pseudo,String image) {
+		this.noArticle = noArticle;
+		this.nomArticle = nomArticle;
+		this.description = description;
+		this.dateDebutEncheres = dateDebut;
+		this.dateFinEncheres = dateFin;
+		this.miseAPrix = prixInit;
+		this.prixVente = prixVente;
+		this.noUtilisateur = noUtilisateur;
+		this.noCategorie = noCategorie;
+		this.etatVente = etatVente;
+		this.pseudoUtilisateur = pseudo;
+		this.image = image;
+	}
 
 	/**
 	 * @return the imageArticle
@@ -233,6 +250,14 @@ public class ArticleVendu {
 		builder.append(etatVente);
 		builder.append("]");
 		return builder.toString();
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 

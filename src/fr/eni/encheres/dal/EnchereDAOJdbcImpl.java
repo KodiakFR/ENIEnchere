@@ -5,7 +5,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
@@ -140,6 +143,36 @@ public class EnchereDAOJdbcImpl implements EnchereDAO {
 				e.printStackTrace();
 			}
 		return count;
+	}
+
+	@Override
+	public List<Enchere> recupAllEncheres() throws BusinessException {
+		List<Enchere> listeEncheresOn = new ArrayList<Enchere>();
+		
+		try(Connection con = ConnectionProvider.getConnection())
+			{
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM encheres;");
+				
+				while(rs.next())
+					{
+						int noUtilisateur = rs.getInt("no_utilisateur");
+						int noArticle = rs.getInt("no_article");
+						LocalDate dateEnchere = rs.getDate("date_enchere").toLocalDate();
+						int montantEnchere = rs.getInt("montant_enchere");
+						
+						Enchere enchere = new Enchere(noUtilisateur,noArticle,dateEnchere,montantEnchere);
+						listeEncheresOn.add(enchere);
+					}
+			} 
+		catch (SQLException e) 
+			{
+				BusinessException be = new BusinessException();
+				be.ajouterErreur(CodeResultatDAL.SELECT_ENCHERE_ECHEC);
+				e.printStackTrace();
+			}
+		
+		return listeEncheresOn;
 	}
 
 }

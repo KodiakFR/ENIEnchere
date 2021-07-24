@@ -77,6 +77,49 @@ public class ArticleVenduDAOImpl implements ArticleVenduDAO{
 				}
 		return articleSupprime;
 	}
+	
+
+	@Override
+	public List<ArticleVendu> recupAllArticle() throws BusinessException {
+		List<ArticleVendu> listAllArticle = new ArrayList<ArticleVendu>();
+		ArticleVendu art =null;
+		
+		try(Connection con = ConnectionProvider.getConnection())
+			{
+				Statement stmt = con.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM ARTICLES_VENDUS;");
+				
+				while(rs.next())
+					{
+						int idArt = rs.getInt("no_article");
+						String nameArticle = rs.getString("nom_article");
+						String description = rs.getString("description");
+						LocalDate debutEnchere = rs.getDate("date_debut_encheres").toLocalDate();
+						LocalDate finEnchere = rs.getDate("date_fin_encheres").toLocalDate();
+						int prixInit = rs.getInt("prix_initial");
+						int prixVente = rs.getInt("prix_vente");
+						int idVendeur = rs.getInt("no_utilisateur");
+						int noCategorie = rs.getInt("no_categorie");
+						int etatVente = rs.getInt("etat_vente");
+						String pseudoVendeur = rs.getString("pseudo_utilisateur");
+						String image = rs.getString("images");
+						
+						art = new ArticleVendu(idArt,nameArticle,description,debutEnchere,finEnchere,prixInit,prixVente,
+								idVendeur,noCategorie,etatVente,pseudoVendeur,image);
+						listAllArticle.add(art);
+					}
+				stmt.close();
+			} 
+		catch (SQLException e) 
+			{
+				BusinessException be = new BusinessException();
+				be.ajouterErreur(CodeResultatDAL.RECUP_LISTE_ARTICLE_ECHEC);
+				throw be;
+			}
+		
+		return listAllArticle;
+	}
+	
 
 	@Override
 	public int addArticleVendu(ArticleVendu article,int idVendeur, String categorie) throws BusinessException {

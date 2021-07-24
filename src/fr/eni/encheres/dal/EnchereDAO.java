@@ -1,5 +1,7 @@
 package fr.eni.encheres.dal;
 
+import java.util.List;
+
 import fr.eni.encheres.bll.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
@@ -23,4 +25,7 @@ public interface EnchereDAO {
 	
 	//Vérification d'un enchère existante sur un article par son id
 	public int checkEnchereExist(int idArticle) throws BusinessException;
+	
+	//Récuperer toutes les enchères 
+	public List<Enchere> recupAllEncheres() throws BusinessException;
 }

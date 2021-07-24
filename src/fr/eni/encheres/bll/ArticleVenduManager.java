@@ -27,7 +27,7 @@ public class ArticleVenduManager {
 		return instance;
 	}
 	
-	//Ajout d'un article en vente par l'utilisateur et renvoi une liste des tous les articles de l'utilisateur
+	//Ajout d'un article en vente par l'utilisateur et renvoi l'id de l'article nouvellement créé
 	public int ajoutArticle(ArticleVendu article, int idvendeur, String categorie) throws BusinessException {
 		int idNouvelleVente = 0;
 		
@@ -37,7 +37,13 @@ public class ArticleVenduManager {
 		return idNouvelleVente;
 	}
 	
-
+	//Récpératin de tous les articles
+	public List<ArticleVendu> getAllArticlesAccueil() throws BusinessException {
+		List<ArticleVendu> totalList = new ArrayList<ArticleVendu>();
+		totalList=articleVenduDAO.recupAllArticle();
+		
+		return totalList;
+	}
 
 	//Suppression de l'article avant la date de fin  de l'enchère n'est pas terminée
 	public  boolean cancelArticleVendu(ArticleVendu article) throws BusinessException {

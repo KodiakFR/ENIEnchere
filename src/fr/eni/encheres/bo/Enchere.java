@@ -6,7 +6,7 @@ public class Enchere {
 	
 	//Attributes
 	private Integer noUtilisateurMeilleureOffre;
-	private Integer noArticle;
+	private int noArticle;
 	private LocalDate dateEnchere;
 	private int montantEnchere;
 	
@@ -21,7 +21,7 @@ public class Enchere {
 		this.montantEnchere = montantEnchere;
 	}
 
-	public Enchere(Integer noUtilisateurMeilleureOffre, Integer noArticle, LocalDate dateEnchere, int montantEnchere) {
+	public Enchere(Integer noUtilisateurMeilleureOffre, int noArticle, LocalDate dateEnchere, int montantEnchere) {
 		super();
 		this.noUtilisateurMeilleureOffre = noUtilisateurMeilleureOffre;
 		this.noArticle = noArticle;

@@ -15,7 +15,10 @@ public interface ArticleVenduDAO {
 	
 	public boolean removeArticleVendu(int idArticle) throws BusinessException;
 	
+	//Récupérer tous les articles pour l'affichage accueil
 	
+	public List<ArticleVendu> recupAllArticle() throws BusinessException;
+
 	
 	//Ajouter un article à la BDD lié à un utilisateur et une catégorie
 	

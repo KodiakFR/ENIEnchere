@@ -1,6 +1,7 @@
 package fr.eni.encheres.bll;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
@@ -98,6 +99,13 @@ public class EnchereManager {
 				enchereExist = true;
 				
 				return enchereExist;
+	}
+	
+	//Récupérer les enchères 
+	public List<Enchere> getAllEncheresAccueil() throws BusinessException{
+		List<Enchere> listEncheres = enchereDAO.recupAllEncheres();
+		
+		return listEncheres;
 	}
 	
 
