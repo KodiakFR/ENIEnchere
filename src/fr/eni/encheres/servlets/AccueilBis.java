@@ -1,7 +1,6 @@
 package fr.eni.encheres.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -36,7 +35,7 @@ public class AccueilBis extends HttpServlet {
 		List<ArticleVendu> listeArticlesTot;
 		try {
 			listeArticlesTot = articleManager.getAllArticlesAccueil();
-			request.setAttribute("list", listeArticlesTot);
+			request.setAttribute("listeArticlesTot", listeArticlesTot);
 			
 			if(cookies != null)
 				{
@@ -57,11 +56,15 @@ public class AccueilBis extends HttpServlet {
 		
 		EnchereManager enchereManager = EnchereManager.getInstance();
 		List<Enchere> listEnchereTot;
-		try {
-			
-		} catch(BusinessException be) {
-			be.ajouterErreur(CodeResultatServlets.RECUPERATION_LISTE_TOTALE_ENCHERE_ECHEC);
-		}
+		try 
+			{
+				listEnchereTot = enchereManager.getAllEncheresAccueil();
+				request.setAttribute("listEnchereTot", listEnchereTot);
+			} 
+		catch(BusinessException be) 
+			{
+				be.ajouterErreur(CodeResultatServlets.RECUPERATION_LISTE_TOTALE_ENCHERE_ECHEC);
+			}
 		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/JSP/AccueilBis.jsp");
 		rd.forward(request, response);
